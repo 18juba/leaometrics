@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+:root {
+  --primary: #d12f14;
+  --secondary: #2861a6;
+  --tertiary: #fefefe;
+  --golden: #b98742;
+}
+
+.background {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+
+	background: url('/images/fundo.jpg') center / cover no-repeat;
+
+	filter: blur(5px) brightness(0.8);
+	transition: transform 0.15s ease-out;
+	will-change: transform;
+}
+
+.parallelogram {
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.parallelogram-reverse {
+  clip-path: polygon(0 0, 96% 0, 100% 100%, 0 100%);
+}
+
+.parallelogram-bottom {
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+}
+
+.parallelogram-bottom-reverse {
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 96% 100%);
+}
