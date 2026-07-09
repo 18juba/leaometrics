@@ -18,7 +18,7 @@ body {
 	inset: 0;
 	z-index: -1;
 
-	background: url('/images/fundo2.webp') center / cover no-repeat;
+	background: url('/images/fundo.webp') center / cover no-repeat;
 
 	filter: blur(3px) brightness(0.8);
 	transition: transform 0.15s ease-out;
