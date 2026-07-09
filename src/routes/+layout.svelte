@@ -64,6 +64,19 @@
 						<span>Elenco</span>
 					</a>
 				</li>
+				<li
+					class:active={isActive('/conquistas')}
+					class="menu-item"
+				>
+					<a href="/conquistas" class="flex items-center gap-2">
+						<img
+							src="/icons/lampions.png"
+							alt="Conquistas"
+							class="w-12 h-12 select-none pointer-events-none object-contain"
+						/>
+						<span>Conquistas</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</aside>
