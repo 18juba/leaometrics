@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 :root {
@@ -5,6 +6,11 @@
   --secondary: #2861a6;
   --tertiary: #fefefe;
   --golden: #b98742;
+}
+
+body {
+  font-family: 'Saira', sans-serif;
+  color: var(--tertiary);
 }
 
 .background {
