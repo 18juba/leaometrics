@@ -1,16 +1,6 @@
 {
 	"name": "leaofut",
-	"private": true,
 	"version": "0.0.1",
-	"type": "module",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
-	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@sveltejs/adapter-auto": "^7.0.1",
@@ -29,8 +19,14 @@
 		"tailwindcss": "^4.3.0",
 		"vite": "^8.0.16"
 	},
-	"dependencies": {
-		"@lucide/lab": "^0.1.2",
-		"@lucide/svelte": "^1.23.0"
-	}
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write ."
+	},
+	"type": "module"
 }
