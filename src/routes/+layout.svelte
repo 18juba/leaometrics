@@ -36,7 +36,7 @@
 <main class="relative w-full h-screen antialiased flex p-8">
 	<aside class="sidebar-zone h-full w-56 flex items-center">
 		<nav class="nav-soft">
-			<ul class="flex flex-col gap-3">
+			<ul class="flex flex-col gap-3 font-medium">
 				<li
 					class:active={isActive('/clube')}
 					class="menu-item"
@@ -122,6 +122,10 @@ position: relative;
     background-position: left center; 
 
     transition: all 200ms ease, background-size 300ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.menu-item:hover {
+    transform: scale(1.03);
 }
 
 .menu-item::before {
