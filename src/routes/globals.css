@@ -40,3 +40,30 @@ body {
 .parallelogram-bottom-reverse {
   clip-path: polygon(4% 0, 100% 0, 100% 100%, 96% 100%);
 }
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--golden) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--golden);
+    border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--golden) 80%,
+        transparent
+    );
+}
