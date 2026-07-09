@@ -24,44 +24,165 @@ const club_players = $derived(
 <div class="w-full min-h-screen flex items-center justify-center">
     <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <div class="lg:col-span-2 bg-neutral-800/50 border border-(--tertiary)/5 rounded-2xl p-6 flex flex-col justify-between backdrop-blur-lg relative overflow-hidden group">
-            <div class="absolute -right-10 -top-10 w-40 h-40 bg-(--primary) opacity-10 rounded-full blur-3xl transition-all group-hover:opacity-20"></div>
-            
-            <div class="flex items-start gap-4">
-                <img src="/images/escudo.png" alt={club.name} class="w-20 h-20 object-contain" />
-                <div>
-                    <span class="text-xs font-semibold uppercase tracking-wider text-(--golden)">{club.league.name} ({club.league.tier})</span>
-                    <h1 class="text-3xl font-bold tracking-tight mt-1">{club.name}</h1>
-                    <p class="text-sm opacity-60">{club.addressLine1}, {club.addressLine2}</p>
-                </div>
-            </div>
+<div
+    class="
+        lg:col-span-3
+        bg-neutral-800/50
+        border border-(--tertiary)/5
+        rounded-2xl p-6
+        backdrop-blur-lg
+        relative overflow-hidden group
+    "
+>
+    <div
+        class="
+            absolute -right-10 -top-10
+            w-40 h-40
+            bg-(--primary)
+            opacity-10
+            rounded-full blur-3xl
+            transition-all
+            group-hover:opacity-20
+        "
+    ></div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-4 border-t border-(--tertiary)/10">
-                <div>
-                    <span class="text-xs opacity-60 block">Fundado em</span>
-                    <span class="font-medium">{club.foundedOn || 'N/A'}</span>
-                </div>
-                <div>
-                    <span class="text-xs opacity-60 block">Site</span>
-                    <a href={club.website} target="_blank" class="text-sm hover:text-(--secondary) hover:underline block truncate mt-1 font-bold">{club.website?.replace('www.', '')}</a>
-                </div>
+    <div
+        class="
+            relative
+            flex flex-col
+            md:flex-row
+            md:items-start
+            md:justify-between
+            gap-8
+        "
+    >
+        <div class="flex items-start gap-4">
+            <img
+                src="/images/escudo.png"
+                alt={club.name}
+                class="w-20 h-20 object-contain shrink-0"
+            />
+
+            <div class="min-w-0">
+                <span
+                    class="
+                        text-xs font-semibold uppercase
+                        tracking-wider text-(--golden)
+                    "
+                >
+                    {club.league.name} ({club.league.tier})
+                </span>
+
+                <h1 class="text-3xl font-bold tracking-tight mt-1">
+                    {club.name}
+                </h1>
+
+                <p class="text-sm opacity-60">
+                    {club.addressLine1}, {club.addressLine2}
+                </p>
             </div>
         </div>
 
-        <div class="bg-neutral-800/50 border border-(--tertiary)/5 rounded-2xl p-6 flex flex-col justify-between backdrop-blur-lg">
-            <h2 class="text-sm font-semibold uppercase tracking-wider opacity-60">Finanças</h2>
-            
-            <div class="my-6 space-y-4">
-                <div>
-                    <span class="text-xs opacity-60 block">Valor de Mercado Total</span>
-                    <span class="text-3xl font-black text-(--golden)">{formatCurrency(club.currentMarketValue)}</span>
-                </div>
-                <div class="pt-2">
-                    <span class="text-xs opacity-60 block">Maior Transferência</span>
-                    <span class="text-lg font-bold">{formatCurrency(club.currentTransferRecord)}</span>
-                </div>
-            </div>
+        <div
+            class="
+                md:text-right
+                md:border-l
+                md:border-(--tertiary)/10
+                md:pl-8
+                shrink-0
+            "
+        >
+            <span
+                class="
+                    text-xs font-semibold uppercase
+                    tracking-wider opacity-60 block
+                "
+            >
+                Valor total do elenco
+            </span>
+
+            <span
+                class="
+                    block mt-1
+                    text-3xl sm:text-4xl lg:text-5xl
+                    font-black tracking-tight
+                    text-(--golden)
+                "
+            >
+                {formatCurrency(club.currentMarketValue)}
+            </span>
         </div>
+    </div>
+
+    <div
+        class="
+            relative
+            flex
+            gap-14 mt-8 pt-4
+            border-t border-(--tertiary)/10
+        "
+    >
+        <div>
+            <span class="text-xs opacity-60 block">
+                Fundado em
+            </span>
+
+            <span class="font-medium">
+                {club.foundedOn || 'N/A'}
+            </span>
+        </div>
+
+        <div class="min-w-0">
+            <span class="text-xs opacity-60 block">
+                Site
+            </span>
+
+            <a
+                href={`https://${club.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="
+                    text-sm font-bold
+                    hover:text-(--secondary)
+                    hover:underline
+                    block truncate mt-1
+                "
+            >
+                {club.website?.replace('www.', '') || 'N/A'}
+            </a>
+        </div>
+
+        <div>
+            <span class="text-xs opacity-60 block">
+                Atletas no Elenco
+            </span>
+
+            <span class="font-bold">
+                {club.squad.size}
+            </span>
+        </div>
+
+                            <div>
+            <span class="text-xs opacity-60 block">
+                Média de Idade
+            </span>
+
+            <span class="font-bold">
+                {club.squad.averageAge}
+            </span>
+        </div>
+
+                            <div>
+            <span class="text-xs opacity-60 block">
+                Atletas Estrangeiros
+            </span>
+
+            <span class="font-bold">
+                {club.squad.foreigners}
+            </span>
+        </div>
+    </div>
+</div>
 
         <div class="lg:col-span-2 bg-neutral-800/50 border border-(--tertiary)/5 rounded-2xl p-6 flex flex-col justify-between backdrop-blur-lg">
             <div>
