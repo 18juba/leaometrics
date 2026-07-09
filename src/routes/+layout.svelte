@@ -29,11 +29,11 @@
 <div
 	class="background"
 	style="
-		transform: translate({x * 12}px, {y * 12}px) scale(1.08);
+		transform: translate({x * 12}px, {y * 12}px) scale(1.1);
 	"
 ></div>
 
-<main class="relative h-screen antialiased flex p-8">
+<main class="relative w-full h-screen antialiased flex p-8">
 	<aside class="sidebar-zone h-full w-56 flex items-center">
 		<nav class="nav-soft">
 			<ul class="flex flex-col gap-3">
