@@ -34,7 +34,7 @@ body {
 }
 
 .parallelogram-bottom {
-  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  clip-path: polygon(0 0, 100% 0, 0% 100%, 0% 100%);
 }
 
 .parallelogram-bottom-reverse {

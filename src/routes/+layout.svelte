@@ -38,10 +38,10 @@
 		<nav class="nav-soft">
 			<ul class="flex flex-col gap-3">
 				<li
-					class:active={isActive('/')}
+					class:active={isActive('/clube')}
 					class="menu-item"
 				>
-					<a href="/" class="flex items-center gap-2">
+					<a href="/clube" class="flex items-center gap-2">
 						<img
 							src="/icons/escudo.png"
 							alt="Home"
@@ -106,24 +106,25 @@
 		transition-delay: 0ms;
 	}
 
-	.menu-item {
-	position: relative;
-	width: 13rem;
-	padding: .35rem .5rem;
-	border-radius: .5rem;
+.menu-item {
+position: relative;
+    width: 13rem;
+    padding: .35rem .5rem;
+    border-radius: .5rem;
+    
+    background: linear-gradient(
+        90deg,
+        rgb(from var(--tertiary) r g b / 0.12),
+        transparent
+    );
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-position: left center; 
 
-	transition: all .25s ease;
+    transition: all 200ms ease, background-size 300ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.menu-item.active {
-	background: linear-gradient(
-		90deg,
-		rgb(from var(--tertiary) r g b / 0.12),
-		transparent
-	);
-}
-
-.menu-item.active::before {
+.menu-item::before {
 	content: "";
 
 	position: absolute;
@@ -133,11 +134,21 @@
 	width: 3px;
 	height: 70%;
 
-	transform: translateY(-50%);
+	transform: translateY(-50%) scaleY(0);
+	transform-origin: center;
 
 	border-radius: 999px;
 	background: var(--tertiary);
-
 	box-shadow: 0 0 12px var(--tertiary);
+
+	transition: transform 225ms ease;
+}
+
+.menu-item.active {
+	background-size: 100% 100%;
+}
+
+.menu-item.active::before {
+	transform: translateY(-50%) scaleY(1);
 }
 </style>
