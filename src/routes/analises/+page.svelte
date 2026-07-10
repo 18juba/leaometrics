@@ -10,6 +10,7 @@
 	import ExpiringContractsTable from '$lib/components/charts/ExpiringContractsTable.svelte';
 	import MarketValueByPositionChart from '$lib/components/charts/MarketValueByPositionChart.svelte';
 	import MarketValueByContractYearChart from '$lib/components/charts/MarketValueByContractYearChart.svelte';
+	import NationalityDistributionChart from '$lib/components/charts/NationalityDistributionChart.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -53,4 +54,6 @@
     />
 	
 	<MarketValueByContractYearChart data={analysis.players} />
+
+	<NationalityDistributionChart data={analysis.players} />
 </div>
