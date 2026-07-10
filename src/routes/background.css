@@ -27,7 +27,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 
-	filter: blur(3px) brightness(0.8);
+	filter: blur(5px) brightness(0.8);
 	transform: scale(1);
 
 	will-change: transform, filter;
@@ -69,7 +69,7 @@
 
 @keyframes background-cover {
 	from {
-		filter: blur(3px) brightness(0.8);
+		filter: blur(5px) brightness(0.8);
 		transform: scale(1);
 	}
 
@@ -90,7 +90,7 @@
 	}
 
 	to {
-		filter: blur(3px) brightness(0.8);
+		filter: blur(5px) brightness(0.8);
 		transform: scale(1);
 	}
 }
