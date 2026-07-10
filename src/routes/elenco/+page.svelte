@@ -87,10 +87,10 @@
 
 <div class="min-h-screen w-full">
 	<div class="mx-auto w-full space-y-4">
-		<ElencoHeader
+		<!-- <ElencoHeader
 			{players}
 			updatedAt={data.clubPlayers?.updatedAt}
-		/>
+		/> -->
 
 		<ElencoFilters
 			{positions}
