@@ -1,20 +1,23 @@
-export type PlayerTransfers = {
-    updatedAt: string;
-    id: number;
-    transfers: PlayerTransfer[];
-};
-
 export type PlayerTransfer = {
-    id: number;
-    clubFrom: TransferClub;
-    clubTo: TransferClub;
-    date: string;
-    upcoming: boolean;
-    season: string;
-    marketValue?: number;
+	id: string | number;
+	clubFrom: TransferClub;
+	clubTo: TransferClub;
+	date: string;
+	upcoming: boolean;
+	season: string;
+	marketValue?: number;
+	fee?: number;
 };
 
 export type TransferClub = {
-    id: number;
-    name: string;
+	id: string | number;
+	name: string;
+};
+
+export type MarketValueHistoryEntry = {
+	age: number;
+	date: string;
+	clubId: string | number;
+	clubName: string;
+	marketValue: number;
 };

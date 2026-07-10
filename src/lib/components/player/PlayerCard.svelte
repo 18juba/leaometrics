@@ -1,40 +1,26 @@
 <script lang="ts">
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
+	import type { ClubPlayers } from '$lib/types/clubPlayers';
 
-	type Player = {
-		id: number;
-		name: string;
-		position: string;
-		dateOfBirth: string;
-		age: number;
-		nationality: string[];
-		height: number;
-		foot: string;
-		joinedOn: string;
-		signedFrom: string;
-		contract: string;
-		marketValue: number;
-	};
+	type ClubPlayer = ClubPlayers['players'][number];
 
 	let {
 		player,
 		onOpen
 	}: {
-		player: Player;
-		onOpen?: (player: Player) => void;
+		player: ClubPlayer;
+		onOpen: (player: ClubPlayer) => void;
 	} = $props();
 
 	function formatHeight(height: number) {
 		if (!height) return 'N/A';
 
-		if (height > 3) {
-			return `${height} cm`;
-		}
-
-		return `${height.toLocaleString('pt-BR', {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2
-		})} m`;
+		return height > 3
+			? `${height} cm`
+			: `${height.toLocaleString('pt-BR', {
+					minimumFractionDigits: 2,
+					maximumFractionDigits: 2
+				})} m`;
 	}
 
 	function formatFoot(foot: string) {
@@ -55,25 +41,6 @@
 		return translations[normalizedFoot] ?? foot ?? 'N/A';
 	}
 
-	function formatDate(value: string) {
-		if (!value) return 'N/A';
-
-		const normalizedValue = /^\d{4}-\d{2}-\d{2}$/.test(value)
-			? `${value}T12:00:00`
-			: value;
-
-		const date = new Date(normalizedValue);
-
-		if (Number.isNaN(date.getTime())) {
-			return value;
-		}
-
-		return new Intl.DateTimeFormat('pt-BR', {
-			month: 'short',
-			year: 'numeric'
-		}).format(date);
-	}
-
 	function formatNationality(nationalities: string[]) {
 		if (!nationalities?.length) return 'Não informada';
 
@@ -90,8 +57,9 @@
 
 <button
 	type="button"
-	onclick={() => onOpen?.(player)}
-	aria-label={`Abrir detalhes de ${player.name}`}
+	onclick={() => onOpen(player)}
+	aria-haspopup="dialog"
+	aria-label={`Abrir análise de ${player.name}`}
 	class="
 		group
 		relative
@@ -117,7 +85,8 @@
 		class="
 			pointer-events-none
 			absolute -right-12 -top-12
-			h-32 w-32 rounded-full
+			h-36 w-36
+			rounded-full
 			bg-(--primary)
 			opacity-0 blur-3xl
 			transition-opacity duration-300
@@ -125,7 +94,15 @@
 		"
 	></div>
 
-	<div class="relative h-56 overflow-hidden border-b border-(--tertiary)/5 bg-neutral-900/40">
+	<div
+		class="
+			relative
+			h-52
+			overflow-hidden
+			border-b border-(--tertiary)/5
+			bg-neutral-900/40
+		"
+	>
 		<div class="absolute left-4 top-4 z-10">
 			<span
 				class="
@@ -144,7 +121,13 @@
 		</div>
 
 		<div class="absolute right-4 top-4 z-10 text-right">
-			<span class="block text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+			<span
+				class="
+					block
+					text-[9px] font-semibold uppercase tracking-wider
+					text-neutral-500
+				"
+			>
 				Valor de mercado
 			</span>
 
@@ -174,29 +157,29 @@
 				pointer-events-none
 				absolute inset-x-0 bottom-0
 				h-20
-				bg-linear-to-t from-neutral-900/80 to-transparent
+				bg-linear-to-t
+				from-neutral-900/90
+				to-transparent
 			"
 		></div>
 	</div>
 
 	<div class="relative p-5">
-		<div class="min-w-0">
-			<h2
-				class="
-					truncate
-					text-lg font-bold tracking-tight
-					text-neutral-100
-					transition-colors
-					group-hover:text-(--secondary)
-				"
-			>
-				{player.name}
-			</h2>
+		<h2
+			class="
+				truncate
+				text-lg font-bold tracking-tight
+				text-neutral-100
+				transition-colors
+				group-hover:text-(--secondary)
+			"
+		>
+			{player.name}
+		</h2>
 
-			<p class="mt-1 truncate text-xs text-neutral-400">
-				{formatNationality(player.nationality)}
-			</p>
-		</div>
+		<p class="mt-1 truncate text-xs text-neutral-400">
+			{formatNationality(player.nationality)}
+		</p>
 
 		<div class="mt-5 grid grid-cols-3 gap-2">
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
@@ -205,8 +188,7 @@
 				</span>
 
 				<span class="mt-0.5 block text-xs font-bold text-neutral-200">
-					{player.age || 'N/A'}
-					{player.age ? ' anos' : ''}
+					{player.age ? `${player.age} anos` : 'N/A'}
 				</span>
 			</div>
 
@@ -234,31 +216,30 @@
 		<div
 			class="
 				mt-4
-				flex items-end justify-between gap-4
+				flex items-center justify-between
 				border-t border-(--tertiary)/5
 				pt-4
 			"
 		>
-			<div class="min-w-0">
+			<div>
 				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
-					Contrato
+					Análise disponível
 				</span>
 
-				<span class="block truncate text-xs font-semibold text-neutral-300">
-					{formatDate(player.contract)}
+				<span class="text-[11px] font-medium text-neutral-300">
+					Perfil, valor e transferências
 				</span>
 			</div>
 
 			<span
 				class="
-					shrink-0
-					text-[10px] font-bold uppercase tracking-wider
+					text-lg
 					text-(--secondary)
 					transition-transform
 					group-hover:translate-x-1
 				"
 			>
-				Detalhes →
+				→
 			</span>
 		</div>
 	</div>
