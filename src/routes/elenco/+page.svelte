@@ -3,16 +3,26 @@
 	import PlayerDetailsModal from '$lib/components/player/PlayerDetailsModal.svelte';
 
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
-	import type { ClubPlayers } from '$lib/types/clubPlayers';
+	import type { ClubPlayers } from '$lib/types/player';
 
 	type ClubPlayer = ClubPlayers['players'][number];
 
-	type SortOption =
-		| 'marketValue-desc'
-		| 'marketValue-asc'
-		| 'name-asc'
-		| 'age-asc'
-		| 'age-desc';
+	type NameSort = 'none' | 'asc' | 'desc';
+	type AgeSort = 'none' | 'youngest' | 'oldest';
+	type HeightSort = 'none' | 'shortest' | 'tallest';
+	type ValueSort = 'none' | 'lowest' | 'highest';
+
+	type FootFilter =
+		| 'all'
+		| 'right'
+		| 'left'
+		| 'both';
+
+	type SortCategory =
+		| 'name'
+		| 'age'
+		| 'height'
+		| 'value';
 
 	let {
 		data
@@ -24,96 +34,392 @@
 
 	let searchTerm = $state('');
 	let selectedPosition = $state('Todas');
-	let sortBy = $state<SortOption>('marketValue-desc');
+	let selectedFoot = $state<FootFilter>('all');
+
+	let nameSort = $state<NameSort>('none');
+	let ageSort = $state<AgeSort>('none');
+	let heightSort = $state<HeightSort>('none');
+
+	/*
+	 * Mantém o comportamento anterior:
+	 * jogadores mais valiosos aparecem primeiro.
+	 */
+	let valueSort = $state<ValueSort>('highest');
+
 	let selectedPlayer = $state<ClubPlayer | null>(null);
 
-	const players = $derived(data.clubPlayers?.players ?? []);
+	const players = $derived(
+		data.clubPlayers?.players ?? []
+	);
 
 	const positions = $derived(
 		[
 			...new Set(
 				players
 					.map((player) => player.position?.trim())
-					.filter((position): position is string => Boolean(position))
+					.filter(
+						(position): position is string =>
+							Boolean(position)
+					)
 			)
-		].toSorted((a, b) => a.localeCompare(b, 'pt-BR'))
+		].toSorted((a, b) =>
+			a.localeCompare(b, 'pt-BR')
+		)
 	);
 
 	const totalMarketValue = $derived(
 		players.reduce((total, player) => {
-			return total + (Number(player.marketValue) || 0);
+			return total + getMarketValue(player);
 		}, 0)
 	);
 
 	const averageAge = $derived.by(() => {
 		const ages = players
 			.map((player) => Number(player.age))
-			.filter((age) => Number.isFinite(age) && age > 0);
+			.filter(
+				(age) =>
+					Number.isFinite(age) &&
+					age > 0
+			);
 
 		if (!ages.length) return 0;
 
-		return ages.reduce((total, age) => total + age, 0) / ages.length;
+		return (
+			ages.reduce(
+				(total, age) => total + age,
+				0
+			) / ages.length
+		);
 	});
 
 	const mostValuablePlayer = $derived(
 		players.toSorted((a, b) => {
-			return getMarketValue(b) - getMarketValue(a);
+			return (
+				getMarketValue(b) -
+				getMarketValue(a)
+			);
 		})[0] ?? null
 	);
 
 	const filteredPlayers = $derived.by(() => {
-		const normalizedSearch = normalizeText(searchTerm);
+		const normalizedSearch =
+			normalizeText(searchTerm);
 
-		const result = players.filter((player) => {
+		const filtered = players.filter((player) => {
 			const matchesPosition =
 				selectedPosition === 'Todas' ||
 				player.position === selectedPosition;
 
-			if (!matchesPosition) return false;
-			if (!normalizedSearch) return true;
+			const matchesFoot =
+				selectedFoot === 'all' ||
+				normalizeFoot(player.foot) ===
+					selectedFoot;
+
+			if (!matchesPosition || !matchesFoot) {
+				return false;
+			}
+
+			if (!normalizedSearch) {
+				return true;
+			}
 
 			const searchableContent = [
 				player.name,
 				player.position,
 				player.signedFrom,
+				player.foot,
 				...(player.nationality ?? [])
 			]
-				.map((value) => normalizeText(value))
+				.map((value) =>
+					normalizeText(value)
+				)
 				.join(' ');
 
-			return searchableContent.includes(normalizedSearch);
+			return searchableContent.includes(
+				normalizedSearch
+			);
 		});
 
-		return result.toSorted((a, b) => {
-			switch (sortBy) {
-				case 'marketValue-asc':
-					return getMarketValue(a) - getMarketValue(b);
+		return filtered.toSorted(comparePlayers);
+	});
 
-				case 'name-asc':
-					return a.name.localeCompare(b.name, 'pt-BR');
+	const hasActiveFilters = $derived(
+		Boolean(
+			searchTerm.trim() ||
+				selectedPosition !== 'Todas' ||
+				selectedFoot !== 'all' ||
+				nameSort !== 'none' ||
+				ageSort !== 'none' ||
+				heightSort !== 'none' ||
+				valueSort !== 'highest'
+		)
+	);
 
-				case 'age-asc':
-					return (Number(a.age) || 0) - (Number(b.age) || 0);
+	const activeSortDescription = $derived.by(() => {
+		if (nameSort === 'asc') {
+			return 'Nome de A a Z';
+		}
 
-				case 'age-desc':
-					return (Number(b.age) || 0) - (Number(a.age) || 0);
+		if (nameSort === 'desc') {
+			return 'Nome de Z a A';
+		}
 
-				case 'marketValue-desc':
-				default:
-					return getMarketValue(b) - getMarketValue(a);
-			}
-		});
+		if (ageSort === 'youngest') {
+			return 'Mais jovens primeiro';
+		}
+
+		if (ageSort === 'oldest') {
+			return 'Mais experientes primeiro';
+		}
+
+		if (heightSort === 'shortest') {
+			return 'Mais baixos primeiro';
+		}
+
+		if (heightSort === 'tallest') {
+			return 'Mais altos primeiro';
+		}
+
+		if (valueSort === 'lowest') {
+			return 'Menor valor primeiro';
+		}
+
+		if (valueSort === 'highest') {
+			return 'Maior valor primeiro';
+		}
+
+		return 'Ordem original';
 	});
 
 	const lastUpdated = $derived(
-		formatDateTime(data.clubPlayers?.updatedAt)
+		formatDateTime(
+			data.clubPlayers?.updatedAt
+		)
 	);
 
-	function getMarketValue(player: ClubPlayer) {
-		return Number(player.marketValue) || 0;
+	function comparePlayers(
+		a: ClubPlayer,
+		b: ClubPlayer
+	) {
+		if (nameSort === 'asc') {
+			return a.name.localeCompare(
+				b.name,
+				'pt-BR',
+				{
+					sensitivity: 'base'
+				}
+			);
+		}
+
+		if (nameSort === 'desc') {
+			return b.name.localeCompare(
+				a.name,
+				'pt-BR',
+				{
+					sensitivity: 'base'
+				}
+			);
+		}
+
+		if (ageSort === 'youngest') {
+			return (
+				getPlayerAge(a) -
+				getPlayerAge(b)
+			);
+		}
+
+		if (ageSort === 'oldest') {
+			return (
+				getPlayerAge(b) -
+				getPlayerAge(a)
+			);
+		}
+
+		if (heightSort === 'shortest') {
+			return (
+				getPlayerHeightInCm(a) -
+				getPlayerHeightInCm(b)
+			);
+		}
+
+		if (heightSort === 'tallest') {
+			return (
+				getPlayerHeightInCm(b) -
+				getPlayerHeightInCm(a)
+			);
+		}
+
+		if (valueSort === 'lowest') {
+			return (
+				getMarketValue(a) -
+				getMarketValue(b)
+			);
+		}
+
+		if (valueSort === 'highest') {
+			return (
+				getMarketValue(b) -
+				getMarketValue(a)
+			);
+		}
+
+		/*
+		 * Retornar zero mantém a ordem original
+		 * da resposta quando nenhuma ordenação está ativa.
+		 */
+		return 0;
 	}
 
-	function normalizeText(value: string | null | undefined) {
+	function changeSort(
+		category: SortCategory,
+		value: string
+	) {
+		/*
+		 * Somente uma ordenação pode permanecer ativa.
+		 */
+		nameSort = 'none';
+		ageSort = 'none';
+		heightSort = 'none';
+		valueSort = 'none';
+
+		switch (category) {
+			case 'name':
+				nameSort = value as NameSort;
+				break;
+
+			case 'age':
+				ageSort = value as AgeSort;
+				break;
+
+			case 'height':
+				heightSort = value as HeightSort;
+				break;
+
+			case 'value':
+				valueSort = value as ValueSort;
+				break;
+		}
+	}
+
+	function handleNameSort(event: Event) {
+		const select =
+			event.currentTarget as HTMLSelectElement;
+
+		changeSort('name', select.value);
+	}
+
+	function handleAgeSort(event: Event) {
+		const select =
+			event.currentTarget as HTMLSelectElement;
+
+		changeSort('age', select.value);
+	}
+
+	function handleHeightSort(event: Event) {
+		const select =
+			event.currentTarget as HTMLSelectElement;
+
+		changeSort('height', select.value);
+	}
+
+	function handleValueSort(event: Event) {
+		const select =
+			event.currentTarget as HTMLSelectElement;
+
+		changeSort('value', select.value);
+	}
+
+	function getMarketValue(player: ClubPlayer) {
+		const value = Number(player.marketValue);
+
+		return Number.isFinite(value)
+			? value
+			: 0;
+	}
+
+	function getPlayerAge(player: ClubPlayer) {
+		const age = Number(player.age);
+
+		/*
+		 * Idade desconhecida fica no final quando
+		 * a ordem for crescente.
+		 */
+		return Number.isFinite(age) && age > 0
+			? age
+			: Number.MAX_SAFE_INTEGER;
+	}
+
+	function getPlayerHeightInCm(
+		player: ClubPlayer
+	) {
+		const height = Number(player.height);
+
+		if (
+			!Number.isFinite(height) ||
+			height <= 0
+		) {
+			return Number.MAX_SAFE_INTEGER;
+		}
+
+		/*
+		 * Aceita tanto:
+		 * 1.80 -> metros
+		 * 180  -> centímetros
+		 */
+		return height <= 3
+			? height * 100
+			: height;
+	}
+
+	function normalizeFoot(
+		value: string | null | undefined
+	): Exclude<FootFilter, 'all'> | 'unknown' {
+		const normalized = normalizeText(value)
+			.replaceAll('-', '')
+			.replaceAll('_', '')
+			.replaceAll(' ', '');
+
+		if (
+			[
+				'right',
+				'rightfoot',
+				'direito',
+				'destro'
+			].includes(normalized)
+		) {
+			return 'right';
+		}
+
+		if (
+			[
+				'left',
+				'leftfoot',
+				'esquerdo',
+				'canhoto'
+			].includes(normalized)
+		) {
+			return 'left';
+		}
+
+		if (
+			[
+				'both',
+				'bothfeet',
+				'ambidextrous',
+				'ambidestro',
+				'ambidextra',
+				'ambos'
+			].includes(normalized)
+		) {
+			return 'both';
+		}
+
+		return 'unknown';
+	}
+
+	function normalizeText(
+		value: string | null | undefined
+	) {
 		return String(value ?? '')
 			.normalize('NFD')
 			.replace(/[\u0300-\u036f]/g, '')
@@ -132,10 +438,21 @@
 	function clearFilters() {
 		searchTerm = '';
 		selectedPosition = 'Todas';
-		sortBy = 'marketValue-desc';
+		selectedFoot = 'all';
+
+		nameSort = 'none';
+		ageSort = 'none';
+		heightSort = 'none';
+
+		/*
+		 * Volta à ordenação padrão da tela.
+		 */
+		valueSort = 'highest';
 	}
 
-	function formatDateTime(value: string | undefined) {
+	function formatDateTime(
+		value: string | undefined
+	) {
 		if (!value) return 'N/A';
 
 		const date = new Date(value);
@@ -153,7 +470,6 @@
 		}).format(date);
 	}
 </script>
-
 <svelte:head>
 	<title>Elenco do clube</title>
 
@@ -331,139 +647,506 @@
 			</div>
 		</section>
 
-		<section
-			class="
-				rounded-2xl
-				border border-(--tertiary)/5
-				bg-neutral-800/50
-				p-4
-				backdrop-blur-lg
-				sm:p-5
-			"
-		>
-			<div class="grid grid-cols-1 gap-3 md:grid-cols-[1fr_220px_220px]">
-				<label class="relative block">
-					<span class="sr-only">Pesquisar jogador</span>
+<section
+	class="
+		rounded-2xl
+		border border-(--tertiary)/5
+		bg-neutral-800/50
+		p-4
+		backdrop-blur-lg
+		sm:p-5
+	"
+>
+	<div
+		class="
+			flex flex-col gap-3
+			sm:flex-row
+			sm:items-center
+			sm:justify-between
+		"
+	>
+		<div>
+			<h2
+				class="
+					text-sm font-bold uppercase
+					tracking-wider text-neutral-300
+				"
+			>
+				Filtros do elenco
+			</h2>
 
-					<svg
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						aria-hidden="true"
-						class="
-							pointer-events-none
-							absolute left-4 top-1/2
-							h-4 w-4
-							-translate-y-1/2
-							text-neutral-500
-						"
-					>
-						<circle cx="11" cy="11" r="8"></circle>
-						<path d="m21 21-4.35-4.35"></path>
-					</svg>
-
-					<input
-						type="search"
-						bind:value={searchTerm}
-						placeholder="Pesquisar por nome, país ou clube anterior..."
-						class="
-							h-11 w-full
-							rounded-xl
-							border border-(--tertiary)/5
-							bg-neutral-900/50
-							pl-11 pr-4
-							text-sm text-neutral-200
-							outline-none
-							placeholder:text-neutral-600
-							transition-colors
-							focus:border-(--secondary)
-						"
-					/>
-				</label>
-
-				<label>
-					<span class="sr-only">Filtrar por posição</span>
-
-					<select
-						bind:value={selectedPosition}
-						class="
-							h-11 w-full
-							cursor-pointer
-							rounded-xl
-							border border-(--tertiary)/5
-							bg-neutral-900/50
-							px-4
-							text-sm text-neutral-300
-							outline-none
-							transition-colors
-							focus:border-(--secondary)
-						"
-					>
-						<option value="Todas">Todas as posições</option>
-
-						{#each positions as position (position)}
-							<option value={position}>{position}</option>
-						{/each}
-					</select>
-				</label>
-
-				<label>
-					<span class="sr-only">Ordenar jogadores</span>
-
-					<select
-						bind:value={sortBy}
-						class="
-							h-11 w-full
-							cursor-pointer
-							rounded-xl
-							border border-(--tertiary)/5
-							bg-neutral-900/50
-							px-4
-							text-sm text-neutral-300
-							outline-none
-							transition-colors
-							focus:border-(--secondary)
-						"
-					>
-						<option value="marketValue-desc">Maior valor</option>
-						<option value="marketValue-asc">Menor valor</option>
-						<option value="name-asc">Nome A–Z</option>
-						<option value="age-asc">Mais jovens</option>
-						<option value="age-desc">Mais experientes</option>
-					</select>
-				</label>
-			</div>
-		</section>
-
-		<div class="flex items-center justify-between gap-4">
-			<p class="text-xs text-neutral-500">
-				Exibindo
-				<span class="font-bold text-neutral-300">
-					{filteredPlayers.length}
-				</span>
-				de
-				<span class="font-bold text-neutral-300">
-					{players.length}
-				</span>
-				atletas
+			<p class="mt-1 text-xs text-neutral-500">
+				Filtre por posição, pé dominante ou pesquise um atleta.
 			</p>
+		</div>
 
-			{#if searchTerm || selectedPosition !== 'Todas' || sortBy !== 'marketValue-desc'}
-				<button
-					type="button"
-					onclick={clearFilters}
+		{#if hasActiveFilters}
+			<button
+				type="button"
+				onclick={clearFilters}
+				class="
+					self-start
+					rounded-lg
+					border border-(--tertiary)/5
+					bg-neutral-900/50
+					px-3 py-2
+					text-[10px] font-bold uppercase
+					tracking-wider text-neutral-400
+					transition-colors
+					hover:border-(--secondary)/30
+					hover:text-(--secondary)
+					sm:self-auto
+				"
+			>
+				Limpar filtros
+			</button>
+		{/if}
+	</div>
+
+	<div
+		class="
+			mt-5
+			grid grid-cols-1 gap-3
+			sm:grid-cols-2
+			xl:grid-cols-4
+		"
+	>
+		<label class="relative block sm:col-span-2">
+			<span
+				class="
+					mb-1.5 block
+					text-[10px] font-bold uppercase
+					tracking-wider text-neutral-500
+				"
+			>
+				Pesquisar atleta
+			</span>
+
+			<div class="relative">
+				<svg
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					aria-hidden="true"
 					class="
-						text-xs font-semibold
-						text-(--secondary)
-						transition-opacity
-						hover:opacity-70
+						pointer-events-none
+						absolute left-4 top-1/2
+						h-4 w-4
+						-translate-y-1/2
+						text-neutral-500
 					"
 				>
-					Limpar filtros
-				</button>
-			{/if}
+					<circle
+						cx="11"
+						cy="11"
+						r="8"
+					></circle>
+
+					<path
+						d="m21 21-4.35-4.35"
+					></path>
+				</svg>
+
+				<input
+					type="search"
+					bind:value={searchTerm}
+					placeholder="Nome, país ou clube anterior..."
+					class="
+						h-11 w-full
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						pl-11 pr-4
+						text-sm text-neutral-200
+						outline-none
+						placeholder:text-neutral-600
+						transition-colors
+						focus:border-(--secondary)
+					"
+				/>
+			</div>
+		</label>
+
+		<label>
+			<span
+				class="
+					mb-1.5 block
+					text-[10px] font-bold uppercase
+					tracking-wider text-neutral-500
+				"
+			>
+				Posição
+			</span>
+
+			<select
+				bind:value={selectedPosition}
+				class="
+					h-11 w-full
+					cursor-pointer
+					rounded-xl
+					border border-(--tertiary)/5
+					bg-neutral-900/50
+					px-4
+					text-sm text-neutral-300
+					outline-none
+					transition-colors
+					focus:border-(--secondary)
+				"
+			>
+				<option value="Todas">
+					Todas as posições
+				</option>
+
+				{#each positions as position (position)}
+					<option value={position}>
+						{position}
+					</option>
+				{/each}
+			</select>
+		</label>
+
+		<label>
+			<span
+				class="
+					mb-1.5 block
+					text-[10px] font-bold uppercase
+					tracking-wider text-neutral-500
+				"
+			>
+				Pé dominante
+			</span>
+
+			<select
+				bind:value={selectedFoot}
+				class="
+					h-11 w-full
+					cursor-pointer
+					rounded-xl
+					border border-(--tertiary)/5
+					bg-neutral-900/50
+					px-4
+					text-sm text-neutral-300
+					outline-none
+					transition-colors
+					focus:border-(--secondary)
+				"
+			>
+				<option value="all">
+					Todos
+				</option>
+
+				<option value="right">
+					Somente direito
+				</option>
+
+				<option value="left">
+					Somente esquerdo
+				</option>
+
+				<option value="both">
+					Somente ambidestro
+				</option>
+			</select>
+		</label>
+	</div>
+
+	<div
+		class="
+			mt-5
+			border-t border-(--tertiary)/5
+			pt-5
+		"
+	>
+		<div
+			class="
+				flex flex-col gap-2
+				sm:flex-row
+				sm:items-center
+				sm:justify-between
+			"
+		>
+			<div>
+				<h3
+					class="
+						text-xs font-bold uppercase
+						tracking-wider text-neutral-400
+					"
+				>
+					Ordenação
+				</h3>
+
+				<p class="mt-1 text-[10px] text-neutral-500">
+					Selecione um critério de ordenação por vez.
+				</p>
+			</div>
+
+			<span
+				class="
+					self-start
+					rounded-lg
+					bg-neutral-950/40
+					px-3 py-1.5
+					text-[10px] font-semibold
+					text-(--golden)
+					sm:self-auto
+				"
+			>
+				{activeSortDescription}
+			</span>
 		</div>
+
+		<div
+			class="
+				mt-4
+				grid grid-cols-1 gap-3
+				sm:grid-cols-2
+				xl:grid-cols-4
+			"
+		>
+			<label>
+				<span
+					class="
+						mb-1.5 block
+						text-[10px] font-bold uppercase
+						tracking-wider text-neutral-500
+					"
+				>
+					Nome
+				</span>
+
+				<select
+					value={nameSort}
+					onchange={handleNameSort}
+					class="
+						h-11 w-full
+						cursor-pointer
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						px-4
+						text-sm text-neutral-300
+						outline-none
+						transition-colors
+						focus:border-(--secondary)
+					"
+				>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="asc">
+						Nome: A → Z
+					</option>
+
+					<option value="desc">
+						Nome: Z → A
+					</option>
+				</select>
+			</label>
+
+			<label>
+				<span
+					class="
+						mb-1.5 block
+						text-[10px] font-bold uppercase
+						tracking-wider text-neutral-500
+					"
+				>
+					Idade
+				</span>
+
+				<select
+					value={ageSort}
+					onchange={handleAgeSort}
+					class="
+						h-11 w-full
+						cursor-pointer
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						px-4
+						text-sm text-neutral-300
+						outline-none
+						transition-colors
+						focus:border-(--secondary)
+					"
+				>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="youngest">
+						Mais jovens
+					</option>
+
+					<option value="oldest">
+						Mais experientes
+					</option>
+				</select>
+			</label>
+
+			<label>
+				<span
+					class="
+						mb-1.5 block
+						text-[10px] font-bold uppercase
+						tracking-wider text-neutral-500
+					"
+				>
+					Altura
+				</span>
+
+				<select
+					value={heightSort}
+					onchange={handleHeightSort}
+					class="
+						h-11 w-full
+						cursor-pointer
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						px-4
+						text-sm text-neutral-300
+						outline-none
+						transition-colors
+						focus:border-(--secondary)
+					"
+				>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="tallest">
+						Mais altos
+					</option>
+
+					<option value="shortest">
+						Mais baixos
+					</option>
+				</select>
+			</label>
+
+			<label>
+				<span
+					class="
+						mb-1.5 block
+						text-[10px] font-bold uppercase
+						tracking-wider text-neutral-500
+					"
+				>
+					Valor de mercado
+				</span>
+
+				<select
+					value={valueSort}
+					onchange={handleValueSort}
+					class="
+						h-11 w-full
+						cursor-pointer
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						px-4
+						text-sm text-neutral-300
+						outline-none
+						transition-colors
+						focus:border-(--secondary)
+					"
+				>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="highest">
+						Maior valor
+					</option>
+
+					<option value="lowest">
+						Menor valor
+					</option>
+				</select>
+			</label>
+		</div>
+	</div>
+</section>
+
+<div
+	class="
+		flex flex-col gap-2
+		sm:flex-row
+		sm:items-center
+		sm:justify-between
+	"
+>
+	<p class="text-xs text-neutral-500">
+		Exibindo
+
+		<span class="font-bold text-neutral-300">
+			{filteredPlayers.length}
+		</span>
+
+		de
+
+		<span class="font-bold text-neutral-300">
+			{players.length}
+		</span>
+
+		atletas
+	</p>
+
+	<div
+		class="
+			flex flex-wrap items-center gap-2
+			text-[10px] text-neutral-500
+		"
+	>
+		<span>
+			Ordenação:
+		</span>
+
+		<span
+			class="
+				rounded-md
+				bg-neutral-900/50
+				px-2 py-1
+				font-bold text-neutral-300
+			"
+		>
+			{activeSortDescription}
+		</span>
+
+		{#if selectedPosition !== 'Todas'}
+			<span
+				class="
+					rounded-md
+					bg-neutral-900/50
+					px-2 py-1
+					font-bold text-neutral-300
+				"
+			>
+				{selectedPosition}
+			</span>
+		{/if}
+
+		{#if selectedFoot !== 'all'}
+			<span
+				class="
+					rounded-md
+					bg-neutral-900/50
+					px-2 py-1
+					font-bold text-neutral-300
+				"
+			>
+				{selectedFoot === 'right'
+					? 'Pé direito'
+					: selectedFoot === 'left'
+						? 'Pé esquerdo'
+						: 'Ambidestro'}
+			</span>
+		{/if}
+	</div>
+</div>
 
 		{#if filteredPlayers.length}
 			<div
