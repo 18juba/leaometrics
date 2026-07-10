@@ -1,7 +1,8 @@
 <script lang="ts">
+	import PlayerFoot from '$lib/components/player/PlayerFoot.svelte';
+
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import type { ClubPlayers } from '$lib/types/clubPlayers';
-
 	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 
 	type ClubPlayer = ClubPlayers['players'][number];
@@ -163,17 +164,23 @@
 	</div>
 
 	<div class="relative p-5">
-		<h2
-			class="
-				truncate
-				text-lg font-bold tracking-tight
-				text-neutral-100
-				transition-colors
-				group-hover:text-(--secondary)
-			"
-		>
-			{player.name}
-		</h2>
+		<div class="flex min-w-0 items-center gap-2">
+			<h2
+				class="
+					min-w-0 flex-1 truncate
+					text-lg font-bold tracking-tight
+					transition-colors
+					group-hover:text-(--secondary)
+				"
+			>
+				{player.name}
+			</h2>
+		
+			<PlayerFoot
+				foot={player.foot}
+				size="sm"
+			/>
+		</div>
 
 		<div
 			class="mt-2 flex min-h-7 flex-wrap items-center gap-1"
