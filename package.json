@@ -30,6 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"chart.js": "^4.5.1"
+		"chart.js": "^4.5.1",
+		"chartjs-plugin-annotation": "^3.1.0"
 	}
 }

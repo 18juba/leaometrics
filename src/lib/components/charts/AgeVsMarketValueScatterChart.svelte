@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
+	import annotationPlugin from 'chartjs-plugin-annotation';
 
 	import type { Player, PlayerPosition } from '$lib/types/analysis';
 
+	Chart.register(annotationPlugin);
+
 	interface Props {
 		data: Player[];
+		averageAge: number;
+		averageMarketValue: number;
 	}
 
 	type ScatterPoint = {
@@ -18,7 +23,7 @@
 		marketValue: number;
 	};
 
-	let { data }: Props = $props();
+	let { data, averageAge, averageMarketValue }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart | null = null;
@@ -68,6 +73,10 @@
 		maximumFractionDigits: 0
 	});
 
+	const numberFormatter = new Intl.NumberFormat('pt-BR', {
+		maximumFractionDigits: 1
+	});
+
 	function buildDatasets(players: Player[]) {
 		const validPlayers = players.filter(
 			(player) =>
@@ -111,12 +120,10 @@
 	function createChart() {
 		if (!canvas) return;
 
-		const datasets = buildDatasets(data);
-
 		chart = new Chart(canvas, {
 			type: 'scatter',
 			data: {
-				datasets
+				datasets: buildDatasets(data)
 			},
 			options: {
 				responsive: true,
@@ -151,6 +158,48 @@
 									`Idade: ${raw.age} anos`,
 									`Valor: ${fullCurrencyFormatter.format(raw.marketValue)}`
 								];
+							}
+						}
+					},
+					annotation: {
+						annotations: {
+							averageAgeLine: {
+								type: 'line',
+								xMin: averageAge,
+								xMax: averageAge,
+								borderColor: 'rgba(15, 23, 42, 0.7)',
+								borderWidth: 1.5,
+								borderDash: [6, 6],
+								label: {
+									display: true,
+									content: `Idade média: ${numberFormatter.format(averageAge)}`,
+									position: 'start',
+									backgroundColor: 'rgba(15, 23, 42, 0.85)',
+									color: '#ffffff',
+									font: {
+										size: 10
+									},
+									padding: 6
+								}
+							},
+							averageMarketValueLine: {
+								type: 'line',
+								yMin: averageMarketValue,
+								yMax: averageMarketValue,
+								borderColor: 'rgba(15, 23, 42, 0.7)',
+								borderWidth: 1.5,
+								borderDash: [6, 6],
+								label: {
+									display: true,
+									content: `Valor médio: ${compactCurrencyFormatter.format(averageMarketValue)}`,
+									position: 'end',
+									backgroundColor: 'rgba(15, 23, 42, 0.85)',
+									color: '#ffffff',
+									font: {
+										size: 10
+									},
+									padding: 6
+								}
 							}
 						}
 					}
@@ -195,13 +244,6 @@
 		});
 	}
 
-	function updateChart() {
-		if (!chart) return;
-
-		chart.data.datasets = buildDatasets(data);
-		chart.update();
-	}
-
 	onMount(() => {
 		createChart();
 
@@ -209,14 +251,6 @@
 			chart?.destroy();
 			chart = null;
 		};
-	});
-
-	$effect(() => {
-		data;
-
-		if (chart) {
-			updateChart();
-		}
 	});
 </script>
 
