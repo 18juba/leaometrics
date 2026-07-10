@@ -5,6 +5,7 @@
 	import PositionHeatmap from '$lib/components/charts/PositionHeatmap.svelte';
 	import MostValuablePlayersChart from '$lib/components/charts/MostValuablePlayersChart.svelte';
     import AgeVsMarketValueScatterChart from '$lib/components/charts/AgeVsMarketValueScatterChart.svelte';
+	import AgeDistributionChart from '$lib/components/charts/AgeDistributionChart.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -26,5 +27,10 @@
     	data={analysis.players}
     	averageAge={analysis.squadAnalysis.averageAge}
     	averageMarketValue={analysis.squadAnalysis.averageMarketValue}
+    />
+
+    
+    <AgeDistributionChart
+    	data={analysis.squadAnalysis.byAgeGroup}
     />
 </div>
