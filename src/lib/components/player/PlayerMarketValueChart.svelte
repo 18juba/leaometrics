@@ -6,19 +6,11 @@
 
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 
-	import type {
-		MarketValueHistoryEntry,
-		PlayerMarketValueHistory
-	} from '$lib/types/player';
+	import type { MarketValueHistoryEntry, PlayerMarketValueHistory } from '$lib/types/playerValue';
 
 	type OrderedEntry = MarketValueHistoryEntry & {
 		timestamp: number;
 		originalIndex: number;
-	};
-
-	type ChartPoint = {
-		x: number;
-		y: number;
 	};
 
 	let {
@@ -34,14 +26,13 @@
 	} = $props();
 
 	let canvas = $state<HTMLCanvasElement | null>(null);
-	let chart: ChartInstance | null = null;
 
-	/*
-	 * Nenhum registro é filtrado.
-	 *
-	 * Primeiro extraímos YYYY-MM-DD, depois convertemos para UTC.
-	 * Datas inválidas são mantidas e colocadas no final.
-	 */
+	let chart: ChartInstance<
+		'line',
+		number[],
+		string
+	> | null = null;
+
 	const entries = $derived.by((): OrderedEntry[] => {
 		const source = history?.marketValueHistory ?? [];
 
@@ -56,7 +47,8 @@
 				const bValid = Number.isFinite(b.timestamp);
 
 				if (aValid && bValid) {
-					const difference = a.timestamp - b.timestamp;
+					const difference =
+						a.timestamp - b.timestamp;
 
 					if (difference !== 0) {
 						return difference;
@@ -70,27 +62,13 @@
 			});
 	});
 
-	/*
-	 * Como não descartamos registros, uma data inesperada recebe uma
-	 * posição de fallback. Para as datas YYYY-MM-DD da sua API, o
-	 * timestamp real será sempre utilizado.
-	 */
-	const chartPoints = $derived.by((): ChartPoint[] => {
-		const firstValidTimestamp =
-			entries.find((entry) => Number.isFinite(entry.timestamp))
-				?.timestamp ?? Date.UTC(1970, 0, 1);
+	const firstEntry = $derived(
+		entries[0] ?? null
+	);
 
-		return entries.map((entry, index) => ({
-			x: Number.isFinite(entry.timestamp)
-				? entry.timestamp
-				: firstValidTimestamp + index * 86_400_000,
-
-			y: Number(entry.marketValue) || 0
-		}));
-	});
-
-	const firstEntry = $derived(entries[0] ?? null);
-	const latestEntry = $derived(entries.at(-1) ?? null);
+	const latestEntry = $derived(
+		entries.at(-1) ?? null
+	);
 
 	const highestEntry = $derived.by(() => {
 		if (!entries.length) return null;
@@ -130,12 +108,10 @@
 	$effect(() => {
 		const currentCanvas = canvas;
 		const currentEntries = entries;
-		const currentPoints = chartPoints;
 
 		if (
 			!currentCanvas ||
-			currentEntries.length === 0 ||
-			currentPoints.length === 0
+			currentEntries.length === 0
 		) {
 			chart?.destroy();
 			chart = null;
@@ -146,14 +122,16 @@
 		let cancelled = false;
 
 		async function renderChart() {
-			const { default: Chart } = await import('chart.js/auto');
+			const { default: Chart } =
+				await import('chart.js/auto');
 
 			if (cancelled) return;
 
 			chart?.destroy();
 			chart = null;
 
-			const context = currentCanvas.getContext('2d');
+			const context =
+				currentCanvas.getContext('2d');
 
 			if (!context) return;
 
@@ -167,46 +145,70 @@
 				'#22c55e'
 			);
 
-			const gradient = context.createLinearGradient(
-				0,
-				0,
-				0,
-				currentCanvas.clientHeight || 320
-			);
+			const gradient =
+				context.createLinearGradient(
+					0,
+					0,
+					0,
+					currentCanvas.clientHeight || 320
+				);
 
 			gradient.addColorStop(
 				0,
-				createTransparentColor(goldenColor, 0.3)
+				createTransparentColor(
+					goldenColor,
+					0.3
+				)
 			);
 
 			gradient.addColorStop(
 				1,
-				createTransparentColor(goldenColor, 0.01)
+				createTransparentColor(
+					goldenColor,
+					0.01
+				)
 			);
 
 			const configuration: ChartConfiguration<
 				'line',
-				ChartPoint[]
+				number[],
+				string
 			> = {
 				type: 'line',
 
 				data: {
+					/*
+					 * As datas completas são usadas como labels.
+					 * Como currentEntries já está ordenado,
+					 * o eixo seguirá a ordem cronológica.
+					 */
+					labels: currentEntries.map(
+						(entry) => entry.date
+					),
+
 					datasets: [
 						{
 							label: 'Valor de mercado',
-							data: currentPoints,
+
+							data: currentEntries.map(
+								(entry) =>
+									Number(entry.marketValue) ||
+									0
+							),
 
 							borderColor: goldenColor,
 							backgroundColor: gradient,
 
-							pointBackgroundColor: secondaryColor,
+							pointBackgroundColor:
+								secondaryColor,
+
 							pointBorderColor: '#171717',
 							pointBorderWidth: 2,
 
 							pointRadius:
-								currentPoints.length > 35
+								currentEntries.length > 35
 									? 2
-									: currentPoints.length > 20
+									: currentEntries.length > 20
 										? 3
 										: 4,
 
@@ -224,7 +226,6 @@
 				options: {
 					responsive: true,
 					maintainAspectRatio: false,
-					parsing: false,
 
 					interaction: {
 						mode: 'nearest',
@@ -242,10 +243,15 @@
 						},
 
 						tooltip: {
-							backgroundColor: 'rgba(10, 10, 10, 0.96)',
+							backgroundColor:
+								'rgba(10, 10, 10, 0.96)',
+
 							titleColor: '#f5f5f5',
 							bodyColor: '#d4d4d4',
-							borderColor: 'rgba(255, 255, 255, 0.08)',
+
+							borderColor:
+								'rgba(255, 255, 255, 0.08)',
+
 							borderWidth: 1,
 							padding: 12,
 							displayColors: false,
@@ -259,13 +265,17 @@
 										currentEntries[index];
 
 									return entry
-										? formatFullDate(entry.date)
+										? formatFullDate(
+												entry.date
+											)
 										: '';
 								},
 
 								label(context) {
 									return `Valor: ${formatCurrency(
-										Number(context.parsed.y) || 0
+										Number(
+											context.parsed.y
+										) || 0
 									)}`;
 								},
 
@@ -282,6 +292,7 @@
 											entry.clubName ||
 											'Não informado'
 										}`,
+
 										`Idade: ${entry.age} anos`
 									];
 								}
@@ -291,10 +302,13 @@
 
 					scales: {
 						x: {
-							type: 'linear',
-
-							min: currentPoints[0]?.x,
-							max: currentPoints.at(-1)?.x,
+							/*
+							 * Category usa o índice dos labels
+							 * internamente, por isso recuperamos
+							 * a data real usando getLabelForValue.
+							 */
+							type: 'category',
+							offset: false,
 
 							border: {
 								display: false
@@ -305,14 +319,22 @@
 							},
 
 							ticks: {
-								color: 'rgba(163, 163, 163, 0.8)',
+								color:
+									'rgba(163, 163, 163, 0.8)',
+
 								maxRotation: 0,
 								minRotation: 0,
+								autoSkip: true,
 								maxTicksLimit: 7,
 
 								callback(value) {
+									const isoDate =
+										this.getLabelForValue(
+											Number(value)
+										);
+
 									return formatAxisDate(
-										Number(value)
+										isoDate
 									);
 								}
 							}
@@ -326,11 +348,13 @@
 							},
 
 							grid: {
-								color: 'rgba(255, 255, 255, 0.05)'
+								color:
+									'rgba(255, 255, 255, 0.05)'
 							},
 
 							ticks: {
-								color: 'rgba(163, 163, 163, 0.8)',
+								color:
+									'rgba(163, 163, 163, 0.8)',
 
 								callback(value) {
 									return formatCompactCurrency(
@@ -364,12 +388,6 @@
 	) {
 		if (!value) return null;
 
-		/*
-		 * Aceita:
-		 * 2023-11-12
-		 * 2023-11-12T12:30:00
-		 * 2023-11-12 12:30:00
-		 */
 		const match = String(value)
 			.trim()
 			.match(/(\d{4})-(\d{2})-(\d{2})/);
@@ -399,45 +417,69 @@
 		const parsedDate = new Date(timestamp);
 
 		const isValid =
-			parsedDate.getUTCFullYear() === parts.year &&
-			parsedDate.getUTCMonth() === parts.month - 1 &&
-			parsedDate.getUTCDate() === parts.day;
+			parsedDate.getUTCFullYear() ===
+				parts.year &&
+			parsedDate.getUTCMonth() ===
+				parts.month - 1 &&
+			parsedDate.getUTCDate() ===
+				parts.day;
 
-		return isValid ? timestamp : Number.NaN;
+		return isValid
+			? timestamp
+			: Number.NaN;
 	}
 
-	function formatAxisDate(timestamp: number) {
-		if (!Number.isFinite(timestamp)) return '';
+	function formatAxisDate(
+		value: string | null | undefined
+	) {
+		const timestamp = parseApiDate(value);
 
-		return new Intl.DateTimeFormat('pt-BR', {
-			month: 'short',
-			year: '2-digit',
-			timeZone: 'UTC'
-		}).format(new Date(timestamp));
+		if (!Number.isFinite(timestamp)) {
+			return value || '';
+		}
+
+		return new Intl.DateTimeFormat(
+			'pt-BR',
+			{
+				month: 'short',
+				year: '2-digit',
+				timeZone: 'UTC'
+			}
+		).format(new Date(timestamp));
 	}
 
-	function formatFullDate(value: string) {
+	function formatFullDate(
+		value: string | null | undefined
+	) {
 		const timestamp = parseApiDate(value);
 
 		if (!Number.isFinite(timestamp)) {
 			return value || 'Data não informada';
 		}
 
-		return new Intl.DateTimeFormat('pt-BR', {
-			day: '2-digit',
-			month: 'long',
-			year: 'numeric',
-			timeZone: 'UTC'
-		}).format(new Date(timestamp));
+		return new Intl.DateTimeFormat(
+			'pt-BR',
+			{
+				day: '2-digit',
+				month: 'long',
+				year: 'numeric',
+				timeZone: 'UTC'
+			}
+		).format(new Date(timestamp));
 	}
 
-	function formatCompactCurrency(value: number) {
-		return new Intl.NumberFormat('pt-BR', {
-			style: 'currency',
-			currency: 'EUR',
-			notation: 'compact',
-			maximumFractionDigits: 1
-		}).format(value || 0);
+	function formatCompactCurrency(
+		value: number
+	) {
+		return new Intl.NumberFormat(
+			'pt-BR',
+			{
+				style: 'currency',
+				currency: 'EUR',
+				notation: 'compact',
+				maximumFractionDigits: 1
+			}
+		).format(value || 0);
 	}
 
 	function getCssVariable(
@@ -480,9 +522,10 @@
 			return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 		}
 
-		const shortHexadecimalMatch = color.match(
-			/^#([a-f\d])([a-f\d])([a-f\d])$/i
-		);
+		const shortHexadecimalMatch =
+			color.match(
+				/^#([a-f\d])([a-f\d])([a-f\d])$/i
+			);
 
 		if (shortHexadecimalMatch) {
 			const red = Number.parseInt(
@@ -503,6 +546,14 @@
 			return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 		}
 
+		const rgbMatch = color.match(
+			/^rgb\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)\s*\)$/i
+		);
+
+		if (rgbMatch) {
+			return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
+		}
+
 		return `rgba(251, 191, 36, ${alpha})`;
 	}
 </script>
@@ -511,11 +562,23 @@
 	<div class="space-y-4 animate-pulse">
 		<div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
 			{#each Array(4) as _, index (index)}
-				<div class="h-20 rounded-xl bg-neutral-800/70"></div>
+				<div
+					class="
+						h-20
+						rounded-xl
+						bg-neutral-800/70
+					"
+				></div>
 			{/each}
 		</div>
 
-		<div class="h-72 rounded-2xl bg-neutral-800/70"></div>
+		<div
+			class="
+				h-72
+				rounded-2xl
+				bg-neutral-800/70
+			"
+		></div>
 	</div>
 {:else if error}
 	<div
@@ -545,6 +608,7 @@
 					bg-(--secondary)
 					px-4 py-2
 					text-xs font-bold
+					transition-opacity
 					hover:opacity-80
 				"
 			>
@@ -555,28 +619,68 @@
 {:else if entries.length > 0}
 	<div class="space-y-5">
 		<div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
+			<div
+				class="
+					rounded-xl
+					bg-neutral-950/40
+					p-4
+				"
+			>
+				<span
+					class="
+						text-[10px] uppercase
+						tracking-wider
+						text-neutral-500
+					"
+				>
 					Valor atual
 				</span>
 
-				<span class="mt-1 block text-lg font-black text-(--golden)">
+				<span
+					class="
+						mt-1 block
+						text-lg font-black
+						text-(--golden)
+					"
+				>
 					{formatCurrency(latestValue)}
 				</span>
 			</div>
 
-			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
+			<div
+				class="
+					rounded-xl
+					bg-neutral-950/40
+					p-4
+				"
+			>
+				<span
+					class="
+						text-[10px] uppercase
+						tracking-wider
+						text-neutral-500
+					"
+				>
 					Maior valor
 				</span>
 
-				<span class="mt-1 block text-lg font-black text-neutral-100">
+				<span
+					class="
+						mt-1 block
+						text-lg font-black
+						text-neutral-100
+					"
+				>
 					{formatCurrency(highestValue)}
 				</span>
 
 				{#if highestEntry}
 					<span
-						class="mt-1 block truncate text-[10px] text-neutral-500"
+						class="
+							mt-1 block truncate
+							text-[10px]
+							text-neutral-500
+						"
 						title={highestEntry.clubName}
 					>
 						{highestEntry.clubName}
@@ -584,14 +688,27 @@
 				{/if}
 			</div>
 
-			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
+			<div
+				class="
+					rounded-xl
+					bg-neutral-950/40
+					p-4
+				"
+			>
+				<span
+					class="
+						text-[10px] uppercase
+						tracking-wider
+						text-neutral-500
+					"
+				>
 					Variação total
 				</span>
 
 				<span
 					class={`
-						mt-1 block text-lg font-black
+						mt-1 block
+						text-lg font-black
 						${
 							percentageVariation >= 0
 								? 'text-emerald-400'
@@ -599,10 +716,16 @@
 						}
 					`}
 				>
-					{percentageVariation >= 0 ? '+' : ''}
-					{percentageVariation.toLocaleString('pt-BR', {
-						maximumFractionDigits: 1
-					})}%
+					{percentageVariation >= 0
+						? '+'
+						: ''}
+
+					{percentageVariation.toLocaleString(
+						'pt-BR',
+						{
+							maximumFractionDigits: 1
+						}
+					)}%
 				</span>
 
 				<span
@@ -615,25 +738,60 @@
 						}
 					`}
 				>
-					{absoluteVariation >= 0 ? '+' : ''}
-					{formatCompactCurrency(absoluteVariation)}
+					{absoluteVariation >= 0
+						? '+'
+						: ''}
+
+					{formatCompactCurrency(
+						absoluteVariation
+					)}
 				</span>
 			</div>
 
-			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
+			<div
+				class="
+					rounded-xl
+					bg-neutral-950/40
+					p-4
+				"
+			>
+				<span
+					class="
+						text-[10px] uppercase
+						tracking-wider
+						text-neutral-500
+					"
+				>
 					Avaliações
 				</span>
 
-				<span class="mt-1 block text-lg font-black text-neutral-100">
+				<span
+					class="
+						mt-1 block
+						text-lg font-black
+						text-neutral-100
+					"
+				>
 					{entries.length}
 				</span>
 
 				{#if firstEntry && latestEntry}
-					<span class="mt-1 block text-[10px] text-neutral-500">
-						{formatFullDate(firstEntry.date)}
+					<span
+						class="
+							mt-1 block
+							text-[10px]
+							text-neutral-500
+						"
+					>
+						{formatFullDate(
+							firstEntry.date
+						)}
+
 						–
-						{formatFullDate(latestEntry.date)}
+
+						{formatFullDate(
+							latestEntry.date
+						)}
 					</span>
 				{/if}
 			</div>
@@ -665,7 +823,8 @@
 			flex min-h-72
 			items-center justify-center
 			rounded-2xl
-			border border-dashed border-(--tertiary)/10
+			border border-dashed
+			border-(--tertiary)/10
 			bg-neutral-950/20
 			p-6 text-center
 		"
