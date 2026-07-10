@@ -262,8 +262,6 @@
 	></button>
 
 	<section
-		role="dialog"
-		aria-modal="true"
 		aria-labelledby="player-details-title"
 		class="
 			relative z-10
@@ -534,18 +532,6 @@
 								<h3 class="mt-1 text-2xl font-black text-neutral-100">
 									{profile.fullName || profile.name}
 								</h3>
-
-								{#if profile.description}
-									<p
-										class="
-											mt-3
-											text-sm leading-relaxed
-											text-neutral-400
-										"
-									>
-										{profile.description}
-									</p>
-								{/if}
 							</div>
 
 							<div
