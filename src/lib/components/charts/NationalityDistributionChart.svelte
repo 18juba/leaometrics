@@ -423,7 +423,17 @@
 			value={selectedMetric}
 			onchange={handleMetricChange}
 			aria-label="Métrica de nacionalidade"
-			class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+			class="
+				cursor-pointer rounded-lg
+				border border-(--tertiary)/10
+				bg-neutral-900/40
+				px-3 py-1.5
+				text-xs text-neutral-200
+				outline-none
+				transition-colors
+				hover:bg-neutral-900/70
+				focus:border-(--secondary)/50
+			"
 		>
 			{#each metricOptions as option (option.value)}
 				<option value={option.value}>

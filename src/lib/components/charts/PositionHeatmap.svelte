@@ -195,22 +195,61 @@
 	}
 </script>
 
-<div class="w-full max-w-[620px]">
-	<div class="mb-2 flex items-center justify-between gap-3">
-		<h3 class="text-sm font-semibold text-slate-900 dark:text-white">
+<div class="w-full">
+	<div class="mb-3 flex items-center justify-between gap-3">
+		<h3 class="text-sm font-semibold text-neutral-200">
 			Parâmetros por posição
 		</h3>
 
-		<select
-			bind:value={metric}
-			class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-		>
-			{#each metricOptions as option}
-				<option value={option.value}>
-					{option.label}
-				</option>
-			{/each}
-		</select>
+		<div class="relative shrink-0">
+			<select
+				bind:value={metric}
+				aria-label="Selecionar métrica por posição"
+				class="
+					cursor-pointer appearance-none
+					rounded-lg
+					border border-(--tertiary)/10
+					bg-neutral-900/50
+					py-1.5 pl-3 pr-8
+					text-xs font-medium
+					text-neutral-200
+					outline-none
+					transition-colors
+					hover:bg-neutral-900/80
+					focus:border-(--secondary)/60
+					focus:ring-2
+					focus:ring-(--secondary)/15
+				"
+			>
+				{#each metricOptions as option (option.value)}
+					<option
+						value={option.value}
+						class="bg-neutral-900 text-neutral-200"
+					>
+						{option.label}
+					</option>
+				{/each}
+			</select>
+
+			<svg
+				class="
+					pointer-events-none
+					absolute right-2.5 top-1/2
+					h-3.5 w-3.5
+					-translate-y-1/2
+					text-(--secondary)
+				"
+				viewBox="0 0 20 20"
+				fill="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+		</div>
 	</div>
 
 	<div
@@ -403,11 +442,20 @@
 		{/if}
 	</div>
 
-	<div class="mt-2 flex items-center justify-end gap-1.5 text-[9px] text-slate-500 dark:text-slate-400">
+	<div
+		class="
+			mt-2 flex items-center justify-end
+			gap-1.5 text-[9px] text-neutral-400
+		"
+	>
 		<span>Menor</span>
 
 		<div
-			class="h-1.5 w-20 rounded-full bg-gradient-to-r from-blue-500 via-yellow-400 to-red-500"
+			class="
+				h-1.5 w-20 rounded-full
+				bg-linear-to-r
+				from-blue-500 via-yellow-400 to-red-500
+			"
 		></div>
 
 		<span>Maior</span>

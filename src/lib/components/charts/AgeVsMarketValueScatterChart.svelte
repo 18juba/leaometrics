@@ -167,7 +167,7 @@
 								type: 'line',
 								xMin: averageAge,
 								xMax: averageAge,
-								borderColor: 'rgba(15, 23, 42, 0.7)',
+								borderColor: 'rgba(255, 255, 255, 0.7)',
 								borderWidth: 1.5,
 								borderDash: [6, 6],
 								label: {
@@ -186,7 +186,7 @@
 								type: 'line',
 								yMin: averageMarketValue,
 								yMax: averageMarketValue,
-								borderColor: 'rgba(15, 23, 42, 0.7)',
+								borderColor: 'rgba(255, 255, 255, 0.7)',
 								borderWidth: 1.5,
 								borderDash: [6, 6],
 								label: {

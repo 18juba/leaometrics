@@ -149,10 +149,20 @@
 </script>
 
 <section
-	class="overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"
+	class="
+		h-full overflow-hidden
+		rounded-2xl
+		border border-(--tertiary)/5
+		bg-neutral-800/50
+		backdrop-blur-lg
+	"
 >
 	<header
-		class="flex items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 dark:border-slate-800"
+		class="
+			flex items-center justify-between gap-3
+			border-b border-(--tertiary)/10
+			px-6 py-4
+		"
 	>
 		<div>
 			<h3 class="text-sm font-semibold text-slate-900 dark:text-white">
@@ -185,9 +195,21 @@
 		<div class="max-h-[280px] overflow-auto">
 			<table class="w-full border-collapse text-left">
 				<thead
-					class="sticky top-0 z-10 bg-slate-50 text-[10px] uppercase tracking-wide text-slate-500 dark:bg-slate-950 dark:text-slate-400"
+					class="
+						sticky top-0 z-10
+						bg-neutral-900/90
+						text-[10px] uppercase
+						tracking-wider
+						text-neutral-400
+						backdrop-blur-lg
+					"
 				>
-					<tr>
+					<tr
+						class="
+							transition-colors
+							hover:bg-neutral-900/40
+						"
+					>
 						<th class="px-4 py-2 font-medium">
 							Jogador
 						</th>
@@ -211,7 +233,10 @@
 				>
 					{#each expiringPlayers as item (item.player.id)}
 						<tr
-							class="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/60"
+							class="
+								transition-colors
+								hover:bg-neutral-900/40
+							"
 						>
 							<td class="px-4 py-2.5">
 								<p
