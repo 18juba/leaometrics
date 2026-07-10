@@ -19,7 +19,7 @@
 		<div
 			class="
 				relative
-				h-[clamp(28rem,68dvh,52rem)]
+				h-[clamp(24rem,54dvh,36rem)]
 				overflow-y-auto
 				overscroll-contain
 				p-1

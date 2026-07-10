@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ElencoFilters from '$lib/components/elenco/ElencoFilters.svelte';
-	import ElencoHeader from '$lib/components/elenco/ElencoHeader.svelte';
 	import ElencoPlayerGrid from '$lib/components/elenco/ElencoPlayerGrid.svelte';
 	import ElencoResultsBar from '$lib/components/elenco/ElencoResultsBar.svelte';
 
@@ -87,11 +86,6 @@
 
 <div class="min-h-screen w-full">
 	<div class="mx-auto w-full space-y-4">
-		<!-- <ElencoHeader
-			{players}
-			updatedAt={data.clubPlayers?.updatedAt}
-		/> -->
-
 		<ElencoFilters
 			{positions}
 			bind:searchTerm

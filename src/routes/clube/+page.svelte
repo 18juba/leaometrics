@@ -1,5 +1,6 @@
 <script>
     import { formatCurrency } from '$lib/formatters/formatCurrency';
+    import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 
     let { data } = $props();
 
@@ -220,7 +221,20 @@ const club_players = $derived(
                     onerror={(event) => event.target.src = '/images/players/placeholder.webp'}
                 />
                 <div>
-                    <span class="text-sm font-medium text-neutral-200 block truncate max-w-35">{player.name} <span class="text-[10px] opacity-60 ml-1">{i + 1}º</span></span>
+                    <span class="text-sm font-medium text-neutral-200 block max-w-40">{player.name} 					<span
+						class="
+							inline-flex h-7 min-w-8 ml-2
+							items-center
+							rounded-lg
+						  text-lg leading-none
+						"
+						title={player.nationality}
+						aria-label={player.nationality}
+					>
+						<span aria-hidden="true">
+							{bandeirasPt[player.nationality[0]] ?? '🌎'}
+						</span>
+					</span></span>
                     <span class="text-[10px] text-neutral-400 uppercase tracking-tight">{player.position} • {player.age} anos</span>
                 </div>
             </div>

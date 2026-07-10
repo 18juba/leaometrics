@@ -2,6 +2,8 @@
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import type { ClubPlayers } from '$lib/types/clubPlayers';
 
+	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
+
 	type ClubPlayer = ClubPlayers['players'][number];
 
 	let {
@@ -41,11 +43,6 @@
 		return translations[normalizedFoot] ?? foot ?? 'N/A';
 	}
 
-	function formatNationality(nationalities: string[]) {
-		if (!nationalities?.length) return 'Não informada';
-
-		return nationalities.join(' • ');
-	}
 
 	function handleImageError(event: Event) {
 		const image = event.currentTarget as HTMLImageElement;
@@ -53,6 +50,7 @@
 		image.onerror = null;
 		image.src = '/images/players/placeholder.webp';
 	}
+
 </script>
 
 <button
@@ -70,7 +68,7 @@
 		bg-neutral-800/50
 		text-left
 		backdrop-blur-lg
-		transition-all duration-300
+		transition-all duration-200
 		hover:-translate-y-1
 		hover:border-(--tertiary)/15
 		hover:bg-neutral-800/70
@@ -90,7 +88,7 @@
 			bg-(--primary)
 			opacity-0 blur-3xl
 			transition-opacity duration-300
-			group-hover:opacity-20
+			group-hover:opacity-40
 		"
 	></div>
 
@@ -177,9 +175,41 @@
 			{player.name}
 		</h2>
 
-		<p class="mt-1 truncate text-xs text-neutral-400">
-			{formatNationality(player.nationality)}
-		</p>
+		<div
+			class="mt-2 flex min-h-7 flex-wrap items-center gap-1"
+			aria-label={`Nacionalidade: ${player.nationality?.join(', ') || 'não informada'}`}
+		>
+			{#if player.nationality?.length}
+				{#each player.nationality as country (country)}
+					<span
+						class="
+							inline-flex h-7 min-w-8
+							items-center
+							rounded-lg
+						  text-xl leading-none
+						"
+						title={country}
+						aria-label={country}
+					>
+						<span aria-hidden="true">
+							{bandeirasPt[country] ?? '🌐'}
+						</span>
+					</span>
+				{/each}
+			{:else}
+				<span
+					class="
+						inline-flex h-7 min-w-8
+						items-center justify-center
+						rounded-lg
+					    text-lg
+					"
+					title="Nacionalidade não informada"
+				>
+					🌐
+				</span>
+			{/if}
+		</div>
 
 		<div class="mt-5 grid grid-cols-3 gap-2">
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">

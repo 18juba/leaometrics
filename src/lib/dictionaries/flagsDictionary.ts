@@ -1,4 +1,4 @@
-const bandeirasPt: Record<string, string> = {
+export const bandeirasPt: Record<string, string> = {
     "Afeganistão": "🇦🇫",
     "Albânia": "🇦🇱",
     "Argélia": "🇩🇿",

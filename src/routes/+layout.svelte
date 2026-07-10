@@ -174,6 +174,19 @@
 						<span>Conquistas</span>
 					</a>
 				</li>
+								<li
+					class:active={isActive('/analises')}
+					class="menu-item"
+				>
+					<a href="/analises" class="flex items-center gap-2">
+						<img
+							src="/icons/ball.png"
+							alt="Análises"
+							class="w-12 h-12 select-none pointer-events-none object-contain"
+						/>
+						<span>Análises</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</aside>
