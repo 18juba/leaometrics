@@ -8,6 +8,7 @@
 	import AgeDistributionChart from '$lib/components/charts/AgeDistributionChart.svelte';
 	import ContractExpirationDistributionChart from '$lib/components/charts/ContractExpirationDistributionChart.svelte';
 	import ExpiringContractsTable from '$lib/components/charts/ExpiringContractsTable.svelte';
+	import MarketValueByPositionChart from '$lib/components/charts/MarketValueByPositionChart.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -44,5 +45,9 @@
     <ExpiringContractsTable
 	    data={analysis.players}
 	    referenceDate={analysis.source.analysisReferenceDate}
+    />
+
+    <MarketValueByPositionChart
+	    data={analysis.squadAnalysis.byPosition}
     />
 </div>
