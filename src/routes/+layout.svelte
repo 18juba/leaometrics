@@ -3,21 +3,35 @@
 	import './background.css';
 
 	import favicon from '$lib/assets/favicon.svg';
+
 	import { page } from '$app/state';
-	import { fade } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
+	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
+
+	let { children } = $props();
 
 	let x = $state(0);
 	let y = $state(0);
 
-	let { children } = $props();
+	type TransitionPhase = 'idle' | 'cover' | 'reveal';
+
+	let transitionPhase = $state<TransitionPhase>('idle');
+	let transitionId = 0;
+
+	const COVER_DURATION = 450;
+	const REVEAL_DURATION = 850;
 
 	const backgroundImages = [
 		'/images/main_background.webp',
 		'/images/team_background.jpg',
 		'/images/achievements_background.jpg'
 	];
+
+	function wait(duration: number) {
+		return new Promise<void>((resolve) => {
+			window.setTimeout(resolve, duration);
+		});
+	}
 
 	function handleMouseMove(event: MouseEvent) {
 		const centerX = window.innerWidth / 2;
@@ -47,13 +61,6 @@
 		getBackgroundClass(page.url.pathname)
 	);
 
-	onMount(() => {
-		for (const src of backgroundImages) {
-			const image = new Image();
-			image.src = src;
-		}
-	});
-
 	const isActive = (href: string) => {
 		if (href === '/') {
 			return page.url.pathname === '/';
@@ -61,26 +68,68 @@
 
 		return page.url.pathname.startsWith(href);
 	};
+
+	onMount(() => {
+		for (const src of backgroundImages) {
+			const image = new Image();
+			image.src = src;
+		}
+	});
+
+	onNavigate(async ({ from, to }) => {
+		if (!from?.url || !to?.url) return;
+
+		if (from.url.pathname === to.url.pathname) return;
+
+		const currentTransition = ++transitionId;
+
+		transitionPhase = 'cover';
+
+		await wait(COVER_DURATION);
+
+		return () => {
+			if (currentTransition !== transitionId) return;
+
+			transitionPhase = 'reveal';
+
+			window.setTimeout(() => {
+				if (currentTransition === transitionId) {
+					transitionPhase = 'idle';
+				}
+			}, REVEAL_DURATION);
+		};
+	});
 </script>
+
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <svelte:window onmousemove={handleMouseMove} />
 
-<div class="background-container" aria-hidden="true">
-	{#key backgroundClass}
+<div class="background-stage" aria-hidden="true">
+	<div
+		class="background-parallax"
+		style:transform={`
+			translate(${x * 12}px, ${y * 12}px)
+			scale(1.1)
+		`}
+	>
 		<div
-			class="background {backgroundClass}"
-			style:transform={`translate(${x * 12}px, ${y * 12}px) scale(1.1)`}
-			in:fade={{
-				duration: 700,
-				easing: cubicOut
-			}}
-			out:fade={{
-				duration: 500
-			}}
+			class="background-image {backgroundClass}"
+			class:background-cover={transitionPhase === 'cover'}
+			class:background-reveal={transitionPhase === 'reveal'}
 		></div>
-	{/key}
+	</div>
+
+	<div
+		class="background-curtain"
+		class:curtain-cover={transitionPhase === 'cover'}
+		class:curtain-reveal={transitionPhase === 'reveal'}
+	></div>
+
+	<!-- Vinheta permanente -->
+	<div class="background-vignette"></div>
 </div>
+
 <main class="relative w-full h-screen antialiased flex p-8">
 	<aside class="sidebar-zone h-full w-56 flex items-center">
 		<nav class="nav-soft">

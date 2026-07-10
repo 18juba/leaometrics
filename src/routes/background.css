@@ -1,35 +1,191 @@
-.background-container {
+.background-stage {
 	position: fixed;
 	inset: 0;
-	z-index: 0;
+	z-index: -1;
 	overflow: hidden;
 	pointer-events: none;
-	background: #080808;
+	background: #030303;
 }
 
-.background {
+/*
+ * O movimento do mouse fica neste elemento para não entrar
+ * em conflito com o transform das animações de zoom.
+ */
+.background-parallax {
 	position: absolute;
-	inset: -24px;
+	inset: -32px;
+
+	transition: transform 0.15s ease-out;
+	will-change: transform;
+}
+
+.background-image {
+	position: absolute;
+	inset: 0;
 
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
 
 	filter: blur(3px) brightness(0.8);
+	transform: scale(1);
 
-	transition: transform 0.15s ease-out;
-
-	will-change: transform, opacity;
+	will-change: transform, filter;
 }
+
+/* Fundos das páginas */
 
 .main-background {
 	background-image: url('/images/main_background.webp');
 }
 
 .team-background {
-	background-image: url('/images/team_background5.jpg');
+	background-image: url('/images/team_background.jpg');
 }
 
 .achievements-background {
 	background-image: url('/images/achievements_background.jpg');
+}
+
+/*
+ * Escurece o fundo atual.
+ *
+ * O zoom para frente dá a sensação de a câmera estar entrando
+ * na imagem enquanto ela desaparece.
+ */
+.background-cover {
+	animation: background-cover 450ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/*
+ * Revela o novo fundo.
+ *
+ * Ele começa ampliado e desfocado, voltando suavemente
+ * para seu estado normal.
+ */
+.background-reveal {
+	animation: background-reveal 850ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes background-cover {
+	from {
+		filter: blur(3px) brightness(0.8);
+		transform: scale(1);
+	}
+
+	to {
+		filter: blur(16px) brightness(0.18);
+		transform: scale(1.075);
+	}
+}
+
+@keyframes background-reveal {
+	from {
+		filter: blur(20px) brightness(0.15);
+		transform: scale(1.09);
+	}
+
+	55% {
+		filter: blur(7px) brightness(0.65);
+	}
+
+	to {
+		filter: blur(3px) brightness(0.8);
+		transform: scale(1);
+	}
+}
+
+/*
+ * Camada que produz o fade through black.
+ *
+ * O gradiente deixa as bordas mais escuras que o centro,
+ * criando uma aparência mais cinematográfica.
+ */
+.background-curtain {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+
+	opacity: 0;
+
+	background:
+		radial-gradient(
+			circle at center,
+			rgba(3, 3, 3, 0.72) 0%,
+			rgba(0, 0, 0, 0.94) 100%
+		);
+
+	will-change: opacity;
+}
+
+.curtain-cover {
+	animation: curtain-cover 450ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.curtain-reveal {
+	animation: curtain-reveal 850ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes curtain-cover {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 0.97;
+	}
+}
+
+@keyframes curtain-reveal {
+	from {
+		opacity: 0.97;
+	}
+
+	25% {
+		opacity: 0.9;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+/*
+ * Escurecimento permanente nas bordas para melhorar
+ * a leitura do conteúdo sobre o fundo.
+ */
+.background-vignette {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+
+	background:
+		linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.2),
+			transparent 35%,
+			rgba(0, 0, 0, 0.35)
+		),
+		radial-gradient(
+			circle at center,
+			transparent 35%,
+			rgba(0, 0, 0, 0.5) 115%
+		);
+}
+
+/*
+ * Remove animações longas quando o usuário prefere
+ * movimentos reduzidos no sistema operacional.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.background-parallax {
+		transition: none;
+	}
+
+	.background-cover,
+	.background-reveal,
+	.curtain-cover,
+	.curtain-reveal {
+		animation-duration: 1ms;
+	}
 }
