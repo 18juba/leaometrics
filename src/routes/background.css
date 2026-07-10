@@ -1,0 +1,35 @@
+.background-container {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+	background: #080808;
+}
+
+.background {
+	position: absolute;
+	inset: -24px;
+
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+
+	filter: blur(3px) brightness(0.8);
+
+	transition: transform 0.15s ease-out;
+
+	will-change: transform, opacity;
+}
+
+.main-background {
+	background-image: url('/images/main_background.webp');
+}
+
+.team-background {
+	background-image: url('/images/team_background5.jpg');
+}
+
+.achievements-background {
+	background-image: url('/images/achievements_background.jpg');
+}

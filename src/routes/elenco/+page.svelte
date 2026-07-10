@@ -19,8 +19,16 @@
 	}
 </script>
 
-<ul class="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
+<div
+    class="
+        grid grid-cols-1 gap-6
+        sm:grid-cols-2
+        xl:grid-cols-3
+        2xl:grid-cols-4
+    "
+>
 	{#each club_players.players as player}
 		<PlayerCard data={{ player }} />
 	{/each}
-</ul>
+</div>
+

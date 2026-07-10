@@ -1,14 +1,25 @@
-<script>
+<script lang="ts">
 	import './globals.css';
-	import favicon from '$lib/assets/favicon.svg';	
+	import './background.css';
+
+	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
+	import { fade } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
+	import { onMount } from 'svelte';
 
 	let x = $state(0);
 	let y = $state(0);
 
 	let { children } = $props();
 
-	function handleMouseMove(event) {
+	const backgroundImages = [
+		'/images/main_background.webp',
+		'/images/team_background.jpg',
+		'/images/achievements_background.jpg'
+	];
+
+	function handleMouseMove(event: MouseEvent) {
 		const centerX = window.innerWidth / 2;
 		const centerY = window.innerHeight / 2;
 
@@ -16,8 +27,37 @@
 		y = (event.clientY - centerY) / centerY;
 	}
 
-	const isActive = (href) => {
-		if (href === '/') return page.url.pathname === '/';
+	function getBackgroundClass(pathname: string) {
+		if (pathname === '/' || pathname.startsWith('/clube')) {
+			return 'main-background';
+		}
+
+		if (pathname.startsWith('/elenco')) {
+			return 'team-background';
+		}
+
+		if (pathname.startsWith('/conquistas')) {
+			return 'achievements-background';
+		}
+
+		return 'main-background';
+	}
+
+	let backgroundClass = $derived(
+		getBackgroundClass(page.url.pathname)
+	);
+
+	onMount(() => {
+		for (const src of backgroundImages) {
+			const image = new Image();
+			image.src = src;
+		}
+	});
+
+	const isActive = (href: string) => {
+		if (href === '/') {
+			return page.url.pathname === '/';
+		}
 
 		return page.url.pathname.startsWith(href);
 	};
@@ -26,13 +66,21 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <svelte:window onmousemove={handleMouseMove} />
 
-<div
-	class="background"
-	style="
-		transform: translate({x * 12}px, {y * 12}px) scale(1.1);
-	"
-></div>
-
+<div class="background-container" aria-hidden="true">
+	{#key backgroundClass}
+		<div
+			class="background {backgroundClass}"
+			style:transform={`translate(${x * 12}px, ${y * 12}px) scale(1.1)`}
+			in:fade={{
+				duration: 700,
+				easing: cubicOut
+			}}
+			out:fade={{
+				duration: 500
+			}}
+		></div>
+	{/key}
+</div>
 <main class="relative w-full h-screen antialiased flex p-8">
 	<aside class="sidebar-zone h-full w-56 flex items-center">
 		<nav class="nav-soft">

@@ -13,18 +13,6 @@ body {
   color: var(--tertiary);
 }
 
-.background {
-	position: fixed;
-	inset: 0;
-	z-index: -1;
-
-	background: url('/images/fundo.webp') center / cover no-repeat;
-
-	filter: blur(3px) brightness(0.8);
-	transition: transform 0.15s ease-out;
-	will-change: transform;
-}
-
 .parallelogram {
   clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
 }
