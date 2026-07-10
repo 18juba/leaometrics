@@ -213,7 +213,12 @@ const club_players = $derived(
     {#each club_players.slice(0, 10) as player, i (player.id)}
         <div class="relative overflow-hidden flex items-center justify-between p-2 rounded-lg bg-neutral-900/30 hover:bg-neutral-900/60 transition-colors">
             <div class="flex items-center gap-3">
-                <img src={`/images/players/${player.id}.webp`} alt={player.name} class="w-12 h-12 object-contain bg-(--tertiary)/20 rounded-full"/>
+                <img 
+                    src={`/images/players/${player.id}.webp`} 
+                    alt={player.name} 
+                    class="w-12 h-12 object-contain bg-(--tertiary)/20 rounded-full"
+                    onerror={(event) => event.target.src = '/images/players/placeholder.webp'}
+                />
                 <div>
                     <span class="text-sm font-medium text-neutral-200 block truncate max-w-35">{player.name} <span class="text-[10px] opacity-60 ml-1">{i + 1}º</span></span>
                     <span class="text-[10px] text-neutral-400 uppercase tracking-tight">{player.position} • {player.age} anos</span>
