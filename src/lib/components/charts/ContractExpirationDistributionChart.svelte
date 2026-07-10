@@ -4,9 +4,10 @@
 
 	import type { Player } from '$lib/types/analysis';
 
-	interface Props {
-		data: Player[];
-	}
+    interface Props {
+    	data: Player[];
+    	referenceDate: string;
+    }
 
 	type ContractBucketKey =
 		| 'expired'
@@ -21,7 +22,7 @@
 		players: Player[];
 	}
 
-	let { data }: Props = $props();
+	let { data, referenceDate }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart<'bar', number[], string> | null = null;
@@ -60,46 +61,70 @@
 		];
 	}
 
-	function buildContractBuckets(players: Player[]): ContractBucket[] {
-		const buckets = createEmptyBuckets();
+    function parseISODate(value: string): Date {
+    	const [year, month, day] = value.split('-').map(Number);
 
-		for (const player of players) {
-			const contract = player.analysis.contract;
-			const daysRemaining = contract.daysRemaining;
+    	return new Date(Date.UTC(year, month - 1, day));
+    }
 
-			// Contratos sem data conhecida não entram no histograma.
-			if (daysRemaining === null) {
-				continue;
-			}
+    function calculateDaysRemaining(
+    	expiresAt: string,
+    	referenceDate: string
+    ): number {
+    	const expiration = parseISODate(expiresAt);
+    	const reference = parseISODate(referenceDate);
 
-			if (
-				contract.status === 'expired' ||
-				daysRemaining <= 0
-			) {
-				buckets[0].players.push(player);
-				continue;
-			}
+    	const millisecondsPerDay = 1000 * 60 * 60 * 24;
 
-			if (daysRemaining <= SIX_MONTHS_IN_DAYS) {
-				buckets[1].players.push(player);
-				continue;
-			}
+    	return Math.ceil(
+    		(expiration.getTime() - reference.getTime()) /
+    			millisecondsPerDay
+    	);
+    }
 
-			if (daysRemaining <= TWELVE_MONTHS_IN_DAYS) {
-				buckets[2].players.push(player);
-				continue;
-			}
+    function buildContractBuckets(players: Player[]): ContractBucket[] {
+    	const buckets = createEmptyBuckets();
 
-			if (daysRemaining <= TWENTY_FOUR_MONTHS_IN_DAYS) {
-				buckets[3].players.push(player);
-				continue;
-			}
+    	for (const player of players) {
+    		const expiresAt =
+    			player.analysis.contract.expiresAt ??
+    			player.contract ??
+    			null;
 
-			buckets[4].players.push(player);
-		}
+    		if (!expiresAt) {
+    			continue;
+    		}
 
-		return buckets;
-	}
+    		const daysRemaining = calculateDaysRemaining(
+    			expiresAt,
+    			referenceDate
+    		);
+
+    		if (daysRemaining < 0) {
+    			buckets[0].players.push(player);
+    			continue;
+    		}
+
+    		if (daysRemaining <= SIX_MONTHS_IN_DAYS) {
+    			buckets[1].players.push(player);
+    			continue;
+    		}
+
+    		if (daysRemaining <= TWELVE_MONTHS_IN_DAYS) {
+    			buckets[2].players.push(player);
+    			continue;
+    		}
+
+    		if (daysRemaining <= TWENTY_FOUR_MONTHS_IN_DAYS) {
+    			buckets[3].players.push(player);
+    			continue;
+    		}
+
+    		buckets[4].players.push(player);
+    	}
+
+    	return buckets;
+    }
 
 	function formatContractDate(value: string | null): string {
 		if (!value) {
