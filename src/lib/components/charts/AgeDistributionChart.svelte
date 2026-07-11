@@ -176,7 +176,7 @@
 	});
 </script>
 
-<div class="relative h-[260px] w-full">
+<div class="relative h-80 w-full">
 	<canvas
 		bind:this={canvas}
 		aria-label="Distribuição dos jogadores por faixa etária"

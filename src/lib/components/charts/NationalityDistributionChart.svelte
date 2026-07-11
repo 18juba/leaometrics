@@ -443,7 +443,7 @@
 		</select>
 	</div>
 
-	<div class="relative h-[300px] w-full">
+	<div class="relative h-80 w-full">
 		<canvas
 			bind:this={canvas}
 			aria-label="Distribuição dos jogadores por nacionalidade principal"

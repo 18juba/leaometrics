@@ -21,39 +21,54 @@
 <section
 	class={`
 		min-w-0 overflow-hidden
-		rounded-2xl
-		border border-white/10
-		bg-neutral-800/60
-		p-5
-		shadow-lg shadow-black/10
+		rounded-xl
+		border border-(--tertiary)/5
+		bg-neutral-800/50
+		p-4
 		backdrop-blur-lg
 		${className}
 	`}
 >
-	<header class="mb-5 border-b border-white/10 pb-4">
-		<p
+	<header
+		class="
+			mb-3
+			border-b border-(--tertiary)/10
+			pb-2.5
+		"
+	>
+		<div
 			class="
-				text-xs font-bold uppercase
-				tracking-[0.14em]
-				text-(--golden)
+				flex flex-wrap
+				items-baseline
+				gap-x-2 gap-y-1
 			"
 		>
-			{category}
-		</p>
+			<span
+				class="
+					text-[9px] font-bold uppercase
+					tracking-[0.13em]
+					text-(--golden)
+				"
+			>
+				{category}
+			</span>
 
-		<h2
-			class="
-				mt-1.5 text-base font-bold
-				tracking-tight text-neutral-50
-			"
-		>
-			{title}
-		</h2>
+			<h2
+				class="
+					text-sm font-bold
+					tracking-tight
+					text-neutral-50
+				"
+			>
+				{title}
+			</h2>
+		</div>
 
 		{#if description}
 			<p
 				class="
-					mt-1.5 text-sm leading-relaxed
+					mt-1 text-[11px]
+					leading-4
 					text-neutral-300
 				"
 			>

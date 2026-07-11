@@ -217,7 +217,7 @@
 	});
 </script>
 
-<div class="relative h-[340px] w-full">
+<div class="relative h-80 w-full">
 	<canvas
 		bind:this={canvas}
 		aria-label="Valor de mercado total dos jogadores por posição"

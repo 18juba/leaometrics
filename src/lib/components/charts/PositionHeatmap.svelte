@@ -196,41 +196,28 @@
 </script>
 
 <div class="w-full">
-	<div class="mb-3 flex items-center justify-between gap-3">
-		<h3 class="text-sm font-semibold text-neutral-200">
-			Parâmetros por posição
-		</h3>
-
-		<div class="relative shrink-0">
+	<div class="mb-2 flex justify-end">
+		<div class="relative">
 			<select
 				bind:value={metric}
 				aria-label="Selecionar métrica por posição"
 				class="
 					cursor-pointer appearance-none
-					rounded-lg
-					border border-(--tertiary)/10
-					bg-neutral-900/50
-					py-1.5 pl-3 pr-8
-					text-xs font-medium
-					text-neutral-200
+					rounded-md
+					border border-white/15
+					bg-neutral-950/70
+					py-1.5 pl-2.5 pr-7
+					text-[11px] font-semibold
+					text-neutral-100
 					outline-none
-					transition-colors
-					hover:bg-neutral-900/80
-					focus:border-(--secondary)/60
-					focus:ring-2
-					focus:ring-(--secondary)/15
 				"
 			>
 				{#each metricOptions as option (option.value)}
-					<option
-						value={option.value}
-						class="bg-neutral-900 text-neutral-200"
-					>
+					<option value={option.value}>
 						{option.label}
 					</option>
 				{/each}
 			</select>
-
 			<svg
 				class="
 					pointer-events-none

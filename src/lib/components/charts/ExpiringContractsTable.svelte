@@ -161,7 +161,7 @@
 		class="
 			flex items-center justify-between gap-3
 			border-b border-(--tertiary)/10
-			px-6 py-4
+			px-4 py-3
 		"
 	>
 		<div>
@@ -192,7 +192,7 @@
 	</header>
 
 	{#if expiringPlayers.length > 0}
-		<div class="max-h-[280px] overflow-auto">
+		<div class="max-h-60 overflow-auto">
 			<table class="w-full border-collapse text-left">
 				<thead
 					class="
@@ -210,7 +210,7 @@
 							hover:bg-neutral-900/40
 						"
 					>
-						<th class="px-4 py-2 font-medium">
+						<th class="px-3 py-2 font-medium">
 							Jogador
 						</th>
 
@@ -222,7 +222,7 @@
 							Restante
 						</th>
 
-						<th class="px-4 py-2 text-right font-medium">
+						<th class="px-3 py-2 text-right font-medium">
 							Valor
 						</th>
 					</tr>
@@ -238,7 +238,7 @@
 								hover:bg-neutral-900/40
 							"
 						>
-							<td class="px-4 py-2.5">
+							<td class="px-3 py-2">
 								<p
 									class="max-w-[150px] truncate text-xs font-medium text-slate-900 dark:text-white"
 									title={item.player.name}
@@ -259,7 +259,7 @@
 								{formatDate(item.expiresAt)}
 							</td>
 
-							<td class="px-3 py-2.5 text-right">
+							<td class="px-3 py-2 text-right">
 								<span
 									class={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-[10px] font-semibold ${
 										item.daysRemaining <= 15
@@ -274,7 +274,7 @@
 							</td>
 
 							<td
-								class="whitespace-nowrap px-4 py-2.5 text-right text-xs font-semibold text-slate-900 dark:text-white"
+								class="whitespace-nowrap px-3 py-2 text-right text-xs font-semibold text-slate-900 dark:text-white"
 								title={
 									item.player.marketValue !== null
 										? fullCurrencyFormatter.format(
