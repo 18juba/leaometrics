@@ -10,7 +10,7 @@
 
 	const links: NavLink[] = [
 		{
-			href: '/clube',
+			href: '/',
 			label: 'Clube',
 			icon: '/icons/escudo.png',
 			alt: 'Clube'
@@ -22,17 +22,17 @@
 			alt: 'Elenco'
 		},
 		{
+			href: '/analises',
+			label: 'Análises',
+			icon: '/icons/ball.png',
+			alt: 'Análises'
+		},
+		{
 			href: '/conquistas',
 			label: 'Conquistas',
 			icon: '/icons/lampions.png',
 			alt: 'Conquistas'
 		},
-		{
-			href: '/analises',
-			label: 'Análises',
-			icon: '/icons/ball.png',
-			alt: 'Análises'
-		}
 	];
 
 	function isActive(href: string) {
@@ -49,7 +49,7 @@
 		sidebar-zone
 		hidden h-full w-56 shrink-0
 		items-center
-		md:flex
+		2xl:flex
 	"
 >
 	<nav
@@ -99,7 +99,7 @@
 	class="
 		mobile-bottom-bar
 		fixed inset-x-3 bottom-3 z-50
-		md:hidden
+		2xl:hidden
 	"
 	aria-label="Navegação principal"
 >

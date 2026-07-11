@@ -24,16 +24,25 @@
 		onClear: () => void;
 	} = $props();
 
+	let showSortOptions = $state(false);
+
 	const inputClass = `
 		h-11 w-full cursor-pointer rounded-xl
-		border border-(--tertiary)/5 bg-neutral-900/50
-		px-4 text-sm text-neutral-300 outline-none
-		transition-colors focus:border-(--secondary)
+		border border-(--tertiary)/5
+		bg-neutral-900/50
+		px-3
+		text-xs text-neutral-300
+		outline-none
+		transition-colors
+		focus:border-(--secondary)
+		sm:px-4 sm:text-sm
 	`;
 
 	const labelClass = `
-		mb-1.5 block text-[10px] font-bold uppercase
+		mb-1.5 block
+		text-[9px] font-bold uppercase
 		tracking-wider text-neutral-500
+		sm:text-[10px]
 	`;
 
 	const nameSort = $derived(
@@ -70,17 +79,38 @@
 
 <section
 	class="
-		rounded-2xl border border-(--tertiary)/5
-		bg-neutral-800/50 p-4 backdrop-blur-lg sm:p-5
+		rounded-xl
+		border border-(--tertiary)/5
+		bg-neutral-800/50
+		p-3
+		backdrop-blur-lg
+		sm:rounded-2xl
+		sm:p-5
 	"
 >
-	<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-		<div>
-			<h2 class="text-xs font-bold uppercase tracking-wider text-neutral-300">
+	<div
+		class="
+			flex items-start justify-between
+			gap-3
+		"
+	>
+		<div class="min-w-0">
+			<h2
+				class="
+					text-xs font-bold uppercase
+					tracking-wider text-neutral-300
+				"
+			>
 				Filtros do elenco
 			</h2>
 
-			<p class="mt-1 text-xs text-neutral-500">
+			<p
+				class="
+					mt-1 hidden
+					text-xs text-neutral-500
+					sm:block
+				"
+			>
 				Pesquise, filtre e ordene os atletas.
 			</p>
 		</div>
@@ -90,20 +120,38 @@
 				type="button"
 				onclick={onClear}
 				class="
-					self-start rounded-lg border border-(--tertiary)/5
-					bg-neutral-900/50 px-3 py-2 text-[10px]
-					font-bold uppercase tracking-wider text-neutral-400
-					transition-colors hover:text-(--secondary) sm:self-auto
+					shrink-0
+					rounded-lg
+					border border-(--tertiary)/5
+					bg-neutral-900/50
+					px-2.5 py-2
+					text-[9px] font-bold uppercase
+					tracking-wider text-neutral-400
+					transition-colors
+					hover:text-(--secondary)
+					sm:px-3 sm:text-[10px]
 				"
 			>
-				Limpar filtros
+				Limpar
+				<span class="hidden sm:inline">
+					filtros
+				</span>
 			</button>
 		{/if}
 	</div>
 
-	<div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-		<label class="sm:col-span-2">
-			<span class={labelClass}>Pesquisar atleta</span>
+	<div
+		class="
+			mt-4
+			grid grid-cols-2 gap-2.5
+			sm:gap-3
+			lg:grid-cols-4
+		"
+	>
+		<label class="col-span-2">
+			<span class={labelClass}>
+				Pesquisar atleta
+			</span>
 
 			<div class="relative">
 				<svg
@@ -113,8 +161,12 @@
 					stroke-width="2"
 					aria-hidden="true"
 					class="
-						pointer-events-none absolute left-4 top-1/2
-						h-4 w-4 -translate-y-1/2 text-neutral-500
+						pointer-events-none
+						absolute left-3.5 top-1/2
+						h-4 w-4
+						-translate-y-1/2
+						text-neutral-500
+						sm:left-4
 					"
 				>
 					<circle cx="11" cy="11" r="8"></circle>
@@ -124,27 +176,35 @@
 				<input
 					type="search"
 					bind:value={searchTerm}
-					placeholder="Nome, país ou clube anterior..."
+					placeholder="Nome, país ou clube..."
 					class="
-						h-11 w-full rounded-xl border
-						border-(--tertiary)/5 bg-neutral-900/50
-						pl-11 pr-4 text-sm text-neutral-200
-						outline-none placeholder:text-neutral-600
-						transition-colors focus:border-(--secondary)
+						h-11 w-full
+						rounded-xl
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						pl-10 pr-3
+						text-xs text-neutral-200
+						outline-none
+						placeholder:text-neutral-600
+						transition-colors
+						focus:border-(--secondary)
+						sm:pl-11 sm:pr-4 sm:text-sm
 					"
 				/>
 			</div>
 		</label>
 
 		<label>
-			<span class={labelClass}>Posição</span>
+			<span class={labelClass}>
+				Posição
+			</span>
 
 			<select
 				bind:value={selectedPosition}
 				class={inputClass}
 			>
 				<option value="Todas">
-					Todas as posições
+					Todas
 				</option>
 
 				{#each positions as position (position)}
@@ -156,44 +216,137 @@
 		</label>
 
 		<label>
-			<span class={labelClass}>Pé preferido</span>
+			<span class={labelClass}>
+				Pé preferido
+			</span>
 
 			<select
 				bind:value={selectedFoot}
 				class={inputClass}
 			>
-				<option value="all">Todos</option>
-				<option value="right">Somente direito</option>
-				<option value="left">Somente esquerdo</option>
-				<option value="both">Somente ambidestro</option>
+				<option value="all">
+					Todos
+				</option>
+
+				<option value="right">
+					Direito
+				</option>
+
+				<option value="left">
+					Esquerdo
+				</option>
+
+				<option value="both">
+					Ambidestro
+				</option>
 			</select>
 		</label>
 	</div>
 
-	<div class="mt-5 border-t border-(--tertiary)/5 pt-5">
-		<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-			<div>
-				<h3 class="text-xs font-bold uppercase tracking-wider text-neutral-400">
+	<div
+		class="
+			mt-4
+			border-t border-(--tertiary)/5
+			pt-4
+		"
+	>
+		<div
+			class="
+				flex items-center justify-between
+				gap-3
+			"
+		>
+			<div class="min-w-0">
+				<h3
+					class="
+						text-[10px] font-bold uppercase
+						tracking-wider text-neutral-400
+						sm:text-xs
+					"
+				>
 					Ordenação
 				</h3>
 
-				<p class="mt-1 text-[10px] text-neutral-500">
+				<p
+					class="
+						mt-1 hidden
+						text-[10px] text-neutral-500
+						sm:block
+					"
+				>
 					Um critério pode permanecer ativo por vez.
 				</p>
 			</div>
 
-			<span
-				class="
-					self-start rounded-lg bg-neutral-950/40
-					px-3 py-1.5 text-[10px] font-semibold
-					text-(--golden) sm:self-auto
-				"
-			>
-				{getSortLabel(sortBy)}
-			</span>
+			<div class="flex min-w-0 items-center gap-2">
+				<span
+					class="
+						max-w-36 truncate
+						rounded-lg
+						bg-neutral-950/40
+						px-2.5 py-1.5
+						text-[9px] font-semibold
+						text-(--golden)
+						sm:max-w-none sm:px-3 sm:text-[10px]
+					"
+					title={getSortLabel(sortBy)}
+				>
+					{getSortLabel(sortBy)}
+				</span>
+
+				<button
+					type="button"
+					onclick={() => {
+						showSortOptions = !showSortOptions;
+					}}
+					aria-expanded={showSortOptions}
+					aria-controls="elenco-sort-options"
+					class="
+						flex h-8 w-8
+						shrink-0 items-center justify-center
+						rounded-lg
+						border border-(--tertiary)/5
+						bg-neutral-900/50
+						text-neutral-400
+						transition-colors
+						hover:text-(--secondary)
+						md:hidden
+					"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						aria-hidden="true"
+						class={`
+							h-4 w-4
+							transition-transform duration-200
+							${showSortOptions ? 'rotate-180' : ''}
+						`}
+					>
+						<path d="m6 9 6 6 6-6"></path>
+					</svg>
+
+					<span class="sr-only">
+						{showSortOptions
+							? 'Ocultar ordenações'
+							: 'Exibir ordenações'}
+					</span>
+				</button>
+			</div>
 		</div>
 
-		<div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+		<div
+			id="elenco-sort-options"
+			class={`
+				mt-4 grid-cols-2 gap-2.5
+				sm:gap-3
+				md:grid
+				lg:grid-cols-4
+				${showSortOptions ? 'grid' : 'hidden'}
+			`}
+		>
 			<label>
 				<span class={labelClass}>Nome</span>
 
@@ -202,9 +355,17 @@
 					onchange={changeSort}
 					class={inputClass}
 				>
-					<option value="none">Sem ordenação</option>
-					<option value="name-asc">Nome: A → Z</option>
-					<option value="name-desc">Nome: Z → A</option>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="name-asc">
+						A → Z
+					</option>
+
+					<option value="name-desc">
+						Z → A
+					</option>
 				</select>
 			</label>
 
@@ -216,9 +377,17 @@
 					onchange={changeSort}
 					class={inputClass}
 				>
-					<option value="none">Sem ordenação</option>
-					<option value="age-asc">Mais jovens</option>
-					<option value="age-desc">Mais experientes</option>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="age-asc">
+						Mais jovens
+					</option>
+
+					<option value="age-desc">
+						Mais experientes
+					</option>
 				</select>
 			</label>
 
@@ -230,23 +399,41 @@
 					onchange={changeSort}
 					class={inputClass}
 				>
-					<option value="none">Sem ordenação</option>
-					<option value="height-desc">Mais altos</option>
-					<option value="height-asc">Mais baixos</option>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="height-desc">
+						Mais altos
+					</option>
+
+					<option value="height-asc">
+						Mais baixos
+					</option>
 				</select>
 			</label>
 
 			<label>
-				<span class={labelClass}>Valor de mercado</span>
+				<span class={labelClass}>
+					Valor de mercado
+				</span>
 
 				<select
 					value={valueSort}
 					onchange={changeSort}
 					class={inputClass}
 				>
-					<option value="none">Sem ordenação</option>
-					<option value="value-desc">Maior valor</option>
-					<option value="value-asc">Menor valor</option>
+					<option value="none">
+						Sem ordenação
+					</option>
+
+					<option value="value-desc">
+						Maior valor
+					</option>
+
+					<option value="value-asc">
+						Menor valor
+					</option>
 				</select>
 			</label>
 		</div>

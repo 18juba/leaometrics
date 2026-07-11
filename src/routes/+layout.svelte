@@ -45,7 +45,7 @@
 	}
 
 	function getBackgroundClass(pathname: string) {
-		if (pathname === '/' || pathname.startsWith('/clube')) {
+		if (pathname === '/') {
 			return 'main-background';
 		}
 
@@ -67,14 +67,6 @@
 	let backgroundClass = $derived(
 		getBackgroundClass(page.url.pathname)
 	);
-
-	const isActive = (href: string) => {
-		if (href === '/') {
-			return page.url.pathname === '/';
-		}
-
-		return page.url.pathname.startsWith(href);
-	};
 
 	onMount(() => {
 		for (const src of backgroundImages) {

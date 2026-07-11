@@ -84,25 +84,45 @@
 	/>
 </svelte:head>
 
-<div class="min-h-screen w-full">
-	<div class="mx-auto w-full space-y-4">
-		<ElencoFilters
-			{positions}
-			bind:searchTerm
-			bind:selectedPosition
-			bind:selectedFoot
-			bind:sortBy
-			{hasActiveFilters}
-			onClear={clearFilters}
-		/>
+<div
+	class="
+		h-full min-h-0 w-full
+		py-2
+		sm:py-3
+		md:py-0
+	"
+>
+	<div
+		class="
+			mx-auto
+			flex h-full min-h-0 w-full
+			max-w-[1800px]
+			flex-col
+			gap-3
+			sm:gap-4
+		"
+	>
+		<div class="shrink-0">
+			<ElencoFilters
+				{positions}
+				bind:searchTerm
+				bind:selectedPosition
+				bind:selectedFoot
+				bind:sortBy
+				{hasActiveFilters}
+				onClear={clearFilters}
+			/>
+		</div>
 
-		<ElencoResultsBar
-			visiblePlayers={filteredPlayers.length}
-			totalPlayers={players.length}
-			{selectedPosition}
-			{selectedFoot}
-			{sortBy}
-		/>
+		<div class="shrink-0 px-1">
+			<ElencoResultsBar
+				visiblePlayers={filteredPlayers.length}
+				totalPlayers={players.length}
+				{selectedPosition}
+				{selectedFoot}
+				{sortBy}
+			/>
+		</div>
 
 		<ElencoPlayerGrid
 			players={filteredPlayers}

@@ -26,11 +26,20 @@
 
 <div
 	class="
-		flex flex-col gap-2
-		sm:flex-row sm:items-center sm:justify-between
+		flex min-w-0
+		flex-col gap-2
+		sm:flex-row
+		sm:items-center
+		sm:justify-between
 	"
 >
-	<p class="text-xs text-neutral-500">
+	<p
+		class="
+			shrink-0
+			text-[11px] text-neutral-500
+			sm:text-xs
+		"
+	>
 		Exibindo
 
 		<span class="font-bold text-neutral-300">
@@ -46,11 +55,28 @@
 		atletas
 	</p>
 
-	<div class="flex flex-wrap items-center gap-2 text-[10px]">
+	<div
+		class="
+			flex min-w-0
+			items-center gap-2
+			overflow-x-auto
+			pb-1
+			text-[9px]
+			custom-scrollbar
+			sm:justify-end
+			sm:overflow-visible
+			sm:pb-0
+			sm:text-[10px]
+		"
+	>
 		<span
 			class="
-				rounded-md bg-neutral-900/50
-				px-2 py-1 font-bold text-neutral-300
+				shrink-0
+				whitespace-nowrap
+				rounded-md
+				bg-neutral-900/50
+				px-2 py-1
+				font-bold text-neutral-300
 			"
 		>
 			{getSortLabel(sortBy)}
@@ -59,8 +85,12 @@
 		{#if selectedPosition !== 'Todas'}
 			<span
 				class="
-					rounded-md bg-neutral-900/50
-					px-2 py-1 font-bold text-neutral-300
+					shrink-0
+					whitespace-nowrap
+					rounded-md
+					bg-neutral-900/50
+					px-2 py-1
+					font-bold text-neutral-300
 				"
 			>
 				{selectedPosition}
@@ -70,8 +100,12 @@
 		{#if selectedFoot !== 'all'}
 			<span
 				class="
-					rounded-md bg-neutral-900/50
-					px-2 py-1 font-bold text-neutral-300
+					shrink-0
+					whitespace-nowrap
+					rounded-md
+					bg-neutral-900/50
+					px-2 py-1
+					font-bold text-neutral-300
 				"
 			>
 				{getFootLabel(selectedFoot)}
