@@ -32,10 +32,14 @@
 			label: 'Conquistas',
 			icon: '/icons/lampions.png',
 			alt: 'Conquistas'
-		},
+		}
 	];
 
 	function isActive(href: string) {
+		if (href === '/') {
+			return page.url.pathname === '/';
+		}
+
 		return (
 			page.url.pathname === href ||
 			page.url.pathname.startsWith(`${href}/`)
@@ -43,11 +47,23 @@
 	}
 </script>
 
-<!-- Sidebar desktop -->
+<!--
+	Espaço reservado no layout desktop.
+
+	A sidebar fixa sai do fluxo normal da página.
+	Este elemento evita que o conteúdo fique atrás dela.
+-->
+<div
+	class="hidden w-56 shrink-0 2xl:block"
+	aria-hidden="true"
+></div>
+
+<!-- Sidebar fixa em telas grandes -->
 <aside
 	class="
 		sidebar-zone
-		hidden h-full w-56 shrink-0
+		fixed inset-y-0 left-8 z-40
+		hidden w-56
 		items-center
 		2xl:flex
 	"
@@ -67,6 +83,7 @@
 						aria-current={isActive(link.href) ? 'page' : undefined}
 						class="
 							flex items-center gap-2
+							rounded-lg
 							outline-none
 							focus-visible:ring-2
 							focus-visible:ring-(--tertiary)
@@ -94,7 +111,7 @@
 	</nav>
 </aside>
 
-<!-- Bottom bar mobile -->
+<!-- Bottom bar para telas abaixo de 2xl -->
 <nav
 	class="
 		mobile-bottom-bar
@@ -116,7 +133,7 @@
 		"
 	>
 		{#each links as link (link.href)}
-			<li>
+			<li class="min-w-0">
 				<a
 					href={link.href}
 					aria-current={isActive(link.href) ? 'page' : undefined}
@@ -125,6 +142,7 @@
 						mobile-menu-item
 						relative
 						flex min-h-15
+						min-w-0
 						flex-col
 						items-center justify-center
 						gap-0.5
@@ -205,9 +223,9 @@
 			transparent
 		);
 
-		background-size: 0% 100%;
-		background-repeat: no-repeat;
 		background-position: left center;
+		background-repeat: no-repeat;
+		background-size: 0% 100%;
 
 		transition:
 			transform 200ms ease,
@@ -222,8 +240,8 @@
 		content: '';
 
 		position: absolute;
-		left: -8px;
 		top: 50%;
+		left: -8px;
 
 		width: 3px;
 		height: 70%;
@@ -284,7 +302,11 @@
 	}
 
 	.mobile-menu-item.active img {
-		filter: drop-shadow(0 0 6px rgb(from var(--tertiary) r g b / 0.5));
+		filter: drop-shadow(
+			0 0 6px
+			rgb(from var(--tertiary) r g b / 0.5)
+		);
+
 		transform: scale(1.08);
 	}
 
