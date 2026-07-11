@@ -1,14 +1,90 @@
-<script>
+<script lang="ts">
+	import type { PageData } from './$types';
+	import type {
+		ClubAnalysisJson,
+		Player
+	} from '$lib/types/analysis';
+
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
+	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
+	import { positionsDictionary } from '$lib/dictionaries/positionsDictionary';
 
-	let { data } = $props();
+	let { data }: { data: PageData } = $props();
 
-	const club = $derived(data.clubProfile);
+	/*
+	 * Nova fonte principal da página.
+	 */
+	const analysis = data.analysis as ClubAnalysisJson;
 
-	let sortOrder = $state('desc');
+	const players = analysis.players;
+	const squadAnalysis = analysis.squadAnalysis;
+	const referenceDate =
+		analysis.source.analysisReferenceDate;
 
-	function toggleOrder() {
+	const clubInformation = {
+		name: 'Fortaleza Esporte Clube',
+
+		league: {
+			name: 'Campeonato Brasileiro',
+			tier: 'Série B'
+		},
+
+		addressLine1: 'Fortaleza',
+		addressLine2: 'Ceará',
+
+		foundedOn: '1918',
+
+		website: 'fortaleza1918.com.br',
+
+		stadiumName: 'Arena Castelão',
+
+		stadiumSeats: 63_903
+	};
+
+	type SortOrder = 'asc' | 'desc';
+
+	let sortOrder = $state<SortOrder>('desc');
+
+	function translatePosition(position: string | null | undefined): string {
+		if (!position) {
+			return 'Sem posição';
+		}
+
+		return positionsDictionary[position] ?? position;
+	}
+
+	const foreignPlayerCount = $derived(
+		players.filter((player) => {
+			const primaryNationality =
+				player.nationality?.[0];
+
+			return (
+				primaryNationality !== undefined &&
+				primaryNationality !== 'Brazil'
+			);
+		}).length
+	);
+
+	const club = $derived({
+		id: analysis.club.id,
+
+		...clubInformation,
+
+		currentMarketValue:
+			squadAnalysis.totalMarketValue ?? 0,
+
+		squad: {
+			size: squadAnalysis.playerCount,
+
+			averageAge:
+				squadAnalysis.averageAge ?? 0,
+
+			foreigners: foreignPlayerCount
+		}
+	});
+
+	function toggleOrder(): void {
 		sortOrder =
 			sortOrder === 'desc'
 				? 'asc'
@@ -16,28 +92,44 @@
 	}
 
 	const club_players = $derived(
-		(data.clubPlayers?.players ?? []).toSorted(
-			(a, b) => {
-				const valA =
-					Number(a.marketValue) || 0;
+		players.toSorted((a, b) => {
+			const valueA =
+				Number(a.marketValue) || 0;
 
-				const valB =
-					Number(b.marketValue) || 0;
+			const valueB =
+				Number(b.marketValue) || 0;
 
-				return sortOrder === 'desc'
-					? valB - valA
-					: valA - valB;
-			}
-		)
+			return sortOrder === 'desc'
+				? valueB - valueA
+				: valueA - valueB;
+		})
 	);
 
-	function handlePlayerImageError(event) {
-		const image = event.currentTarget;
+	function handlePlayerImageError(event: Event): void {
+		const image =
+			event.currentTarget as HTMLImageElement;
 
 		image.onerror = null;
+
 		image.src =
 			'/images/players/placeholder.webp';
 	}
+
+	function getPrimaryNationality(player: Player): string {
+	return player.nationality?.[0] ?? 'Unknown';
+}
+
+function translateNationality(nationality: string): string {
+	return countryDictionary[nationality] ?? nationality;
+}
+
+function getPlayerFlag(player: Player): string {
+	const primaryNationality = getPrimaryNationality(player);
+	const translatedNationality =
+		translateNationality(primaryNationality);
+
+	return bandeirasPt[translatedNationality] ?? '🌎';
+}
 </script>
 
 <svelte:head>
@@ -636,23 +728,13 @@
 										class="
 											shrink-0
 											text-base leading-none
-
 											sm:text-lg
 										"
-										title={
-											player.nationality?.[0] ??
-											'Nacionalidade não informada'
-										}
-										aria-label={
-											player.nationality?.[0] ??
-											'Nacionalidade não informada'
-										}
+										title={translateNationality(getPrimaryNationality(player))}
+										aria-label={`Nacionalidade: ${translateNationality(getPrimaryNationality(player))}`}
 									>
 										<span aria-hidden="true">
-											{bandeirasPt[
-												player
-													.nationality?.[0]
-											] ?? '🌎'}
+											{getPlayerFlag(player)}
 										</span>
 									</span>
 								</div>
@@ -668,7 +750,7 @@
 										sm:text-[10px]
 									"
 								>
-									{player.position}
+									{translatePosition(player.position)}
 									•
 									{player.age
 										? `${player.age} anos`

@@ -1,6 +1,6 @@
-import type { ClubPlayers } from '$lib/types/clubPlayers';
+import type { Player } from '$lib/types/analysis';
 
-export type ClubPlayer = ClubPlayers['players'][number];
+export type ClubPlayer = Player;
 
 export type FootFilter =
 	| 'all'
@@ -9,7 +9,6 @@ export type FootFilter =
 	| 'both';
 
 export type SortOption =
-	| 'none'
 	| 'name-asc'
 	| 'name-desc'
 	| 'age-asc'
@@ -19,9 +18,9 @@ export type SortOption =
 	| 'value-asc'
 	| 'value-desc';
 
-export type ElencoFilterState = {
+export interface ElencoFilterState {
 	searchTerm: string;
 	selectedPosition: string;
 	selectedFoot: FootFilter;
 	sortBy: SortOption;
-};
+}

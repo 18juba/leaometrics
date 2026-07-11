@@ -1,3 +1,5 @@
+import { countryDictionary } from '$lib/dictionaries/countryDictionary';
+
 import type {
 	ClubPlayer,
 	ElencoFilterState,
@@ -5,163 +7,182 @@ import type {
 	SortOption
 } from './elenco.types';
 
-type SortDirection = 'asc' | 'desc';
+const positionLabels: Record<string, string> = {
+	Goalkeeper: 'Goleiro',
+	'Centre-Back': 'Zagueiro',
+	'Right-Back': 'Lateral-direito',
+	'Left-Back': 'Lateral-esquerdo',
+	'Defensive Midfield': 'Volante',
+	'Central Midfield': 'Meio-campista central',
+	'Right Midfield': 'Meia-direita',
+	'Left Midfield': 'Meia-esquerda',
+	'Attacking Midfield': 'Meia ofensivo',
+	'Right Winger': 'Ponta-direita',
+	'Left Winger': 'Ponta-esquerda',
+	'Second Striker': 'Segundo atacante',
+	'Centre-Forward': 'Centroavante'
+};
 
-export function filterAndSortPlayers(
-	players: ClubPlayer[],
-	filters: ElencoFilterState
-) {
-	const normalizedSearch = normalizeText(filters.searchTerm);
-
-	const filtered = players.filter((player) => {
-		const matchesPosition =
-			filters.selectedPosition === 'Todas' ||
-			player.position === filters.selectedPosition;
-
-		const matchesFoot =
-			filters.selectedFoot === 'all' ||
-			normalizeFoot(player.foot) === filters.selectedFoot;
-
-		if (!matchesPosition || !matchesFoot) {
-			return false;
-		}
-
-		if (!normalizedSearch) {
-			return true;
-		}
-
-		const searchableContent = [
-			player.name,
-			player.position,
-			player.signedFrom,
-			player.foot,
-			...(player.nationality ?? [])
-		]
-			.map(normalizeText)
-			.join(' ');
-
-		return searchableContent.includes(normalizedSearch);
-	});
-
-	return filtered.toSorted((a, b) =>
-		comparePlayers(a, b, filters.sortBy)
-	);
+function normalizeText(value: unknown): string {
+	return String(value ?? '')
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLocaleLowerCase('pt-BR')
+		.trim();
 }
 
-export function getPositions(players: ClubPlayer[]) {
-	return [
-		...new Set(
-			players
-				.map((player) => player.position?.trim())
-				.filter(
-					(position): position is string =>
-						Boolean(position)
-				)
-		)
-	].toSorted((a, b) =>
-		a.localeCompare(b, 'pt-BR', {
-			sensitivity: 'base'
-		})
-	);
+export function getPositionLabel(position: string): string {
+	return positionLabels[position] ?? position ?? 'Sem posição';
 }
 
-export function getMarketValue(player: ClubPlayer) {
-	const value = Number(player.marketValue);
-
-	return Number.isFinite(value) ? value : 0;
-}
-
-export function getPlayerAge(player: ClubPlayer) {
-	const value = Number(player.age);
-
-	return Number.isFinite(value) && value > 0
-		? value
-		: null;
-}
-
-export function getPlayerHeightInCm(player: ClubPlayer) {
-	const value = Number(player.height);
-
-	if (!Number.isFinite(value) || value <= 0) {
-		return null;
-	}
-
-	return value <= 3 ? value * 100 : value;
+export function getCountryLabel(country: string): string {
+	return countryDictionary[country] ?? country;
 }
 
 export function normalizeFoot(
-	value: string | null | undefined
-): Exclude<FootFilter, 'all'> | 'unknown' {
-	const normalized = normalizeText(value).replace(
-		/[\s_-]/g,
-		''
-	);
+	foot: string | null | undefined
+): Exclude<FootFilter, 'all'> | null {
+	const normalized = normalizeText(foot).replace(/[\s_-]/g, '');
 
 	if (
-		[
-			'right',
-			'rightfoot',
-			'direito',
-			'destro'
-		].includes(normalized)
+		normalized === 'right' ||
+		normalized === 'rightfoot' ||
+		normalized === 'direito'
 	) {
 		return 'right';
 	}
 
 	if (
-		[
-			'left',
-			'leftfoot',
-			'esquerdo',
-			'canhoto'
-		].includes(normalized)
+		normalized === 'left' ||
+		normalized === 'leftfoot' ||
+		normalized === 'esquerdo'
 	) {
 		return 'left';
 	}
 
 	if (
-		[
-			'both',
-			'bothfeet',
-			'ambidextrous',
-			'ambidestro',
-			'ambidextra',
-			'ambos'
-		].includes(normalized)
+		normalized === 'both' ||
+		normalized === 'ambidextrous' ||
+		normalized === 'ambidestro' ||
+		normalized === 'ambos'
 	) {
 		return 'both';
 	}
 
-	return 'unknown';
+	return null;
 }
 
-export function normalizeText(
-	value: string | null | undefined
-) {
-	return String(value ?? '')
-		.normalize('NFD')
-		.replace(/[\u0300-\u036f]/g, '')
-		.toLowerCase()
-		.trim();
+export function getPositions(players: ClubPlayer[]): string[] {
+	return Array.from(
+		new Set(
+			players
+				.map((player) => player.position)
+				.filter((position): position is string => Boolean(position))
+		)
+	).sort((positionA, positionB) =>
+		getPositionLabel(positionA).localeCompare(
+			getPositionLabel(positionB),
+			'pt-BR'
+		)
+	);
 }
 
-export function getSortLabel(sortBy: SortOption) {
+export function filterAndSortPlayers(
+	players: ClubPlayer[],
+	filters: ElencoFilterState
+): ClubPlayer[] {
+	const query = normalizeText(filters.searchTerm);
+
+	const filteredPlayers = players.filter((player) => {
+		if (
+			filters.selectedPosition !== 'Todas' &&
+			player.position !== filters.selectedPosition
+		) {
+			return false;
+		}
+
+		if (
+			filters.selectedFoot !== 'all' &&
+			normalizeFoot(player.foot) !== filters.selectedFoot
+		) {
+			return false;
+		}
+
+		if (!query) {
+			return true;
+		}
+
+		const nationalities = player.nationality ?? [];
+		const translatedNationalities = nationalities.map(getCountryLabel);
+		const profile = player.profile;
+
+		const searchableValues = [
+			player.name,
+			profile?.fullName,
+			player.position,
+			getPositionLabel(player.position),
+			player.signedFrom,
+			profile?.club?.name,
+			...nationalities,
+			...translatedNationalities
+		];
+
+		return searchableValues.some((value) =>
+			normalizeText(value).includes(query)
+		);
+	});
+
+	return [...filteredPlayers].sort((playerA, playerB) => {
+		switch (filters.sortBy) {
+			case 'name-asc':
+				return playerA.name.localeCompare(playerB.name, 'pt-BR');
+
+			case 'name-desc':
+				return playerB.name.localeCompare(playerA.name, 'pt-BR');
+
+			case 'age-asc':
+				return numericValue(playerA.age) - numericValue(playerB.age);
+
+			case 'age-desc':
+				return numericValue(playerB.age) - numericValue(playerA.age);
+
+			case 'height-asc':
+				return numericValue(playerA.height) - numericValue(playerB.height);
+
+			case 'height-desc':
+				return numericValue(playerB.height) - numericValue(playerA.height);
+
+			case 'value-asc':
+				return numericValue(playerA.marketValue) - numericValue(playerB.marketValue);
+
+			case 'value-desc':
+			default:
+				return numericValue(playerB.marketValue) - numericValue(playerA.marketValue);
+		}
+	});
+}
+
+function numericValue(value: number | null | undefined): number {
+	const numeric = Number(value);
+	return Number.isFinite(numeric) ? numeric : 0;
+}
+
+export function getSortLabel(sortBy: SortOption): string {
 	const labels: Record<SortOption, string> = {
-		none: 'Ordem original',
-		'name-asc': 'Nome de A a Z',
-		'name-desc': 'Nome de Z a A',
-		'age-asc': 'Mais jovens primeiro',
-		'age-desc': 'Mais experientes primeiro',
-		'height-asc': 'Mais baixos primeiro',
-		'height-desc': 'Mais altos primeiro',
-		'value-asc': 'Menor valor primeiro',
-		'value-desc': 'Maior valor primeiro'
+		'name-asc': 'Nome: A → Z',
+		'name-desc': 'Nome: Z → A',
+		'age-asc': 'Mais jovens',
+		'age-desc': 'Mais experientes',
+		'height-asc': 'Mais baixos',
+		'height-desc': 'Mais altos',
+		'value-asc': 'Menor valor',
+		'value-desc': 'Maior valor'
 	};
 
 	return labels[sortBy];
 }
 
-export function getFootLabel(foot: FootFilter) {
+export function getFootLabel(foot: FootFilter): string {
 	const labels: Record<FootFilter, string> = {
 		all: 'Todos os pés',
 		right: 'Pé direito',
@@ -170,119 +191,4 @@ export function getFootLabel(foot: FootFilter) {
 	};
 
 	return labels[foot];
-}
-
-export function formatDateTime(
-	value: string | null | undefined
-) {
-	if (!value) return 'N/A';
-
-	const date = new Date(value);
-
-	if (Number.isNaN(date.getTime())) {
-		return value;
-	}
-
-	return new Intl.DateTimeFormat('pt-BR', {
-		day: '2-digit',
-		month: 'short',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit'
-	}).format(date);
-}
-
-function comparePlayers(
-	a: ClubPlayer,
-	b: ClubPlayer,
-	sortBy: SortOption
-) {
-	let result = 0;
-
-	switch (sortBy) {
-		case 'name-asc':
-			result = compareNames(a.name, b.name);
-			break;
-
-		case 'name-desc':
-			result = compareNames(b.name, a.name);
-			break;
-
-		case 'age-asc':
-			result = compareNullableNumbers(
-				getPlayerAge(a),
-				getPlayerAge(b),
-				'asc'
-			);
-			break;
-
-		case 'age-desc':
-			result = compareNullableNumbers(
-				getPlayerAge(a),
-				getPlayerAge(b),
-				'desc'
-			);
-			break;
-
-		case 'height-asc':
-			result = compareNullableNumbers(
-				getPlayerHeightInCm(a),
-				getPlayerHeightInCm(b),
-				'asc'
-			);
-			break;
-
-		case 'height-desc':
-			result = compareNullableNumbers(
-				getPlayerHeightInCm(a),
-				getPlayerHeightInCm(b),
-				'desc'
-			);
-			break;
-
-		case 'value-asc':
-			result =
-				getMarketValue(a) -
-				getMarketValue(b);
-			break;
-
-		case 'value-desc':
-			result =
-				getMarketValue(b) -
-				getMarketValue(a);
-			break;
-
-		case 'none':
-			return 0;
-	}
-
-	/*
-	 * Critério secundário para manter a ordenação
-	 * previsível quando os valores forem iguais.
-	 */
-	return result || compareNames(a.name, b.name);
-}
-
-function compareNames(a: string, b: string) {
-	return a.localeCompare(b, 'pt-BR', {
-		sensitivity: 'base'
-	});
-}
-
-function compareNullableNumbers(
-	a: number | null,
-	b: number | null,
-	direction: SortDirection
-) {
-	/*
-	 * Valores desconhecidos ficam sempre no final,
-	 * tanto na ordem crescente quanto na decrescente.
-	 */
-	if (a === null && b === null) return 0;
-	if (a === null) return 1;
-	if (b === null) return -1;
-
-	return direction === 'asc'
-		? a - b
-		: b - a;
 }

@@ -57,11 +57,11 @@
 	};
 
 	const hoverColors: Record<AgeGroup, string> = {
-		up_to_21: 'rgba(239, 68, 68, 1)',
+		up_to_21: 'rgba(255, 255, 255, 1)',
 		'22_to_25': 'rgba(16, 185, 129, 1)',
 		'26_to_29': 'rgba(59, 130, 246, 1)',
 		'30_to_33': 'rgba(234, 179, 8, 1)',
-		'34_plus': 'rgba(255, 255, 255, 1)'
+		'34_plus': 'rgba(239, 68, 68, 1)'
 	};
 
 	function getPlayerCount(ageGroup: AgeGroup): number {

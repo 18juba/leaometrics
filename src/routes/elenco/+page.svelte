@@ -2,11 +2,10 @@
 	import ElencoFilters from '$lib/components/elenco/ElencoFilters.svelte';
 	import ElencoPlayerGrid from '$lib/components/elenco/ElencoPlayerGrid.svelte';
 	import ElencoResultsBar from '$lib/components/elenco/ElencoResultsBar.svelte';
-
 	import PlayerDetailsModal from '$lib/components/player/PlayerDetailsModal.svelte';
 
-	import type { ClubPlayers } from '$lib/types/clubPlayers';
-
+	import type { PageData } from './$types';
+	import type { ClubAnalysisJson } from '$lib/types/analysis';
 	import type {
 		ClubPlayer,
 		FootFilter,
@@ -18,28 +17,18 @@
 		getPositions
 	} from '$lib/components/elenco/elenco.utils';
 
-	let {
-		data
-	}: {
-		data: {
-			clubPlayers?: ClubPlayers;
-		};
-	} = $props();
+	let { data }: { data: PageData } = $props();
+
+	const analysis = data.analysis as ClubAnalysisJson;
+	const players = analysis.players;
 
 	let searchTerm = $state('');
 	let selectedPosition = $state('Todas');
 	let selectedFoot = $state<FootFilter>('all');
 	let sortBy = $state<SortOption>('value-desc');
-
 	let selectedPlayer = $state<ClubPlayer | null>(null);
 
-	const players = $derived(
-		data.clubPlayers?.players ?? []
-	);
-
-	const positions = $derived(
-		getPositions(players)
-	);
+	const positions = $derived(getPositions(players));
 
 	const filteredPlayers = $derived(
 		filterAndSortPlayers(players, {
@@ -59,15 +48,15 @@
 		)
 	);
 
-	function openPlayer(player: ClubPlayer) {
+	function openPlayer(player: ClubPlayer): void {
 		selectedPlayer = player;
 	}
 
-	function closePlayer() {
+	function closePlayer(): void {
 		selectedPlayer = null;
 	}
 
-	function clearFilters() {
+	function clearFilters(): void {
 		searchTerm = '';
 		selectedPosition = 'Todas';
 		selectedFoot = 'all';
@@ -77,30 +66,15 @@
 
 <svelte:head>
 	<title>LeãoFut - Elenco</title>
-
 	<meta
 		name="description"
 		content="Análise do elenco, jogadores e valores de mercado."
 	/>
 </svelte:head>
 
-<div
-	class="
-		h-full min-h-0 w-full
-		py-2
-		sm:py-3
-		md:py-0
-	"
->
+<div class="h-full min-h-0 w-full py-2 sm:py-3 md:py-0">
 	<div
-		class="
-			mx-auto
-			flex h-full min-h-0 w-full
-			max-w-[1800px]
-			flex-col
-			gap-3
-			sm:gap-4
-		"
+		class="mx-auto flex h-full min-h-0 w-full max-w-[1800px] flex-col gap-3 sm:gap-4"
 	>
 		<div class="shrink-0">
 			<ElencoFilters
