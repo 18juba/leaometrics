@@ -254,6 +254,6 @@
 	});
 </script>
 
-<div class="relative h-120 w-full">
+<div class="relative h-130 w-full">
 	<canvas bind:this={canvas}></canvas>
 </div>
