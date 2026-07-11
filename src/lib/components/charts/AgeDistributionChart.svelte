@@ -32,9 +32,43 @@
 		'34_plus': '34+'
 	};
 
+	const ageGroupDescriptions: Record<AgeGroup, string> = {
+		up_to_21: 'Em desenvolvimento',
+		'22_to_25': 'Faixa jovem e competitiva',
+		'26_to_29': 'Maturidade esportiva',
+		'30_to_33': 'Faixa experiente',
+		'34_plus': 'Maior risco de renovação'
+	};
+
+	const backgroundColors: Record<AgeGroup, string> = {
+		up_to_21: 'rgba(245, 245, 245, 0.9)',
+		'22_to_25': 'rgba(16, 185, 129, 0.88)',
+		'26_to_29': 'rgba(59, 130, 246, 0.88)',
+		'30_to_33': 'rgba(234, 179, 8, 0.88)',
+		'34_plus': 'rgba(239, 68, 68, 0.88)'
+	};
+
+	const borderColors: Record<AgeGroup, string> = {
+		up_to_21: 'rgb(255, 255, 255)',
+		'22_to_25': 'rgb(5, 150, 105)',
+		'26_to_29': 'rgb(37, 99, 235)',
+		'30_to_33': 'rgb(202, 138, 4)',
+		'34_plus': 'rgb(220, 38, 38)'
+	};
+
+	const hoverColors: Record<AgeGroup, string> = {
+		up_to_21: 'rgba(239, 68, 68, 1)',
+		'22_to_25': 'rgba(16, 185, 129, 1)',
+		'26_to_29': 'rgba(59, 130, 246, 1)',
+		'30_to_33': 'rgba(234, 179, 8, 1)',
+		'34_plus': 'rgba(255, 255, 255, 1)'
+	};
+
 	function getPlayerCount(ageGroup: AgeGroup): number {
 		return (
-			data.find((item) => item.ageGroup === ageGroup)?.playerCount ?? 0
+			data.find(
+				(item) => item.ageGroup === ageGroup
+			)?.playerCount ?? 0
 		);
 	}
 
@@ -61,10 +95,22 @@
 						label: 'Jogadores',
 						data: values,
 
-						backgroundColor: 'rgba(59, 130, 246, 0.82)',
-						borderColor: 'rgb(37, 99, 235)',
-						borderWidth: 1,
+						backgroundColor: ageGroupOrder.map(
+							(ageGroup) =>
+								backgroundColors[ageGroup]
+						),
 
+						borderColor: ageGroupOrder.map(
+							(ageGroup) =>
+								borderColors[ageGroup]
+						),
+
+						hoverBackgroundColor: ageGroupOrder.map(
+							(ageGroup) =>
+								hoverColors[ageGroup]
+						),
+
+						borderWidth: 1,
 						borderRadius: 6,
 						borderSkipped: false,
 
@@ -80,6 +126,12 @@
 				maintainAspectRatio: false,
 				animation: false,
 
+				interaction: {
+					mode: 'nearest',
+					axis: 'x',
+					intersect: true
+				},
+
 				plugins: {
 					legend: {
 						display: false
@@ -90,11 +142,15 @@
 
 						callbacks: {
 							title(items) {
-								return `Faixa etária: ${items[0]?.label ?? ''}`;
+								const label =
+									items[0]?.label ?? '';
+
+								return `Faixa etária: ${label}`;
 							},
 
 							label(context) {
-								const playerCount = context.parsed.y;
+								const playerCount =
+									context.parsed.y;
 
 								return `${playerCount} ${
 									playerCount === 1
@@ -104,16 +160,27 @@
 							},
 
 							afterLabel(context) {
-								if (totalPlayers === 0) {
-									return '';
-								}
+								const ageGroup =
+									ageGroupOrder[
+										context.dataIndex
+									];
 
 								const percentage =
-									(context.parsed.y / totalPlayers) * 100;
+									totalPlayers > 0
+										? (context.parsed.y /
+												totalPlayers) *
+											100
+										: 0;
 
-								return `${percentage.toLocaleString('pt-BR', {
-									maximumFractionDigits: 1
-								})}% do elenco`;
+								return [
+									`${percentage.toLocaleString(
+										'pt-BR',
+										{
+											maximumFractionDigits: 1
+										}
+									)}% do elenco`,
+									`Perfil: ${ageGroupDescriptions[ageGroup]}`
+								];
 							}
 						}
 					}
@@ -124,8 +191,11 @@
 						title: {
 							display: true,
 							text: 'Faixa etária',
+							color: '#e5e5e5',
+
 							font: {
-								size: 11
+								size: 11,
+								weight: 600
 							}
 						},
 
@@ -133,9 +203,16 @@
 							display: false
 						},
 
+						border: {
+							color: 'rgba(255, 255, 255, 0.12)'
+						},
+
 						ticks: {
+							color: '#f5f5f5',
+
 							font: {
-								size: 10
+								size: 10,
+								weight: 600
 							}
 						}
 					},
@@ -147,18 +224,28 @@
 						title: {
 							display: true,
 							text: 'Jogadores',
+							color: '#e5e5e5',
+
 							font: {
-								size: 11
+								size: 11,
+								weight: 600
 							}
 						},
 
 						grid: {
-							color: 'rgba(148, 163, 184, 0.16)'
+							color:
+								'rgba(255, 255, 255, 0.08)'
+						},
+
+						border: {
+							color:
+								'rgba(255, 255, 255, 0.12)'
 						},
 
 						ticks: {
 							stepSize: 1,
 							precision: 0,
+							color: '#d4d4d4',
 
 							font: {
 								size: 10
@@ -176,9 +263,44 @@
 	});
 </script>
 
-<div class="relative h-80 w-full">
-	<canvas
-		bind:this={canvas}
-		aria-label="Distribuição dos jogadores por faixa etária"
-	></canvas>
+<div class="w-full">
+	<div class="relative h-80 w-full">
+		<canvas
+			bind:this={canvas}
+			aria-label="Distribuição dos jogadores por faixa etária"
+		></canvas>
+	</div>
+
+	<div
+		class="
+			mt-2 flex flex-wrap items-center
+			justify-end gap-x-3 gap-y-1
+			text-[9px] text-neutral-300
+		"
+	>
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-green-500"></span>
+			Até 21
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-emerald-500"></span>
+			22–25
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-blue-500"></span>
+			26–29
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-yellow-500"></span>
+			30–33
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-red-500"></span>
+			34+
+		</span>
+	</div>
 </div>

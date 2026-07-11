@@ -6,6 +6,7 @@
 
 	interface Props {
 		data: Player[];
+		referenceDate: string;
 	}
 
 	interface ContractYearGroup {
@@ -15,7 +16,7 @@
 		averageMarketValue: number;
 	}
 
-	let { data }: Props = $props();
+	let { data, referenceDate }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart<'bar', number[], string> | null = null;
@@ -36,6 +37,14 @@
 	const percentageFormatter = new Intl.NumberFormat('pt-BR', {
 		maximumFractionDigits: 1
 	});
+
+	const parsedReferenceYear = Number(
+		referenceDate.slice(0, 4)
+	);
+
+	const referenceYear = Number.isInteger(parsedReferenceYear)
+		? parsedReferenceYear
+		: new Date().getFullYear();
 
 	function getContractYear(player: Player): number | null {
 		const expiresAt =
@@ -102,6 +111,90 @@
 			.sort((a, b) => a.year - b.year);
 	}
 
+	function getBarBackgroundColor(year: number): string {
+		if (year <= referenceYear) {
+			return 'rgba(239, 68, 68, 0.88)';
+		}
+
+		if (year === referenceYear + 1) {
+			return 'rgba(234, 179, 8, 0.88)';
+		}
+
+		if (year === referenceYear + 2) {
+			return 'rgba(59, 130, 246, 0.88)';
+		}
+
+		if (year === referenceYear + 3) {
+			return 'rgba(34, 197, 94, 0.88)';
+		}
+
+		return 'rgba(245, 245, 245, 0.9)';
+	}
+
+	function getBarBorderColor(year: number): string {
+		if (year <= referenceYear) {
+			return 'rgb(220, 38, 38)';
+		}
+
+		if (year === referenceYear + 1) {
+			return 'rgb(202, 138, 4)';
+		}
+
+		if (year === referenceYear + 2) {
+			return 'rgb(37, 99, 235)';
+		}
+
+		if (year === referenceYear + 3) {
+			return 'rgb(22, 163, 74)';
+		}
+
+		return 'rgb(255, 255, 255)';
+	}
+
+	function getBarHoverColor(year: number): string {
+		if (year <= referenceYear) {
+			return 'rgba(239, 68, 68, 1)';
+		}
+
+		if (year === referenceYear + 1) {
+			return 'rgba(234, 179, 8, 1)';
+		}
+
+		if (year === referenceYear + 2) {
+			return 'rgba(59, 130, 246, 1)';
+		}
+
+		if (year === referenceYear + 3) {
+			return 'rgba(34, 197, 94, 1)';
+		}
+
+		return 'rgba(255, 255, 255, 1)';
+	}
+
+	function getContractRiskLabel(year: number): string {
+		if (year < referenceYear) {
+			return 'Contratos já vencidos';
+		}
+
+		if (year === referenceYear) {
+			return 'Vencimento neste ano';
+		}
+
+		if (year === referenceYear + 1) {
+			return 'Vencimento no próximo ano';
+		}
+
+		if (year === referenceYear + 2) {
+			return 'Vencimento em dois anos';
+		}
+
+		if (year === referenceYear + 3) {
+			return 'Prazo confortável';
+		}
+
+		return 'Longo prazo';
+	}
+
 	const unknownContractCount = data.filter(
 		(player) => getContractYear(player) === null
 	).length;
@@ -131,12 +224,19 @@
 							(group) => group.totalMarketValue
 						),
 
-						backgroundColor:
-							'rgba(59, 130, 246, 0.82)',
+						backgroundColor: groups.map((group) =>
+							getBarBackgroundColor(group.year)
+						),
 
-						borderColor: 'rgb(37, 99, 235)',
+						borderColor: groups.map((group) =>
+							getBarBorderColor(group.year)
+						),
+
+						hoverBackgroundColor: groups.map((group) =>
+							getBarHoverColor(group.year)
+						),
+
 						borderWidth: 1,
-
 						borderRadius: 5,
 						borderSkipped: false,
 
@@ -203,6 +303,9 @@
 										: 0;
 
 								return [
+									`Situação: ${getContractRiskLabel(
+										group.year
+									)}`,
 									`Jogadores: ${group.players.length}`,
 									`Valor médio: ${fullCurrencyFormatter.format(
 										group.averageMarketValue
@@ -260,17 +363,25 @@
 						title: {
 							display: true,
 							text: 'Valor de mercado',
+							color: '#e5e5e5',
+
 							font: {
-								size: 11
+								size: 11,
+								weight: 600
 							}
 						},
 
 						grid: {
-							color:
-								'rgba(148, 163, 184, 0.16)'
+							color: 'rgba(255, 255, 255, 0.08)'
+						},
+
+						border: {
+							color: 'rgba(255, 255, 255, 0.12)'
 						},
 
 						ticks: {
+							color: '#d4d4d4',
+
 							font: {
 								size: 10
 							},
@@ -287,8 +398,11 @@
 						title: {
 							display: true,
 							text: 'Ano de vencimento',
+							color: '#e5e5e5',
+
 							font: {
-								size: 11
+								size: 11,
+								weight: 600
 							}
 						},
 
@@ -296,11 +410,17 @@
 							display: false
 						},
 
+						border: {
+							color: 'rgba(255, 255, 255, 0.12)'
+						},
+
 						ticks: {
 							autoSkip: false,
+							color: '#f5f5f5',
 
 							font: {
-								size: 10
+								size: 10,
+								weight: 600
 							}
 						}
 					}
@@ -323,9 +443,55 @@
 		></canvas>
 	</div>
 
+	<div
+		class="
+			mt-2 flex flex-wrap items-center
+			justify-end gap-x-3 gap-y-1
+			text-[9px] text-neutral-300
+		"
+	>
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-red-500"></span>
+			{referenceYear}
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-yellow-500"></span>
+			{referenceYear + 1}
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-blue-500"></span>
+			{referenceYear + 2}
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span class="h-2 w-2 rounded-sm bg-green-500"></span>
+			{referenceYear + 3}
+		</span>
+
+		<span class="inline-flex items-center gap-1">
+			<span
+				class="
+					h-2 w-2 rounded-sm
+					border border-neutral-300
+					bg-neutral-100
+				"
+			></span>
+
+			Após {referenceYear + 3}
+		</span>
+	</div>
+
 	{#if unknownContractCount > 0}
-		<p class="mt-1 text-right text-[10px] text-slate-400">
+		<p
+			class="
+				mt-1 text-right
+				text-[10px] text-neutral-400
+			"
+		>
 			{unknownContractCount}
+
 			{unknownContractCount === 1
 				? ' jogador sem vencimento conhecido'
 				: ' jogadores sem vencimento conhecido'}

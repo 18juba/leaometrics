@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-10T18:43:51.377678+00:00",
+  "generatedAt": "2026-07-11T04:36:41.919162+00:00",
   "source": {
     "host": "http://localhost:8000",
     "clubId": "10870",
-    "clubDataUpdatedAt": "2026-07-10T18:33:17.255784",
-    "analysisReferenceDate": "2026-07-10"
+    "clubDataUpdatedAt": "2026-07-11T04:33:39.553224",
+    "analysisReferenceDate": "2026-07-11"
   },
   "club": {
     "id": "10870",
@@ -17,7 +17,7 @@
     "medianMarketValue": 800000,
     "averageAge": 26.75,
     "averageHeight": 180.87,
-    "totalTransfers": 215,
+    "totalTransfers": 281,
     "byPosition": [
       {
         "position": "Defensive Midfield",
@@ -173,7 +173,7 @@
     "byContractStatus": [
       {
         "contractStatus": "expires_within_6_months",
-        "playerCount": 16
+        "playerCount": 17
       },
       {
         "contractStatus": "active",
@@ -181,10 +181,6 @@
       },
       {
         "contractStatus": "unknown",
-        "playerCount": 1
-      },
-      {
-        "contractStatus": "expired",
         "playerCount": 1
       }
     ],
@@ -261,8 +257,8 @@
       }
     ],
     "dataQuality": {
-      "playersWithIssues": 8,
-      "issueCount": 10,
+      "playersWithIssues": 7,
+      "issueCount": 8,
       "issues": [
         {
           "playerId": "678376",
@@ -308,14 +304,6 @@
           ]
         },
         {
-          "playerId": "697848",
-          "name": "Welliton",
-          "issues": [
-            "contract_expires_before_join_date",
-            "contract_already_expired"
-          ]
-        },
-        {
           "playerId": "829968",
           "name": "Imanol Machuca",
           "issues": [
@@ -342,9 +330,50 @@
       "signedFrom": "Grêmio Foot-Ball Porto Alegrense",
       "contract": "2027-12-31",
       "marketValue": 500000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:33:44.413146",
+        "id": "555016",
+        "url": "https://www.transfermarkt.com/brenno/profil/spieler/555016",
+        "name": "Brenno",
+        "description": "Brenno, 27, from Brazil ➤ Fortaleza Esporte Clube, since 2024 ➤ Goalkeeper ➤ Market value: €500k ➤ * 01/04/1999 in Sorocaba, Brazil",
+        "fullName": "Brenno Oliveira Fraga Costa",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/555016-1571658296.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Sorocaba",
+          "country": "Brazil"
+        },
+        "height": 190,
+        "citizenship": [
+          "Brazil",
+          "Italy"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Goalkeeper",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#12",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2025-01-01",
+          "contractExpires": "2027-12-31"
+        },
+        "marketValue": 500000,
+        "agent": {
+          "name": "MPX SPORTS",
+          "url": "/mpx-sports/beraterfirma/berater/10220"
+        },
+        "outfitter": "Nike",
+        "socialMedia": [
+          "http://www.instagram.com/brennofraga99/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:33:40.857984",
+        "updatedAt": "2026-07-11T04:33:45.488066",
         "id": "555016",
         "marketValue": 500000,
         "marketValueHistory": [
@@ -464,7 +493,7 @@
         "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:33:46.097771",
+        "updatedAt": "2026-07-11T04:33:48.284669",
         "id": "555016",
         "transfers": [
           {
@@ -533,7 +562,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -565,12 +594,7 @@
         "clubsInTransferHistory": 4,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "270420",
@@ -588,7 +612,7 @@
       "contract": "2027-12-31",
       "marketValue": 300000,
       "profile": {
-        "updatedAt": "2026-07-10T18:33:46.288883",
+        "updatedAt": "2026-07-11T04:33:49.505296",
         "id": "270420",
         "url": "https://www.transfermarkt.com/joao-ricardo/profil/spieler/270420",
         "name": "João Ricardo",
@@ -629,7 +653,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:33:47.107425",
+        "updatedAt": "2026-07-11T04:33:51.403993",
         "id": "270420",
         "marketValue": 300000,
         "marketValueHistory": [
@@ -812,7 +836,7 @@
         "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:33:50.422685",
+        "updatedAt": "2026-07-11T04:33:52.434066",
         "id": "270420",
         "transfers": [
           {
@@ -950,7 +974,7 @@
         "ageGroup": "34_plus",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -999,51 +1023,239 @@
       "signedFrom": "Rio Ave FC",
       "contract": "2026-12-31",
       "marketValue": 250000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:33:53.806216",
+        "id": "818068",
+        "url": "https://www.transfermarkt.com/magrao/profil/spieler/818068",
+        "name": "Magrão",
+        "description": "Magrão, 26, from Brazil ➤ Fortaleza Esporte Clube, since 2024 ➤ Goalkeeper ➤ Market value: €250k ➤ * 15/05/2000 in Pindoretama, Brazil",
+        "fullName": "Audenirton Soares da Silva",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/818068-1676542364.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Pindoretama",
+          "country": "Brazil"
+        },
+        "height": 197,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Goalkeeper",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#15",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2024-06-08",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 250000,
+        "agent": {
+          "name": "Kiraht Sports",
+          "url": "/kiraht-sports/beraterfirma/berater/5117"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/magrao_00/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:33:55.314047",
+        "id": "818068",
+        "marketValue": 250000,
+        "marketValueHistory": [
+          {
+            "age": 21,
+            "date": "2022-01-04",
+            "clubId": "68110",
+            "clubName": "Rio Ave FC U23",
+            "marketValue": 75000
+          },
+          {
+            "age": 22,
+            "date": "2022-01-11",
+            "clubId": "2425",
+            "clubName": "Rio Ave FC",
+            "marketValue": 100000
+          },
+          {
+            "age": 22,
+            "date": "2022-06-27",
+            "clubId": "68110",
+            "clubName": "Rio Ave FC U23",
+            "marketValue": 100000
+          },
+          {
+            "age": 23,
+            "date": "2023-06-16",
+            "clubId": "2425",
+            "clubName": "Rio Ave FC",
+            "marketValue": 200000
+          },
+          {
+            "age": 23,
+            "date": "2023-12-27",
+            "clubId": "2425",
+            "clubName": "Rio Ave FC",
+            "marketValue": 300000
+          },
+          {
+            "age": 24,
+            "date": "2024-06-06",
+            "clubId": "2425",
+            "clubName": "Rio Ave FC",
+            "marketValue": 300000
+          },
+          {
+            "age": 24,
+            "date": "2024-09-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          {
+            "age": 25,
+            "date": "2025-06-06",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          {
+            "age": 25,
+            "date": "2025-10-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          {
+            "age": 26,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 250000
+          }
+        ],
+        "ranking": {}
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:33:57.404355",
+        "id": "818068",
+        "transfers": [
+          {
+            "id": "5181622",
+            "clubFrom": {
+              "id": "2425",
+              "name": "Rio Ave"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2024-06-08",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 300000
+          },
+          {
+            "id": "4657261",
+            "clubFrom": {
+              "id": "68110",
+              "name": "Rio Ave U23"
+            },
+            "clubTo": {
+              "id": "2425",
+              "name": "Rio Ave"
+            },
+            "date": "2022-01-07",
+            "upcoming": false,
+            "season": "22/23",
+            "marketValue": 100000
+          },
+          {
+            "id": "3078236",
+            "clubFrom": {
+              "id": "14807",
+              "name": "Palmeiras U20"
+            },
+            "clubTo": {
+              "id": "68110",
+              "name": "Rio Ave U23"
+            },
+            "date": "2020-05-10",
+            "upcoming": false,
+            "season": "20/21"
+          },
+          {
+            "id": "3786712",
+            "clubFrom": {
+              "id": "14880",
+              "name": "Palmeiras U17"
+            },
+            "clubTo": {
+              "id": "14807",
+              "name": "Palmeiras U20"
+            },
+            "date": "2018-01-01",
+            "upcoming": false,
+            "season": "17/18"
+          },
+          {
+            "id": "3786713",
+            "clubFrom": {
+              "id": "17955",
+              "name": "Fortaleza U20"
+            },
+            "clubTo": {
+              "id": "14880",
+              "name": "Palmeiras U17"
+            },
+            "date": "2017-01-05",
+            "upcoming": false,
+            "season": "16/17"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 250000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2022-01-04",
+            "marketValue": 75000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 250000
+          },
+          "peak": {
+            "date": "2023-12-27",
+            "age": 23,
+            "clubId": "2425",
+            "clubName": "Rio Ave FC",
+            "marketValue": 300000
+          },
+          "changeFromFirst": 175000,
+          "changeFromFirstPercent": 233.33,
+          "changeFromPeak": -50000,
+          "changeFromPeakPercent": -16.67,
+          "lastUpdateChange": -50000,
+          "lastUpdateChangePercent": -16.67,
+          "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 5,
+        "clubsInTransferHistory": 6,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/818068/profile"
-        },
-        {
-          "resource": "market_value",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/818068/market_value"
-        },
-        {
-          "resource": "transfers",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/818068/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "286772",
@@ -1060,12 +1272,218 @@
       "signedFrom": "Portimonense SAD",
       "contract": "2026-12-31",
       "marketValue": 250000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:33:58.633467",
+        "id": "286772",
+        "url": "https://www.transfermarkt.com/vinicius/profil/spieler/286772",
+        "name": "Vinícius",
+        "description": "Vinícius, 32, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Goalkeeper ➤ Market value: €250k ➤ * 28/03/1994 in Guarulhos, Brazil",
+        "fullName": "Vinícius Silvestre da Costa",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/286772-1543835503.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Guarulhos",
+          "country": "Brazil"
+        },
+        "height": 195,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Goalkeeper",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#25",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2025-07-17",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 250000,
+        "agent": {
+          "name": "Dodici Sports BR",
+          "url": "/dodici-sports-br/beraterfirma/berater/8254"
+        },
+        "outfitter": "adidas",
+        "socialMedia": [
+          "http://www.instagram.com/viniciussilvestre94/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:34:01.277258",
+        "id": "286772",
+        "marketValue": 250000,
+        "marketValueHistory": [
+          {
+            "age": 20,
+            "date": "2015-01-02",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 21,
+            "date": "2015-05-31",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 21,
+            "date": "2015-12-15",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 22,
+            "date": "2016-05-27",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 22,
+            "date": "2016-11-28",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 23,
+            "date": "2017-07-12",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 26,
+            "date": "2020-09-09",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 100000
+          },
+          {
+            "age": 27,
+            "date": "2021-05-28",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 150000
+          },
+          {
+            "age": 26,
+            "date": "2021-09-02",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 75000
+          },
+          {
+            "age": 27,
+            "date": "2021-12-17",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 400000
+          },
+          {
+            "age": 28,
+            "date": "2022-06-04",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 400000
+          },
+          {
+            "age": 28,
+            "date": "2022-08-19",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 400000
+          },
+          {
+            "age": 28,
+            "date": "2022-11-14",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 400000
+          },
+          {
+            "age": 29,
+            "date": "2023-07-04",
+            "clubId": "1023",
+            "clubName": "Sociedade Esportiva Palmeiras",
+            "marketValue": 400000
+          },
+          {
+            "age": 29,
+            "date": "2023-07-25",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 400000
+          },
+          {
+            "age": 29,
+            "date": "2023-09-29",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 1200000
+          },
+          {
+            "age": 29,
+            "date": "2023-12-27",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 1500000
+          },
+          {
+            "age": 30,
+            "date": "2024-06-06",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 1200000
+          },
+          {
+            "age": 30,
+            "date": "2024-10-29",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 750000
+          },
+          {
+            "age": 30,
+            "date": "2024-12-16",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 500000
+          },
+          {
+            "age": 31,
+            "date": "2025-06-23",
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 350000
+          },
+          {
+            "age": 31,
+            "date": "2025-10-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 250000
+          },
+          {
+            "age": 32,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 250000
+          }
+        ],
+        "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:34:17.508677",
+        "updatedAt": "2026-07-11T04:34:06.105480",
         "id": "286772",
         "transfers": [
           {
@@ -1196,36 +1614,39 @@
         "ageGroup": "30_to_33",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 250000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2015-01-02",
+            "marketValue": 100000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 250000
+          },
+          "peak": {
+            "date": "2023-12-27",
+            "age": 29,
+            "clubId": "7378",
+            "clubName": "Portimonense SAD",
+            "marketValue": 1500000
+          },
+          "changeFromFirst": 150000,
+          "changeFromFirstPercent": 150.0,
+          "changeFromPeak": -1250000,
+          "changeFromPeakPercent": -83.33,
+          "lastUpdateChange": 0,
+          "lastUpdateChangePercent": 0.0,
+          "trend": "stable"
         },
         "transferCount": 8,
         "clubsInTransferHistory": 7,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/286772/profile"
-        },
-        {
-          "resource": "market_value",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "863073",
@@ -1242,9 +1663,48 @@
       "signedFrom": "Atlético Clube Goianiense",
       "contract": "2028-12-31",
       "marketValue": 1200000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:34:07.111584",
+        "id": "863073",
+        "url": "https://www.transfermarkt.com/lucas-gazal/profil/spieler/863073",
+        "name": "Lucas Gazal",
+        "description": "Lucas Gazal, 26, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Centre-Back ➤ Market value: €1.20m ➤ * 06/08/1999 in Diadema, Brazil",
+        "nameInHomeCountry": "Lucas Xavier Gazal",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/863073-1663099130.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Diadema",
+          "country": "Brazil"
+        },
+        "height": 187,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Centre-Back",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#3",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-01-16",
+          "contractExpires": "2028-12-31"
+        },
+        "marketValue": 1200000,
+        "agent": {
+          "name": "B2F",
+          "url": "/b2f-marketing-esportivo-ltda/beraterfirma/berater/4929"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/99gazal/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:34:34.571949",
+        "updatedAt": "2026-07-11T04:34:12.410136",
         "id": "863073",
         "marketValue": 1200000,
         "marketValueHistory": [
@@ -1314,7 +1774,7 @@
         ],
         "ranking": {
           "Worldwide": 6992,
-          "Série B": 27,
+          "Série B": 28,
           "Fortaleza": 10,
           "Brazil": 565,
           "Centre-Back": 1266,
@@ -1322,7 +1782,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:34:40.364322",
+        "updatedAt": "2026-07-11T04:34:14.583398",
         "id": "863073",
         "transfers": [
           {
@@ -1465,7 +1925,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2028-12-31",
-          "daysRemaining": 905,
+          "daysRemaining": 904,
           "status": "active"
         },
         "marketValue": {
@@ -1497,12 +1957,7 @@
         "clubsInTransferHistory": 6,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/863073/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "422700",
@@ -1520,9 +1975,48 @@
       "signedFrom": "Defensa y Justicia",
       "contract": "2026-12-31",
       "marketValue": 900000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:34:16.697252",
+        "id": "422700",
+        "url": "https://www.transfermarkt.com/tomas-cardona/profil/spieler/422700",
+        "name": "Tomás Cardona",
+        "description": "Tomás Cardona, 30, from Argentina ➤ Fortaleza Esporte Clube, since 2023 ➤ Centre-Back ➤ Market value: €900k ➤ * 10/10/1995 in Flores, Argentina",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/422700-1657631721.JPG?lm=1",
+        "placeOfBirth": {
+          "city": "Flores",
+          "country": "Argentina"
+        },
+        "height": 185,
+        "citizenship": [
+          "Argentina",
+          "Spain"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Centre-Back",
+          "other": []
+        },
+        "foot": "left",
+        "shirtNumber": "#6",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2024-01-16",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 900000,
+        "agent": {
+          "name": "SP",
+          "url": "/smarter-players-srl/beraterfirma/berater/9559"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/tomicardona/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:34:49.703194",
+        "updatedAt": "2026-07-11T04:34:19.666213",
         "id": "422700",
         "marketValue": 900000,
         "marketValueHistory": [
@@ -1697,7 +2191,7 @@
         ],
         "ranking": {
           "Worldwide": 8796,
-          "Série B": 52,
+          "Série B": 53,
           "Fortaleza": 13,
           "Argentina": 483,
           "Centre-Back": 1594,
@@ -1705,7 +2199,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:34:54.800492",
+        "updatedAt": "2026-07-11T04:34:21.136648",
         "id": "422700",
         "transfers": [
           {
@@ -1927,7 +2421,7 @@
         "ageGroup": "30_to_33",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -1959,12 +2453,7 @@
         "clubsInTransferHistory": 8,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/422700/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "678376",
@@ -1982,9 +2471,54 @@
       "signedFrom": "Fluminense Football Club",
       "contract": "2027-12-31",
       "marketValue": 500000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:34:22.237450",
+        "id": "678376",
+        "url": "https://www.transfermarkt.com/luan-freitas/profil/spieler/678376",
+        "name": "Luan Freitas",
+        "description": "Luan Freitas, 25, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Centre-Back ➤ Market value: €500k ➤ * 20/01/2001 in Rio de Janeiro, Brazil",
+        "fullName": "Luan de Freitas Molarinho Chagas",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/678376-1674434411.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Rio de Janeiro",
+          "country": "Brazil"
+        },
+        "height": 184,
+        "citizenship": [
+          "Brazil",
+          "Portugal"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Centre-Back",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#4",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-11-01",
+          "contractExpires": "2027-12-31"
+        },
+        "marketValue": 500000,
+        "agent": {},
+        "outfitter": "Nike",
+        "socialMedia": [
+          "http://www.instagram.com/luan.freitas/"
+        ],
+        "trainerProfile": {},
+        "relatives": [
+          {
+            "id": "809716",
+            "url": "/lucas-freitas/profil/spieler/809716",
+            "name": "Lucas Freitas",
+            "profileType": "player"
+          }
+        ]
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:35:08.140207",
+        "updatedAt": "2026-07-11T04:34:25.231693",
         "id": "678376",
         "marketValue": 500000,
         "marketValueHistory": [
@@ -2055,7 +2589,7 @@
         "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:35:09.653276",
+        "updatedAt": "2026-07-11T04:34:27.438653",
         "id": "678376",
         "transfers": [
           {
@@ -2184,7 +2718,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -2218,12 +2752,7 @@
           "joined_on_is_in_the_future"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/678376/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "1386991",
@@ -2241,7 +2770,7 @@
       "contract": "2029-01-31",
       "marketValue": 500000,
       "profile": {
-        "updatedAt": "2026-07-10T18:35:10.722205",
+        "updatedAt": "2026-07-11T04:34:28.807363",
         "id": "1386991",
         "url": "https://www.transfermarkt.com/kaua-rocha/profil/spieler/1386991",
         "name": "Kauã Rocha",
@@ -2299,7 +2828,7 @@
         ]
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:35:12.057714",
+        "updatedAt": "2026-07-11T04:34:30.011721",
         "id": "1386991",
         "marketValue": 500000,
         "marketValueHistory": [
@@ -2314,13 +2843,44 @@
         "ranking": {}
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:34:31.262528",
+        "id": "1386991",
+        "transfers": [
+          {
+            "id": "6298125",
+            "clubFrom": {
+              "id": "17955",
+              "name": "Fortaleza U20"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-01-30",
+            "upcoming": false,
+            "season": "25/26"
+          },
+          {
+            "id": "6298126",
+            "clubFrom": {
+              "id": "99156",
+              "name": "Athletico U17"
+            },
+            "clubTo": {
+              "id": "17955",
+              "name": "Fortaleza U20"
+            },
+            "date": "2024-01-01",
+            "upcoming": false,
+            "season": "23/24"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "up_to_21",
         "contract": {
           "expiresAt": "2029-01-31",
-          "daysRemaining": 936,
+          "daysRemaining": 935,
           "status": "active"
         },
         "marketValue": {
@@ -2348,16 +2908,11 @@
           "lastUpdateChangePercent": null,
           "trend": "unknown"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 2,
+        "clubsInTransferHistory": 3,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "transfers",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "349513",
@@ -2373,8 +2928,9 @@
       "joinedOn": "2026-08-07",
       "signedFrom": "Esporte Clube Vitória",
       "marketValue": 200000,
+      "contract": null,
       "profile": {
-        "updatedAt": "2026-07-10T18:35:33.854626",
+        "updatedAt": "2026-07-11T04:34:32.361105",
         "id": "349513",
         "url": "https://www.transfermarkt.com/neris/profil/spieler/349513",
         "name": "Neris",
@@ -2412,7 +2968,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:35:36.929388",
+        "updatedAt": "2026-07-11T04:34:33.450202",
         "id": "349513",
         "marketValue": 200000,
         "marketValueHistory": [
@@ -2595,7 +3151,7 @@
         "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:35:40.732781",
+        "updatedAt": "2026-07-11T04:34:34.580369",
         "id": "349513",
         "transfers": [
           {
@@ -3010,7 +3566,7 @@
       "contract": "2026-12-31",
       "marketValue": 1700000,
       "profile": {
-        "updatedAt": "2026-07-10T18:35:49.411843",
+        "updatedAt": "2026-07-11T04:34:37.045901",
         "id": "480686",
         "url": "https://www.transfermarkt.com/gabriel-fuentes/profil/spieler/480686",
         "name": "Gabriel Fuentes",
@@ -3053,7 +3609,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:35:52.462233",
+        "updatedAt": "2026-07-11T04:34:38.231925",
         "id": "480686",
         "marketValue": 1700000,
         "marketValueHistory": [
@@ -3222,7 +3778,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:35:53.904859",
+        "updatedAt": "2026-07-11T04:34:39.762980",
         "id": "480686",
         "transfers": [
           {
@@ -3322,7 +3878,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -3372,7 +3928,7 @@
       "contract": "2026-12-31",
       "marketValue": 600000,
       "profile": {
-        "updatedAt": "2026-07-10T18:35:55.579069",
+        "updatedAt": "2026-07-11T04:34:41.755265",
         "id": "874699",
         "url": "https://www.transfermarkt.com/mauricio-mucuri/profil/spieler/874699",
         "name": "Maurício Mucuri",
@@ -3414,7 +3970,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:35:59.016871",
+        "updatedAt": "2026-07-11T04:34:44.097653",
         "id": "874699",
         "marketValue": 600000,
         "marketValueHistory": [
@@ -3428,7 +3984,7 @@
         ],
         "ranking": {
           "Worldwide": 11854,
-          "Série B": 112,
+          "Série B": 113,
           "Fortaleza": 19,
           "Brazil": 932,
           "Left-Back": 806,
@@ -3436,7 +3992,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:36:01.491568",
+        "updatedAt": "2026-07-11T04:34:45.340774",
         "id": "874699",
         "transfers": [
           {
@@ -3572,7 +4128,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -3622,7 +4178,7 @@
       "contract": "2026-12-31",
       "marketValue": 2300000,
       "profile": {
-        "updatedAt": "2026-07-10T18:36:02.653917",
+        "updatedAt": "2026-07-11T04:34:46.384804",
         "id": "607210",
         "url": "https://www.transfermarkt.com/mailton/profil/spieler/607210",
         "name": "Maílton",
@@ -3664,7 +4220,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:36:14.376581",
+        "updatedAt": "2026-07-11T04:34:47.800628",
         "id": "607210",
         "marketValue": 2300000,
         "marketValueHistory": [
@@ -3784,7 +4340,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:36:19.566361",
+        "updatedAt": "2026-07-11T04:34:48.861243",
         "id": "607210",
         "transfers": [
           {
@@ -4089,7 +4645,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -4139,7 +4695,7 @@
       "contract": "2030-12-31",
       "marketValue": 400000,
       "profile": {
-        "updatedAt": "2026-07-10T18:36:23.074345",
+        "updatedAt": "2026-07-11T04:34:50.374878",
         "id": "1083888",
         "url": "https://www.transfermarkt.com/paulinho/profil/spieler/1083888",
         "name": "Paulinho",
@@ -4179,10 +4735,57 @@
         "relatives": []
       },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:34:55.676033",
+        "id": "1083888",
+        "marketValue": 400000,
+        "marketValueHistory": [
+          {
+            "age": 17,
+            "date": "2023-07-04",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          {
+            "age": 18,
+            "date": "2023-07-25",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          {
+            "age": 18,
+            "date": "2023-11-12",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          {
+            "age": 19,
+            "date": "2024-09-12",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 400000
+          },
+          {
+            "age": 20,
+            "date": "2025-10-12",
+            "clubId": "978",
+            "clubName": "Clube de Regatas Vasco da Gama",
+            "marketValue": 400000
+          },
+          {
+            "age": 20,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 400000
+          }
+        ],
+        "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:36:26.809271",
+        "updatedAt": "2026-07-11T04:34:57.037137",
         "id": "1083888",
         "transfers": [
           {
@@ -4224,32 +4827,39 @@
         "ageGroup": "up_to_21",
         "contract": {
           "expiresAt": "2030-12-31",
-          "daysRemaining": 1635,
+          "daysRemaining": 1634,
           "status": "active"
         },
         "marketValue": {
           "current": 400000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2023-07-04",
+            "marketValue": 500000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 400000
+          },
+          "peak": {
+            "date": "2023-07-04",
+            "age": 17,
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          "changeFromFirst": -100000,
+          "changeFromFirstPercent": -20.0,
+          "changeFromPeak": -100000,
+          "changeFromPeakPercent": -20.0,
+          "lastUpdateChange": 0,
+          "lastUpdateChangePercent": 0.0,
+          "trend": "stable"
         },
         "transferCount": 2,
         "clubsInTransferHistory": 3,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "market_value",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/1083888/market_value"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "1005642",
@@ -4266,9 +4876,51 @@
       "signedFrom": "Sport Club Corinthians Paulista",
       "contract": "2026-12-31",
       "marketValue": 3000000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:00.516126",
+        "id": "1005642",
+        "url": "https://www.transfermarkt.com/ryan/profil/spieler/1005642",
+        "name": "Ryan",
+        "description": "Ryan, 22, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Defensive Midfield ➤ Market value: €3.00m ➤ * 15/07/2003 in São Paulo, Brazil",
+        "fullName": "Ryan Gustavo de Lima",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/1005642-1720056608.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "São Paulo",
+          "country": "Brazil"
+        },
+        "height": 170,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Defensive Midfield",
+          "other": [
+            "Central Midfield",
+            "Attacking Midfield"
+          ]
+        },
+        "foot": "left",
+        "shirtNumber": "#37",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-01-21",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 3000000,
+        "agent": {
+          "name": "Elenko Sports Ltda.",
+          "url": "/elenko-sports-ltda-/beraterfirma/berater/3557"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/ryangustavo16/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:36:37.891876",
+        "updatedAt": "2026-07-11T04:35:02.835793",
         "id": "1005642",
         "marketValue": 3000000,
         "marketValueHistory": [
@@ -4332,7 +4984,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:36:40.477064",
+        "updatedAt": "2026-07-11T04:35:06.654571",
         "id": "1005642",
         "transfers": [
           {
@@ -4400,7 +5052,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -4432,12 +5084,7 @@
         "clubsInTransferHistory": 4,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/1005642/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "959092",
@@ -4455,9 +5102,60 @@
       "signedFrom": "Grêmio Foot-Ball Porto Alegrense",
       "contract": "2026-12-31",
       "marketValue": 2500000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:07.606572",
+        "id": "959092",
+        "url": "https://www.transfermarkt.com/ronald/profil/spieler/959092",
+        "name": "Ronald",
+        "description": "Ronald, 23, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Defensive Midfield ➤ Market value: €2.50m ➤ * 11/02/2003 in Santo Antônio da Patrulha, Brazil",
+        "fullName": "Ronald Cardoso Falkoski",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/959092-1721349724.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Santo Antônio da Patrulha",
+          "country": "Brazil"
+        },
+        "height": 186,
+        "citizenship": [
+          "Brazil",
+          "Poland"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Defensive Midfield",
+          "other": [
+            "Central Midfield",
+            "Attacking Midfield"
+          ]
+        },
+        "foot": "right",
+        "shirtNumber": "#8",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-12-01",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 2500000,
+        "agent": {
+          "name": "Un1que Football",
+          "url": "/un1que-football/beraterfirma/berater/4555"
+        },
+        "outfitter": "adidas",
+        "socialMedia": [
+          "http://www.instagram.com/ronald_falkoski/"
+        ],
+        "trainerProfile": {},
+        "relatives": [
+          {
+            "id": "997468",
+            "url": "/marcao/profil/spieler/997468",
+            "name": "Marcão",
+            "profileType": "player"
+          }
+        ]
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:37:06.924904",
+        "updatedAt": "2026-07-11T04:35:10.327373",
         "id": "959092",
         "marketValue": 2500000,
         "marketValueHistory": [
@@ -4542,7 +5240,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:37:10.034596",
+        "updatedAt": "2026-07-11T04:35:14.961026",
         "id": "959092",
         "transfers": [
           {
@@ -4625,7 +5323,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -4659,12 +5357,7 @@
           "joined_on_is_in_the_future"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/959092/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "869477",
@@ -4681,9 +5374,50 @@
       "signedFrom": "Maringá FC",
       "contract": "2028-12-31",
       "marketValue": 500000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:17.713052",
+        "id": "869477",
+        "url": "https://www.transfermarkt.com/rodrigo-santos/profil/spieler/869477",
+        "name": "Rodrigo Santos",
+        "description": "Rodrigo Santos, 25, from Brazil ➤ Fortaleza Esporte Clube, since 2024 ➤ Defensive Midfield ➤ Market value: €500k ➤ * 18/09/2000 in Vitória da Conquista, Brazil",
+        "fullName": "Rodrigo Oliveira dos Santos",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/869477-1738230763.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Vitória da Conquista",
+          "country": "Brazil"
+        },
+        "height": 178,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Defensive Midfield",
+          "other": [
+            "Central Midfield"
+          ]
+        },
+        "foot": "right",
+        "shirtNumber": "#29",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2025-11-04",
+          "contractExpires": "2028-12-31"
+        },
+        "marketValue": 500000,
+        "agent": {
+          "name": "FOR PLAYER",
+          "url": "/for-player-assessoria-esportiva-ltda/beraterfirma/berater/14797"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/_rodriigoo00/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:37:37.844909",
+        "updatedAt": "2026-07-11T04:35:18.412681",
         "id": "869477",
         "marketValue": 500000,
         "marketValueHistory": [
@@ -4711,7 +5445,7 @@
         "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:37:43.271300",
+        "updatedAt": "2026-07-11T04:35:20.636737",
         "id": "869477",
         "transfers": [
           {
@@ -4862,7 +5596,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2028-12-31",
-          "daysRemaining": 905,
+          "daysRemaining": 904,
           "status": "active"
         },
         "marketValue": {
@@ -4894,12 +5628,7 @@
         "clubsInTransferHistory": 7,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/869477/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "121986",
@@ -4917,12 +5646,306 @@
       "signedFrom": "Aris Thessaloniki",
       "contract": "2026-12-31",
       "marketValue": 150000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:22.170433",
+        "id": "121986",
+        "url": "https://www.transfermarkt.com/lucas-sasha/profil/spieler/121986",
+        "name": "Lucas Sasha",
+        "description": "Lucas Sasha, 36, from Brazil ➤ Fortaleza Esporte Clube, since 2022 ➤ Defensive Midfield ➤ Market value: €150k ➤ * 01/03/1990 in São Paulo, Brazil",
+        "fullName": "Lucas Pacheco Affini",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/121986-1648631635.png?lm=1",
+        "placeOfBirth": {
+          "city": "São Paulo",
+          "country": "Brazil"
+        },
+        "height": 177,
+        "citizenship": [
+          "Brazil",
+          "Italy"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Defensive Midfield",
+          "other": [
+            "Central Midfield",
+            "Attacking Midfield"
+          ]
+        },
+        "foot": "both",
+        "shirtNumber": "#88",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2022-07-18",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 150000,
+        "agent": {
+          "name": "LEFT Sports",
+          "url": "/left-sports/beraterfirma/berater/6982"
+        },
+        "outfitter": "adidas",
+        "socialMedia": [
+          "http://www.instagram.com/lucas.sasha/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:35:23.368603",
+        "id": "121986",
+        "marketValue": 150000,
+        "marketValueHistory": [
+          {
+            "age": 19,
+            "date": "2009-06-09",
+            "clubId": "8698",
+            "clubName": "Grêmio Barueri Futebol Ltda.",
+            "marketValue": 200000
+          },
+          {
+            "age": 20,
+            "date": "2010-04-27",
+            "clubId": "8698",
+            "clubName": "Grêmio Barueri Futebol Ltda.",
+            "marketValue": 400000
+          },
+          {
+            "age": 20,
+            "date": "2010-06-06",
+            "clubId": "8698",
+            "clubName": "Grêmio Barueri Futebol Ltda.",
+            "marketValue": 750000
+          },
+          {
+            "age": 20,
+            "date": "2010-06-09",
+            "clubId": "8698",
+            "clubName": "Grêmio Barueri Futebol Ltda.",
+            "marketValue": 600000
+          },
+          {
+            "age": 22,
+            "date": "2012-10-07",
+            "clubId": "208",
+            "clubName": "CSKA Sofia",
+            "marketValue": 400000
+          },
+          {
+            "age": 22,
+            "date": "2012-10-28",
+            "clubId": "208",
+            "clubName": "CSKA Sofia",
+            "marketValue": 500000
+          },
+          {
+            "age": 22,
+            "date": "2012-12-15",
+            "clubId": "208",
+            "clubName": "CSKA Sofia",
+            "marketValue": 650000
+          },
+          {
+            "age": 25,
+            "date": "2015-04-03",
+            "clubId": "1017",
+            "clubName": "Hapoel Tel Aviv",
+            "marketValue": 650000
+          },
+          {
+            "age": 25,
+            "date": "2015-07-27",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 900000
+          },
+          {
+            "age": 25,
+            "date": "2015-12-17",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 1200000
+          },
+          {
+            "age": 26,
+            "date": "2016-01-08",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 1750000
+          },
+          {
+            "age": 26,
+            "date": "2017-01-28",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          {
+            "age": 27,
+            "date": "2017-08-23",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          {
+            "age": 27,
+            "date": "2018-09-02",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          {
+            "age": 28,
+            "date": "2018-09-18",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          {
+            "age": 28,
+            "date": "2019-01-24",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          {
+            "age": 29,
+            "date": "2019-06-24",
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 1750000
+          },
+          {
+            "age": 29,
+            "date": "2019-09-23",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 1000000
+          },
+          {
+            "age": 29,
+            "date": "2019-12-18",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 1000000
+          },
+          {
+            "age": 30,
+            "date": "2020-04-08",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 900000
+          },
+          {
+            "age": 30,
+            "date": "2020-08-04",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 800000
+          },
+          {
+            "age": 31,
+            "date": "2021-01-11",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 900000
+          },
+          {
+            "age": 30,
+            "date": "2021-12-02",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 900000
+          },
+          {
+            "age": 32,
+            "date": "2022-08-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 900000
+          },
+          {
+            "age": 32,
+            "date": "2022-09-06",
+            "clubId": "605",
+            "clubName": "Aris Thessaloniki",
+            "marketValue": 900000
+          },
+          {
+            "age": 32,
+            "date": "2022-11-14",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 750000
+          },
+          {
+            "age": 33,
+            "date": "2023-07-04",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 750000
+          },
+          {
+            "age": 33,
+            "date": "2023-07-25",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 750000
+          },
+          {
+            "age": 33,
+            "date": "2023-11-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 600000
+          },
+          {
+            "age": 34,
+            "date": "2024-03-28",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 500000
+          },
+          {
+            "age": 34,
+            "date": "2024-06-17",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 400000
+          },
+          {
+            "age": 34,
+            "date": "2024-09-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          {
+            "age": 35,
+            "date": "2025-06-06",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 250000
+          },
+          {
+            "age": 35,
+            "date": "2025-10-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 200000
+          },
+          {
+            "age": 36,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 150000
+          }
+        ],
+        "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:38:16.553080",
+        "updatedAt": "2026-07-11T04:35:24.860498",
         "id": "121986",
         "transfers": [
           {
@@ -5095,36 +6118,39 @@
         "ageGroup": "34_plus",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 150000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2009-06-09",
+            "marketValue": 200000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 150000
+          },
+          "peak": {
+            "date": "2017-01-28",
+            "age": 26,
+            "clubId": "31614",
+            "clubName": "Ludogorets Razgrad",
+            "marketValue": 2000000
+          },
+          "changeFromFirst": -50000,
+          "changeFromFirstPercent": -25.0,
+          "changeFromPeak": -1850000,
+          "changeFromPeakPercent": -92.5,
+          "lastUpdateChange": -50000,
+          "lastUpdateChangePercent": -25.0,
+          "trend": "down"
         },
         "transferCount": 11,
         "clubsInTransferHistory": 11,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/121986/profile"
-        },
-        {
-          "resource": "market_value",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/121986/market_value"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "802646",
@@ -5141,12 +6167,111 @@
       "signedFrom": "Tombense Futebol Clube (MG)",
       "contract": "2029-12-31",
       "marketValue": 1000000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:29.375402",
+        "id": "802646",
+        "url": "https://www.transfermarkt.com/pierre/profil/spieler/802646",
+        "name": "Pierre",
+        "description": "Pierre, 24, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Central Midfield ➤ Market value: €1.00m ➤ * 12/03/2002 in Rio de Janeiro, Brazil",
+        "fullName": "Pierre Wagner Oliveira dos Santos",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/802646-1663640698.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Rio de Janeiro",
+          "country": "Brazil"
+        },
+        "height": 181,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Central Midfield",
+          "other": []
+        },
+        "foot": "left",
+        "shirtNumber": "#5",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-04-01",
+          "contractExpires": "2029-12-31"
+        },
+        "marketValue": 1000000,
+        "agent": {
+          "name": "Brazil Soccer",
+          "url": "/brazil-soccer-sports-management-ltda-/beraterfirma/berater/780"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/pierresantoss5/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:35:33.655631",
+        "id": "802646",
+        "marketValue": 1000000,
+        "marketValueHistory": [
+          {
+            "age": 21,
+            "date": "2023-07-18",
+            "clubId": "3234",
+            "clubName": "Tombense Futebol Clube (MG)",
+            "marketValue": 50000
+          },
+          {
+            "age": 21,
+            "date": "2023-11-27",
+            "clubId": "3234",
+            "clubName": "Tombense Futebol Clube (MG)",
+            "marketValue": 300000
+          },
+          {
+            "age": 22,
+            "date": "2024-04-22",
+            "clubId": "3234",
+            "clubName": "Tombense Futebol Clube (MG)"
+          },
+          {
+            "age": 22,
+            "date": "2024-11-27",
+            "clubId": "1755",
+            "clubName": "Guarani Futebol Clube (SP)",
+            "marketValue": 75000
+          },
+          {
+            "age": 23,
+            "date": "2025-06-27",
+            "clubId": "4176",
+            "clubName": "Volta Redonda Futebol Clube (RJ)",
+            "marketValue": 75000
+          },
+          {
+            "age": 23,
+            "date": "2025-10-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 750000
+          },
+          {
+            "age": 24,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 1000000
+          }
+        ],
+        "ranking": {
+          "Worldwide": 7681,
+          "Série B": 37,
+          "Fortaleza": 11,
+          "Brazil": 615,
+          "Central Midfield": 955,
+          "Year 2002": 705
+        }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:38:38.826999",
+        "updatedAt": "2026-07-11T04:35:36.206341",
         "id": "802646",
         "transfers": [
           {
@@ -5329,36 +6454,39 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2029-12-31",
-          "daysRemaining": 1270,
+          "daysRemaining": 1269,
           "status": "active"
         },
         "marketValue": {
           "current": 1000000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2023-07-18",
+            "marketValue": 50000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 1000000
+          },
+          "peak": {
+            "date": "2026-05-19",
+            "age": 24,
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 1000000
+          },
+          "changeFromFirst": 950000,
+          "changeFromFirstPercent": 1900.0,
+          "changeFromPeak": 0,
+          "changeFromPeakPercent": 0.0,
+          "lastUpdateChange": 250000,
+          "lastUpdateChangePercent": 33.33,
+          "trend": "up"
         },
         "transferCount": 12,
         "clubsInTransferHistory": 6,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/802646/profile"
-        },
-        {
-          "resource": "market_value",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/802646/market_value"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "445000",
@@ -5376,9 +6504,51 @@
       "signedFrom": "Atlanta United FC",
       "contract": "2027-12-31",
       "marketValue": 1000000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:38.298272",
+        "id": "445000",
+        "url": "https://www.transfermarkt.com/matheus-rossetto/profil/spieler/445000",
+        "name": "Matheus Rossetto",
+        "description": "Matheus Rossetto, 30, from Brazil ➤ Fortaleza Esporte Clube, since 2023 ➤ Central Midfield ➤ Market value: €1.00m ➤ * 03/06/1996 in Santo Amaro da Imperatriz, Brazil",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/445000-1678216902.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Santo Amaro da Imperatriz",
+          "country": "Brazil"
+        },
+        "height": 180,
+        "citizenship": [
+          "Brazil",
+          "Italy"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Central Midfield",
+          "other": [
+            "Defensive Midfield",
+            "Attacking Midfield"
+          ]
+        },
+        "foot": "right",
+        "shirtNumber": "#20",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2024-02-23",
+          "contractExpires": "2027-12-31"
+        },
+        "marketValue": 1000000,
+        "agent": {
+          "name": "Trust Football",
+          "url": "/trust-sports-consultoria-esportiva-ltda/beraterfirma/berater/5907"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/rossetto/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:38:54.909211",
+        "updatedAt": "2026-07-11T04:35:42.731653",
         "id": "445000",
         "marketValue": 1000000,
         "marketValueHistory": [
@@ -5532,7 +6702,7 @@
         ],
         "ranking": {
           "Worldwide": 7681,
-          "Série B": 36,
+          "Série B": 37,
           "Fortaleza": 11,
           "Brazil": 615,
           "Central Midfield": 955,
@@ -5540,13 +6710,92 @@
         }
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:35:44.471104",
+        "id": "445000",
+        "transfers": [
+          {
+            "id": "4733877",
+            "clubFrom": {
+              "id": "51663",
+              "name": "Atlanta"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2024-02-23",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 1500000
+          },
+          {
+            "id": "2785846",
+            "clubFrom": {
+              "id": "679",
+              "name": "Athletico-PR"
+            },
+            "clubTo": {
+              "id": "51663",
+              "name": "Atlanta"
+            },
+            "date": "2020-03-02",
+            "upcoming": false,
+            "season": "19/20",
+            "marketValue": 900000,
+            "fee": 1820000
+          },
+          {
+            "id": "2785925",
+            "clubFrom": {
+              "id": "15882",
+              "name": "Ferroviária"
+            },
+            "clubTo": {
+              "id": "679",
+              "name": "Atlético-PR"
+            },
+            "date": "2016-05-31",
+            "upcoming": false,
+            "season": "15/16"
+          },
+          {
+            "id": "2785924",
+            "clubFrom": {
+              "id": "679",
+              "name": "Atlético-PR"
+            },
+            "clubTo": {
+              "id": "15882",
+              "name": "Ferroviária"
+            },
+            "date": "2016-02-01",
+            "upcoming": false,
+            "season": "15/16"
+          },
+          {
+            "id": "2116454",
+            "clubFrom": {
+              "id": "15038",
+              "name": "Atlético-PR U20"
+            },
+            "clubTo": {
+              "id": "679",
+              "name": "Atlético-PR"
+            },
+            "date": "2016-01-01",
+            "upcoming": false,
+            "season": "15/16"
+          }
+        ],
+        "youthClubs": [
+          "Clube Atlético Paranaense (2009-2016)"
+        ]
       },
       "analysis": {
         "ageGroup": "30_to_33",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -5574,20 +6823,11 @@
           "lastUpdateChangePercent": -33.33,
           "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 5,
+        "clubsInTransferHistory": 5,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/445000/profile"
-        },
-        {
-          "resource": "transfers",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "798114",
@@ -5604,9 +6844,51 @@
       "signedFrom": "Clube Atlético Mineiro",
       "contract": "2026-12-31",
       "marketValue": 1800000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:47.430817",
+        "id": "798114",
+        "url": "https://www.transfermarkt.com/calebe/profil/spieler/798114",
+        "name": "Calebe",
+        "description": "Calebe, 26, from Brazil ➤ Fortaleza Esporte Clube, since 2022 ➤ Attacking Midfield ➤ Market value: €1.80m ➤ * 30/04/2000 in Monte Azul, Brazil",
+        "fullName": "Calebe Goncalves Ferreira da Silva",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/798114-1762367600.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Monte Azul",
+          "country": "Brazil"
+        },
+        "height": 173,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Attacking Midfield",
+          "other": [
+            "Central Midfield",
+            "Right Winger"
+          ]
+        },
+        "foot": "left",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2023-05-02",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 1800000,
+        "agent": {
+          "name": "LINK SPORTS",
+          "url": "/link-sports/beraterfirma/berater/8070"
+        },
+        "outfitter": "Nike",
+        "socialMedia": [
+          "http://www.instagram.com/calebe_00/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:39:28.538609",
+        "updatedAt": "2026-07-11T04:35:49.958367",
         "id": "798114",
         "marketValue": 1800000,
         "marketValueHistory": [
@@ -5726,13 +7008,121 @@
         }
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:35:51.145750",
+        "id": "798114",
+        "transfers": [
+          {
+            "id": "5801378",
+            "clubFrom": {
+              "id": "1108",
+              "name": "Alavés"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-06-30",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 1800000
+          },
+          {
+            "id": "5801377",
+            "clubFrom": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "clubTo": {
+              "id": "1108",
+              "name": "Alavés"
+            },
+            "date": "2025-07-22",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 2000000
+          },
+          {
+            "id": "4266793",
+            "clubFrom": {
+              "id": "330",
+              "name": "Atlético-MG"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2023-05-02",
+            "upcoming": false,
+            "season": "22/23",
+            "marketValue": 2500000,
+            "fee": 1100000
+          },
+          {
+            "id": "3364962",
+            "clubFrom": {
+              "id": "14708",
+              "name": "São Paulo U20"
+            },
+            "clubTo": {
+              "id": "330",
+              "name": "Atlético-MG"
+            },
+            "date": "2021-06-30",
+            "upcoming": false,
+            "season": "20/21",
+            "marketValue": 800000,
+            "fee": 50000
+          },
+          {
+            "id": "3128415",
+            "clubFrom": {
+              "id": "15037",
+              "name": "Atlético-MG U20"
+            },
+            "clubTo": {
+              "id": "14708",
+              "name": "São Paulo U20"
+            },
+            "date": "2021-06-29",
+            "upcoming": false,
+            "season": "20/21",
+            "marketValue": 800000
+          },
+          {
+            "id": "3128414",
+            "clubFrom": {
+              "id": "14708",
+              "name": "São Paulo U20"
+            },
+            "clubTo": {
+              "id": "15037",
+              "name": "Atlético-MG U20"
+            },
+            "date": "2020-01-06",
+            "upcoming": false,
+            "season": "19/20"
+          },
+          {
+            "id": "6036717",
+            "clubFrom": {
+              "id": "14679",
+              "name": "São Paulo U17"
+            },
+            "clubTo": {
+              "id": "14708",
+              "name": "São Paulo U20"
+            },
+            "date": "2018-01-01",
+            "upcoming": false,
+            "season": "17/18"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -5760,20 +7150,11 @@
           "lastUpdateChangePercent": -10.0,
           "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 7,
+        "clubsInTransferHistory": 6,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/798114/profile"
-        },
-        {
-          "resource": "transfers",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/798114/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "1082523",
@@ -5790,9 +7171,51 @@
       "signedFrom": "Fortaleza EC U20",
       "contract": "2027-12-31",
       "marketValue": 750000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:52.631516",
+        "id": "1082523",
+        "url": "https://www.transfermarkt.com/lucca-prior/profil/spieler/1082523",
+        "name": "Lucca Prior",
+        "description": "Lucca Prior, 22, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Attacking Midfield ➤ Market value: €750k ➤ * 12/02/2004 in Franca, Brazil",
+        "fullName": "Lucca Prior Pimenta",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/1082523-1671047016.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Franca",
+          "country": "Brazil"
+        },
+        "height": 173,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Attacking Midfield",
+          "other": [
+            "Right Midfield",
+            "Right Winger"
+          ]
+        },
+        "foot": "left",
+        "shirtNumber": "#38",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2025-01-07",
+          "contractExpires": "2027-12-31"
+        },
+        "marketValue": 750000,
+        "agent": {
+          "name": "Flash Football",
+          "url": "/flash-football/beraterfirma/berater/3329"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/luccaprior_/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:39:53.254054",
+        "updatedAt": "2026-07-11T04:35:54.175142",
         "id": "1082523",
         "marketValue": 750000,
         "marketValueHistory": [
@@ -5827,7 +7250,7 @@
         ],
         "ranking": {
           "Worldwide": 10398,
-          "Série B": 84,
+          "Série B": 85,
           "Fortaleza": 17,
           "Brazil": 835,
           "Attacking Midfield": 810,
@@ -5835,7 +7258,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:39:54.455591",
+        "updatedAt": "2026-07-11T04:35:55.521705",
         "id": "1082523",
         "transfers": [
           {
@@ -5887,7 +7310,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -5919,12 +7342,7 @@
         "clubsInTransferHistory": 4,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/1082523/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "344626",
@@ -5941,12 +7359,200 @@
       "signedFrom": "Buriram United",
       "contract": "2026-12-31",
       "marketValue": 700000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:35:56.666830",
+        "id": "344626",
+        "url": "https://www.transfermarkt.com/lucas-crispim/profil/spieler/344626",
+        "name": "Lucas Crispim",
+        "description": "Lucas Crispim, 32, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Attacking Midfield ➤ Market value: €700k ➤ * 19/06/1994 in Brasília, Brazil",
+        "fullName": "Lucas Crispim",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/344626-1598017705.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Brasília",
+          "country": "Brazil"
+        },
+        "height": 178,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Attacking Midfield",
+          "other": [
+            "Left Winger",
+            "Right Winger"
+          ]
+        },
+        "foot": "right",
+        "shirtNumber": "#10",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2025-01-09",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 700000,
+        "agent": {
+          "name": "Granja Sports",
+          "url": "/granja-sports/beraterfirma/berater/11941"
+        },
+        "outfitter": "adidas",
+        "socialMedia": [
+          "http://www.instagram.com/crispimlucas/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:35:58.093420",
+        "id": "344626",
+        "marketValue": 700000,
+        "marketValueHistory": [
+          {
+            "age": 20,
+            "date": "2015-05-31",
+            "clubId": "221",
+            "clubName": "Santos FC",
+            "marketValue": 500000
+          },
+          {
+            "age": 21,
+            "date": "2015-12-15",
+            "clubId": "3330",
+            "clubName": "Joinville Esporte Clube (SC)",
+            "marketValue": 500000
+          },
+          {
+            "age": 21,
+            "date": "2016-05-27",
+            "clubId": "221",
+            "clubName": "Santos FC",
+            "marketValue": 500000
+          },
+          {
+            "age": 22,
+            "date": "2016-11-28",
+            "clubId": "15172",
+            "clubName": "Atlético Clube Goianiense",
+            "marketValue": 450000
+          },
+          {
+            "age": 23,
+            "date": "2017-07-12",
+            "clubId": "221",
+            "clubName": "Santos FC",
+            "marketValue": 250000
+          },
+          {
+            "age": 26,
+            "date": "2021-05-28",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          {
+            "age": 27,
+            "date": "2021-10-09",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 1000000
+          },
+          {
+            "age": 27,
+            "date": "2021-12-17",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          {
+            "age": 27,
+            "date": "2022-06-04",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          {
+            "age": 28,
+            "date": "2022-08-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          {
+            "age": 28,
+            "date": "2022-11-14",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          {
+            "age": 28,
+            "date": "2023-07-04",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          {
+            "age": 29,
+            "date": "2023-07-25",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2300000
+          },
+          {
+            "age": 29,
+            "date": "2023-11-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2000000
+          },
+          {
+            "age": 29,
+            "date": "2024-02-26",
+            "clubId": "25449",
+            "clubName": "Buriram United",
+            "marketValue": 1200000
+          },
+          {
+            "age": 30,
+            "date": "2024-08-26",
+            "clubId": "25449",
+            "clubName": "Buriram United",
+            "marketValue": 1200000
+          },
+          {
+            "age": 30,
+            "date": "2025-02-05",
+            "clubId": "25449",
+            "clubName": "Buriram United",
+            "marketValue": 1000000
+          },
+          {
+            "age": 31,
+            "date": "2025-10-12",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 800000
+          },
+          {
+            "age": 31,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 700000
+          }
+        ],
+        "ranking": {
+          "Worldwide": 10713,
+          "Série B": 94,
+          "Fortaleza": 18,
+          "Brazil": 860,
+          "Attacking Midfield": 832,
+          "Year 1994": 367
+        }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:40:30.971644",
+        "updatedAt": "2026-07-11T04:35:58.953041",
         "id": "344626",
         "transfers": [
           {
@@ -6162,36 +7768,39 @@
         "ageGroup": "30_to_33",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 700000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2015-05-31",
+            "marketValue": 500000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 700000
+          },
+          "peak": {
+            "date": "2021-12-17",
+            "age": 27,
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 2500000
+          },
+          "changeFromFirst": 200000,
+          "changeFromFirstPercent": 40.0,
+          "changeFromPeak": -1800000,
+          "changeFromPeakPercent": -72.0,
+          "lastUpdateChange": -100000,
+          "lastUpdateChangePercent": -12.5,
+          "trend": "down"
         },
         "transferCount": 14,
         "clubsInTransferHistory": 10,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/344626/profile"
-        },
-        {
-          "resource": "market_value",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "1279322",
@@ -6208,7 +7817,7 @@
       "contract": "2029-12-31",
       "marketValue": 300000,
       "profile": {
-        "updatedAt": "2026-07-10T18:40:35.385326",
+        "updatedAt": "2026-07-11T04:36:00.115679",
         "id": "1279322",
         "url": "https://www.transfermarkt.com/lucas-emanoel/profil/spieler/1279322",
         "name": "Lucas Emanoel",
@@ -6243,10 +7852,22 @@
         "relatives": []
       },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:36:01.133203",
+        "id": "1279322",
+        "marketValue": 300000,
+        "marketValueHistory": [
+          {
+            "age": 19,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          }
+        ],
+        "ranking": {}
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:41:08.824302",
+        "updatedAt": "2026-07-11T04:36:02.172629",
         "id": "1279322",
         "transfers": [
           {
@@ -6269,18 +7890,30 @@
         "ageGroup": "up_to_21",
         "contract": {
           "expiresAt": "2029-12-31",
-          "daysRemaining": 1270,
+          "daysRemaining": 1269,
           "status": "active"
         },
         "marketValue": {
           "current": 300000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
+          "firstRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 300000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 300000
+          },
+          "peak": {
+            "date": "2026-05-19",
+            "age": 19,
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 300000
+          },
+          "changeFromFirst": 0,
+          "changeFromFirstPercent": 0.0,
+          "changeFromPeak": 0,
+          "changeFromPeakPercent": 0.0,
           "lastUpdateChange": null,
           "lastUpdateChangePercent": null,
           "trend": "unknown"
@@ -6292,12 +7925,7 @@
           "missing_height"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "market_value",
-          "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "372013",
@@ -6315,7 +7943,7 @@
       "contract": "2027-12-31",
       "marketValue": 1800000,
       "profile": {
-        "updatedAt": "2026-07-10T18:41:11.325232",
+        "updatedAt": "2026-07-11T04:36:04.000284",
         "id": "372013",
         "url": "https://www.transfermarkt.com/luiz-fernando/profil/spieler/372013",
         "name": "Luiz Fernando",
@@ -6358,7 +7986,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:41:17.331302",
+        "updatedAt": "2026-07-11T04:36:05.669735",
         "id": "372013",
         "marketValue": 1800000,
         "marketValueHistory": [
@@ -6555,13 +8183,122 @@
         }
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:36:08.991103",
+        "id": "372013",
+        "transfers": [
+          {
+            "id": "6182178",
+            "clubFrom": {
+              "id": "679",
+              "name": "Athletico-PR"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-12-02",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 1800000
+          },
+          {
+            "id": "5403202",
+            "clubFrom": {
+              "id": "15172",
+              "name": "Atlético-GO"
+            },
+            "clubTo": {
+              "id": "679",
+              "name": "Athletico-PR"
+            },
+            "date": "2025-01-01",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 1800000
+          },
+          {
+            "id": "3817653",
+            "clubFrom": {
+              "id": "537",
+              "name": "Botafogo"
+            },
+            "clubTo": {
+              "id": "15172",
+              "name": "Atlético-GO"
+            },
+            "date": "2022-12-04",
+            "upcoming": false,
+            "season": "21/22",
+            "marketValue": 700000
+          },
+          {
+            "id": "3028065",
+            "clubFrom": {
+              "id": "210",
+              "name": "Grêmio"
+            },
+            "clubTo": {
+              "id": "537",
+              "name": "Botafogo"
+            },
+            "date": "2021-12-31",
+            "upcoming": false,
+            "season": "21/22",
+            "marketValue": 700000
+          },
+          {
+            "id": "3028064",
+            "clubFrom": {
+              "id": "537",
+              "name": "Botafogo"
+            },
+            "clubTo": {
+              "id": "210",
+              "name": "Grêmio"
+            },
+            "date": "2020-08-27",
+            "upcoming": false,
+            "season": "20/21",
+            "marketValue": 800000,
+            "fee": 200000
+          },
+          {
+            "id": "1991177",
+            "clubFrom": {
+              "id": "15172",
+              "name": "Atlético-GO"
+            },
+            "clubTo": {
+              "id": "537",
+              "name": "Botafogo"
+            },
+            "date": "2018-03-01",
+            "upcoming": false,
+            "season": "17/18",
+            "marketValue": 1000000,
+            "fee": 640000
+          },
+          {
+            "id": "1810828",
+            "clubFrom": {
+              "id": "22157",
+              "name": "Atlético-GO B"
+            },
+            "clubTo": {
+              "id": "15172",
+              "name": "Atlético-GO"
+            },
+            "date": "2015-01-01",
+            "upcoming": false,
+            "season": "14/15"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -6589,18 +8326,13 @@
           "lastUpdateChangePercent": 0.0,
           "trend": "stable"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 7,
+        "clubsInTransferHistory": 6,
         "dataQualityIssues": [
           "joined_on_is_in_the_future"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "transfers",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/372013/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "977463",
@@ -6618,7 +8350,7 @@
       "contract": "2026-12-31",
       "marketValue": 900000,
       "profile": {
-        "updatedAt": "2026-07-10T18:41:23.280379",
+        "updatedAt": "2026-07-11T04:36:09.804064",
         "id": "977463",
         "url": "https://www.transfermarkt.com/rodriguinho/profil/spieler/977463",
         "name": "Rodriguinho",
@@ -6658,10 +8390,92 @@
         "relatives": []
       },
       "marketValueData": {
-        "marketValueHistory": []
+        "updatedAt": "2026-07-11T04:36:11.179809",
+        "id": "977463",
+        "marketValue": 900000,
+        "marketValueHistory": [
+          {
+            "age": 19,
+            "date": "2022-08-19",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          {
+            "age": 19,
+            "date": "2022-11-14",
+            "clubId": "75",
+            "clubName": "Unknown",
+            "marketValue": 500000
+          },
+          {
+            "age": 19,
+            "date": "2023-07-04",
+            "clubId": "2863",
+            "clubName": "América Futebol Clube (MG)",
+            "marketValue": 500000
+          },
+          {
+            "age": 20,
+            "date": "2023-07-25",
+            "clubId": "2863",
+            "clubName": "América Futebol Clube (MG)",
+            "marketValue": 500000
+          },
+          {
+            "age": 20,
+            "date": "2023-11-12",
+            "clubId": "2863",
+            "clubName": "América Futebol Clube (MG)",
+            "marketValue": 500000
+          },
+          {
+            "age": 20,
+            "date": "2024-04-18",
+            "clubId": "2863",
+            "clubName": "América Futebol Clube (MG)",
+            "marketValue": 500000
+          },
+          {
+            "age": 21,
+            "date": "2024-11-27",
+            "clubId": "2863",
+            "clubName": "América Futebol Clube (MG)",
+            "marketValue": 600000
+          },
+          {
+            "age": 22,
+            "date": "2025-06-06",
+            "clubId": "609",
+            "clubName": "Cruzeiro Esporte Clube",
+            "marketValue": 600000
+          },
+          {
+            "age": 22,
+            "date": "2025-10-12",
+            "clubId": "2029",
+            "clubName": "Ceará Sporting Club",
+            "marketValue": 600000
+          },
+          {
+            "age": 22,
+            "date": "2026-05-19",
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 900000
+          }
+        ],
+        "ranking": {
+          "Worldwide": 8796,
+          "Série B": 53,
+          "Fortaleza": 13,
+          "Brazil": 714,
+          "Left Winger": 764,
+          "Year 2003": 714
+        }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:41:37.059235",
+        "updatedAt": "2026-07-11T04:36:12.837682",
         "id": "977463",
         "transfers": [
           {
@@ -6760,21 +8574,33 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 900000,
-          "firstRecorded": null,
-          "latestRecorded": null,
-          "peak": null,
-          "changeFromFirst": null,
-          "changeFromFirstPercent": null,
-          "changeFromPeak": null,
-          "changeFromPeakPercent": null,
-          "lastUpdateChange": null,
-          "lastUpdateChangePercent": null,
-          "trend": "unknown"
+          "firstRecorded": {
+            "date": "2022-08-19",
+            "marketValue": 500000
+          },
+          "latestRecorded": {
+            "date": "2026-05-19",
+            "marketValue": 900000
+          },
+          "peak": {
+            "date": "2026-05-19",
+            "age": 22,
+            "clubId": "10870",
+            "clubName": "Fortaleza Esporte Clube",
+            "marketValue": 900000
+          },
+          "changeFromFirst": 400000,
+          "changeFromFirstPercent": 80.0,
+          "changeFromPeak": 0,
+          "changeFromPeakPercent": 0.0,
+          "lastUpdateChange": 300000,
+          "lastUpdateChangePercent": 50.0,
+          "trend": "up"
         },
         "transferCount": 6,
         "clubsInTransferHistory": 5,
@@ -6782,12 +8608,7 @@
           "joined_on_is_in_the_future"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "market_value",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/977463/market_value"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "853529",
@@ -6805,7 +8626,7 @@
       "contract": "2026-12-31",
       "marketValue": 800000,
       "profile": {
-        "updatedAt": "2026-07-10T18:41:44.564648",
+        "updatedAt": "2026-07-11T04:36:14.363904",
         "id": "853529",
         "url": "https://www.transfermarkt.com/paulo-baya/profil/spieler/853529",
         "name": "Paulo Baya",
@@ -6848,7 +8669,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:41:49.188928",
+        "updatedAt": "2026-07-11T04:36:15.714197",
         "id": "853529",
         "marketValue": 800000,
         "marketValueHistory": [
@@ -6925,7 +8746,7 @@
         ],
         "ranking": {
           "Worldwide": 9325,
-          "Série B": 70,
+          "Série B": 71,
           "Fortaleza": 16,
           "Brazil": 764,
           "Left Winger": 812,
@@ -6933,7 +8754,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:41:55.217544",
+        "updatedAt": "2026-07-11T04:36:16.978156",
         "id": "853529",
         "transfers": [
           {
@@ -7196,7 +9017,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -7246,7 +9067,7 @@
       "contract": "2026-12-31",
       "marketValue": 3000000,
       "profile": {
-        "updatedAt": "2026-07-10T18:42:03.429764",
+        "updatedAt": "2026-07-11T04:36:18.295265",
         "id": "813048",
         "url": "https://www.transfermarkt.com/vitinho/profil/spieler/813048",
         "name": "Vitinho",
@@ -7288,7 +9109,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:42:09.248794",
+        "updatedAt": "2026-07-11T04:36:19.739765",
         "id": "813048",
         "marketValue": 3000000,
         "marketValueHistory": [
@@ -7401,7 +9222,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:42:20.655113",
+        "updatedAt": "2026-07-11T04:36:20.760918",
         "id": "813048",
         "transfers": [
           {
@@ -7487,7 +9308,7 @@
         "ageGroup": "22_to_25",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -7534,11 +9355,53 @@
       "foot": "right",
       "joinedOn": "2026-02-23",
       "signedFrom": "EC Primavera",
-      "contract": "2026-01-12",
+      "contract": "2026-12-01",
       "marketValue": 900000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:36:22.056637",
+        "id": "697848",
+        "url": "https://www.transfermarkt.com/welliton/profil/spieler/697848",
+        "name": "Welliton",
+        "description": "Welliton, 25, from Brazil ➤ Fortaleza Esporte Clube, since 2025 ➤ Right Winger ➤ Market value: €900k ➤ * 14/07/2000 in Rio de Janeiro, Brazil",
+        "fullName": "Welliton Silva de Azevedo Matheus",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/697848-1662651593.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Rio de Janeiro",
+          "country": "Brazil"
+        },
+        "height": 180,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Right Winger",
+          "other": [
+            "Left Winger",
+            "Second Striker"
+          ]
+        },
+        "foot": "right",
+        "shirtNumber": "#31",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-02-23",
+          "contractExpires": "2026-11-30"
+        },
+        "marketValue": 900000,
+        "agent": {
+          "name": "VTN IMAGE",
+          "url": "/vtn-image-representacao-e-agenciamento-ltda/beraterfirma/berater/11668"
+        },
+        "socialMedia": [
+          "http://www.instagram.com/wellitonmatheus_/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:42:24.260994",
+        "updatedAt": "2026-07-11T04:36:23.383436",
         "id": "697848",
         "marketValue": 900000,
         "marketValueHistory": [
@@ -7607,7 +9470,7 @@
         ],
         "ranking": {
           "Worldwide": 8796,
-          "Série B": 52,
+          "Série B": 53,
           "Fortaleza": 13,
           "Brazil": 714,
           "Right Winger": 708,
@@ -7615,14 +9478,250 @@
         }
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:36:25.976934",
+        "id": "697848",
+        "transfers": [
+          {
+            "id": "6212399",
+            "clubFrom": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-02-23",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 600000
+          },
+          {
+            "id": "6212400",
+            "clubFrom": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "clubTo": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "date": "2026-01-12",
+            "upcoming": true,
+            "season": "26/27",
+            "marketValue": 900000
+          },
+          {
+            "id": "5526551",
+            "clubFrom": {
+              "id": "3197",
+              "name": "Goiás"
+            },
+            "clubTo": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "date": "2025-12-31",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 600000
+          },
+          {
+            "id": "5521785",
+            "clubFrom": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "clubTo": {
+              "id": "3197",
+              "name": "Goiás"
+            },
+            "date": "2025-02-14",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 350000
+          },
+          {
+            "id": "4985759",
+            "clubFrom": {
+              "id": "3197",
+              "name": "Goiás"
+            },
+            "clubTo": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "date": "2024-12-31",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 350000
+          },
+          {
+            "id": "4985758",
+            "clubFrom": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "clubTo": {
+              "id": "3197",
+              "name": "Goiás"
+            },
+            "date": "2024-04-19",
+            "upcoming": false,
+            "season": "23/24"
+          },
+          {
+            "id": "4984194",
+            "clubFrom": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "clubTo": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "date": "2024-04-18",
+            "upcoming": false,
+            "season": "23/24"
+          },
+          {
+            "id": "4825042",
+            "clubFrom": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "clubTo": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "date": "2024-04-16",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 150000
+          },
+          {
+            "id": "4825041",
+            "clubFrom": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "clubTo": {
+              "id": "25558",
+              "name": "Primavera"
+            },
+            "date": "2024-01-15",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 150000
+          },
+          {
+            "id": "4358998",
+            "clubFrom": {
+              "id": "7209",
+              "name": "ABC FC"
+            },
+            "clubTo": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "date": "2023-12-31",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 150000
+          },
+          {
+            "id": "4358997",
+            "clubFrom": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "clubTo": {
+              "id": "7209",
+              "name": "ABC FC"
+            },
+            "date": "2023-10-04",
+            "upcoming": false,
+            "season": "22/23",
+            "marketValue": 150000
+          },
+          {
+            "id": "3286797",
+            "clubFrom": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "clubTo": {
+              "id": "22767",
+              "name": "Red Bull"
+            },
+            "date": "2021-09-03",
+            "upcoming": false,
+            "season": "20/21"
+          },
+          {
+            "id": "3282677",
+            "clubFrom": {
+              "id": "21829",
+              "name": "Oeste"
+            },
+            "clubTo": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "date": "2021-08-03",
+            "upcoming": false,
+            "season": "20/21"
+          },
+          {
+            "id": "3286798",
+            "clubFrom": {
+              "id": "22767",
+              "name": "Red Bull"
+            },
+            "clubTo": {
+              "id": "22713",
+              "name": "Bragantino B"
+            },
+            "date": "2021-02-06",
+            "upcoming": false,
+            "season": "20/21"
+          },
+          {
+            "id": "3829909",
+            "clubFrom": {
+              "id": "14876",
+              "name": "Corinthians U20"
+            },
+            "clubTo": {
+              "id": "21829",
+              "name": "Oeste"
+            },
+            "date": "2019-05-08",
+            "upcoming": false,
+            "season": "19/20"
+          },
+          {
+            "id": "3829907",
+            "clubFrom": {
+              "id": "15036",
+              "name": "Vasco U17"
+            },
+            "clubTo": {
+              "id": "14876",
+              "name": "Corinthians U20"
+            },
+            "date": "2017-01-01",
+            "upcoming": false,
+            "season": "16/17"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "22_to_25",
         "contract": {
-          "expiresAt": "2026-01-12",
-          "daysRemaining": -179,
-          "status": "expired"
+          "expiresAt": "2026-12-01",
+          "daysRemaining": 143,
+          "status": "expires_within_6_months"
         },
         "marketValue": {
           "current": 900000,
@@ -7649,23 +9748,11 @@
           "lastUpdateChangePercent": 50.0,
           "trend": "up"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
-        "dataQualityIssues": [
-          "contract_expires_before_join_date",
-          "contract_already_expired"
-        ]
+        "transferCount": 16,
+        "clubsInTransferHistory": 9,
+        "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/697848/profile"
-        },
-        {
-          "resource": "transfers",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/697848/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "213368",
@@ -7682,9 +9769,53 @@
       "signedFrom": "Ceará Sporting Club",
       "contract": "2027-12-31",
       "marketValue": 400000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:36:27.056354",
+        "id": "213368",
+        "url": "https://www.transfermarkt.com/pedro-henrique/profil/spieler/213368",
+        "name": "Pedro Henrique",
+        "description": "Pedro Henrique, 36, from Brazil ➤ Fortaleza Esporte Clube, since 2026 ➤ Right Winger ➤ Market value: €400k ➤ * 16/06/1990 in Santa Cruz do Sul, Brazil",
+        "fullName": "Pedro Henrique Konzen Medina da Silva",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/213368-1725326618.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Santa Cruz do Sul",
+          "country": "Brazil"
+        },
+        "height": 179,
+        "citizenship": [
+          "Brazil"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Right Winger",
+          "other": [
+            "Left Winger",
+            "Second Striker"
+          ]
+        },
+        "foot": "right",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-01-07",
+          "contractExpires": "2027-12-31"
+        },
+        "marketValue": 400000,
+        "agent": {
+          "name": "MPX SPORTS",
+          "url": "/mpx-sports/beraterfirma/berater/10220"
+        },
+        "outfitter": "Mizuno",
+        "socialMedia": [
+          "http://twitter.com/PHKONZEN",
+          "http://t.co/J0oKHgEFdz",
+          "http://www.instagram.com/phkonzen/"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:42:30.316109",
+        "updatedAt": "2026-07-11T04:36:27.986595",
         "id": "213368",
         "marketValue": 400000,
         "marketValueHistory": [
@@ -7979,13 +10110,247 @@
         "ranking": {}
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:36:29.556177",
+        "id": "213368",
+        "transfers": [
+          {
+            "id": "6386306",
+            "clubFrom": {
+              "id": "2029",
+              "name": "Ceará SC"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-01-07",
+            "upcoming": false,
+            "season": "26/27",
+            "marketValue": 400000
+          },
+          {
+            "id": "5443871",
+            "clubFrom": {
+              "id": "199",
+              "name": "Corinthians"
+            },
+            "clubTo": {
+              "id": "2029",
+              "name": "Ceará SC"
+            },
+            "date": "2025-10-01",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 700000
+          },
+          {
+            "id": "4893202",
+            "clubFrom": {
+              "id": "6600",
+              "name": "Internacional"
+            },
+            "clubTo": {
+              "id": "199",
+              "name": "Corinthians"
+            },
+            "date": "2024-02-16",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 1200000,
+            "fee": 1100000
+          },
+          {
+            "id": "3815572",
+            "clubFrom": {
+              "id": "2381",
+              "name": "Sivasspor"
+            },
+            "clubTo": {
+              "id": "6600",
+              "name": "Internacional"
+            },
+            "date": "2022-11-04",
+            "upcoming": false,
+            "season": "21/22",
+            "marketValue": 2000000,
+            "fee": 1500000
+          },
+          {
+            "id": "3445508",
+            "clubFrom": {
+              "id": "3205",
+              "name": "Kayserispor"
+            },
+            "clubTo": {
+              "id": "2381",
+              "name": "Sivasspor"
+            },
+            "date": "2021-07-16",
+            "upcoming": false,
+            "season": "21/22",
+            "marketValue": 1200000,
+            "fee": 1000000
+          },
+          {
+            "id": "2598997",
+            "clubFrom": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "clubTo": {
+              "id": "3205",
+              "name": "Kayserispor"
+            },
+            "date": "2019-09-08",
+            "upcoming": false,
+            "season": "19/20",
+            "marketValue": 2000000,
+            "fee": 650000
+          },
+          {
+            "id": "2180242",
+            "clubFrom": {
+              "id": "22220",
+              "name": "FC Astana"
+            },
+            "clubTo": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "date": "2019-01-31",
+            "upcoming": false,
+            "season": "18/19",
+            "marketValue": 2800000
+          },
+          {
+            "id": "2175975",
+            "clubFrom": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "clubTo": {
+              "id": "22220",
+              "name": "FC Astana"
+            },
+            "date": "2018-07-16",
+            "upcoming": false,
+            "season": "18/19",
+            "marketValue": 3000000,
+            "fee": 250000
+          },
+          {
+            "id": "1901574",
+            "clubFrom": {
+              "id": "10625",
+              "name": "Qarabağ"
+            },
+            "clubTo": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "date": "2018-06-30",
+            "upcoming": false,
+            "season": "17/18",
+            "marketValue": 3000000
+          },
+          {
+            "id": "1689859",
+            "clubFrom": {
+              "id": "273",
+              "name": "Stade Rennais"
+            },
+            "clubTo": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "date": "2017-01-31",
+            "upcoming": false,
+            "season": "16/17",
+            "marketValue": 3000000,
+            "fee": 1600000
+          },
+          {
+            "id": "1901575",
+            "clubFrom": {
+              "id": "1091",
+              "name": "PAOK"
+            },
+            "clubTo": {
+              "id": "10625",
+              "name": "Qarabağ"
+            },
+            "date": "2017-01-09",
+            "upcoming": false,
+            "season": "17/18",
+            "marketValue": 3000000,
+            "fee": 700000
+          },
+          {
+            "id": "1074638",
+            "clubFrom": {
+              "id": "260",
+              "name": "FC Zürich"
+            },
+            "clubTo": {
+              "id": "273",
+              "name": "Stade Rennais"
+            },
+            "date": "2014-01-07",
+            "upcoming": false,
+            "season": "14/15",
+            "marketValue": 1000000,
+            "fee": 400000
+          },
+          {
+            "id": "676676",
+            "clubFrom": {
+              "id": "9141",
+              "name": "Caxias-RS"
+            },
+            "clubTo": {
+              "id": "260",
+              "name": "FC Zürich"
+            },
+            "date": "2012-01-23",
+            "upcoming": false,
+            "season": "11/12",
+            "fee": 100000
+          },
+          {
+            "id": "814332",
+            "clubFrom": {
+              "id": "12777",
+              "name": "Avenida"
+            },
+            "clubTo": {
+              "id": "9141",
+              "name": "Caxias-RS"
+            },
+            "date": "2010-01-09",
+            "upcoming": false,
+            "season": "10/11"
+          },
+          {
+            "id": "5838899",
+            "clubFrom": {
+              "id": "12690",
+              "name": "Grêmio U20"
+            },
+            "clubTo": {
+              "id": "12777",
+              "name": "Avenida"
+            },
+            "date": "2010-01-01",
+            "upcoming": false,
+            "season": "09/10"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "34_plus",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -8013,20 +10378,11 @@
           "lastUpdateChangePercent": -20.0,
           "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 15,
+        "clubsInTransferHistory": 14,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/213368/profile"
-        },
-        {
-          "resource": "transfers",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/213368/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "829968",
@@ -8046,7 +10402,7 @@
       "status": "Suspension through sports court – cross-competition – until 02/11/2026",
       "marketValue": null,
       "profile": {
-        "updatedAt": "2026-07-10T18:42:43.555310",
+        "updatedAt": "2026-07-11T04:36:30.723129",
         "id": "829968",
         "url": "https://www.transfermarkt.com/imanol-machuca/profil/spieler/829968",
         "name": "Imanol Machuca",
@@ -8087,7 +10443,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:42:59.999849",
+        "updatedAt": "2026-07-11T04:36:31.760510",
         "id": "829968",
         "marketValueHistory": [
           {
@@ -8204,13 +10560,90 @@
         "ranking": {}
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:36:32.784174",
+        "id": "829968",
+        "transfers": [
+          {
+            "id": "5451183",
+            "clubFrom": {
+              "id": "1029",
+              "name": "Vélez Sarsfield"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-01-07",
+            "upcoming": false,
+            "season": "26/27"
+          },
+          {
+            "id": "5451182",
+            "clubFrom": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "clubTo": {
+              "id": "1029",
+              "name": "Vélez Sarsfield"
+            },
+            "date": "2025-01-13",
+            "upcoming": false,
+            "season": "24/25",
+            "marketValue": 3000000,
+            "fee": 245000
+          },
+          {
+            "id": "4538313",
+            "clubFrom": {
+              "id": "7097",
+              "name": "Unión Santa Fe"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2023-07-28",
+            "upcoming": false,
+            "season": "23/24",
+            "marketValue": 2500000,
+            "fee": 2250000
+          },
+          {
+            "id": "3747946",
+            "clubFrom": {
+              "id": "25347",
+              "name": "Unión II"
+            },
+            "clubTo": {
+              "id": "7097",
+              "name": "Unión Santa Fe"
+            },
+            "date": "2021-01-01",
+            "upcoming": false,
+            "season": "20/21"
+          },
+          {
+            "id": "3250217",
+            "clubFrom": {
+              "id": "20044",
+              "name": "CA Unión U20"
+            },
+            "clubTo": {
+              "id": "25347",
+              "name": "Unión II"
+            },
+            "date": "2020-01-01",
+            "upcoming": false,
+            "season": "19/20"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2027-12-31",
-          "daysRemaining": 539,
+          "daysRemaining": 538,
           "status": "active"
         },
         "marketValue": {
@@ -8238,18 +10671,13 @@
           "lastUpdateChangePercent": -40.0,
           "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 5,
+        "clubsInTransferHistory": 5,
         "dataQualityIssues": [
           "missing_market_value"
         ]
       },
-      "requestErrors": [
-        {
-          "resource": "transfers",
-          "error": "504 Server Error: Gateway Timeout for url: http://localhost:8000/players/829968/transfers"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "728200",
@@ -8266,9 +10694,45 @@
       "signedFrom": "Defensa y Justicia",
       "contract": "2026-12-31",
       "marketValue": 2300000,
-      "profile": {},
+      "profile": {
+        "updatedAt": "2026-07-11T04:36:34.575430",
+        "id": "728200",
+        "url": "https://www.transfermarkt.com/juan-miritello/profil/spieler/728200",
+        "name": "Juan Miritello",
+        "description": "Juan Miritello, 27, from Argentina ➤ Fortaleza Esporte Clube, since 2025 ➤ Centre-Forward ➤ Market value: €2.30m ➤ * 08/02/1999 in Luján, Argentina",
+        "nameInHomeCountry": "Juan Bautista Miritello",
+        "imageUrl": "https://img.a.transfermarkt.technology/portrait/header/728200-1770650771.jpg?lm=1",
+        "placeOfBirth": {
+          "city": "Luján",
+          "country": "Argentina"
+        },
+        "height": 182,
+        "citizenship": [
+          "Argentina"
+        ],
+        "isRetired": false,
+        "position": {
+          "main": "Centre-Forward",
+          "other": []
+        },
+        "foot": "right",
+        "shirtNumber": "#9",
+        "club": {
+          "id": "10870",
+          "name": "Fortaleza",
+          "joined": "2026-04-03",
+          "contractExpires": "2026-12-31"
+        },
+        "marketValue": 2300000,
+        "agent": {},
+        "socialMedia": [
+          "http://www.instagram.com/juanmiritello18"
+        ],
+        "trainerProfile": {},
+        "relatives": []
+      },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:43:20.977247",
+        "updatedAt": "2026-07-11T04:36:35.935121",
         "id": "728200",
         "marketValue": 2300000,
         "marketValueHistory": [
@@ -8367,7 +10831,7 @@
         }
       },
       "transferData": {
-        "updatedAt": "2026-07-10T18:43:40.955508",
+        "updatedAt": "2026-07-11T04:36:36.972940",
         "id": "728200",
         "transfers": [
           {
@@ -8580,7 +11044,7 @@
         "ageGroup": "26_to_29",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -8612,12 +11076,7 @@
         "clubsInTransferHistory": 9,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "profile",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/728200/profile"
-        }
-      ]
+      "requestErrors": []
     },
     {
       "id": "1083962",
@@ -8635,7 +11094,7 @@
       "contract": "2026-12-31",
       "marketValue": 2000000,
       "profile": {
-        "updatedAt": "2026-07-10T18:43:45.301743",
+        "updatedAt": "2026-07-11T04:36:37.976828",
         "id": "1083962",
         "url": "https://www.transfermarkt.com/gbtm/profil/spieler/1083962",
         "name": "GB",
@@ -8676,7 +11135,7 @@
         "relatives": []
       },
       "marketValueData": {
-        "updatedAt": "2026-07-10T18:43:51.063324",
+        "updatedAt": "2026-07-11T04:36:40.904383",
         "id": "1083962",
         "marketValue": 2000000,
         "marketValueHistory": [
@@ -8726,13 +11185,75 @@
         }
       },
       "transferData": {
-        "transfers": []
+        "updatedAt": "2026-07-11T04:36:41.916986",
+        "id": "1083962",
+        "transfers": [
+          {
+            "id": "6184288",
+            "clubFrom": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "clubTo": {
+              "id": "978",
+              "name": "Vasco da Gama"
+            },
+            "date": "2026-12-31",
+            "upcoming": true,
+            "season": "26/27",
+            "marketValue": 2000000
+          },
+          {
+            "id": "6184287",
+            "clubFrom": {
+              "id": "978",
+              "name": "Vasco da Gama"
+            },
+            "clubTo": {
+              "id": "10870",
+              "name": "Fortaleza"
+            },
+            "date": "2026-02-13",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 3000000
+          },
+          {
+            "id": "5743724",
+            "clubFrom": {
+              "id": "14724",
+              "name": "Vasco U20"
+            },
+            "clubTo": {
+              "id": "978",
+              "name": "Vasco da Gama"
+            },
+            "date": "2025-01-07",
+            "upcoming": false,
+            "season": "25/26",
+            "marketValue": 800000
+          },
+          {
+            "id": "5286020",
+            "clubFrom": {
+              "id": "15036",
+              "name": "Vasco U17"
+            },
+            "clubTo": {
+              "id": "14724",
+              "name": "Vasco U20"
+            },
+            "date": "2023-01-01",
+            "upcoming": false,
+            "season": "22/23"
+          }
+        ]
       },
       "analysis": {
         "ageGroup": "up_to_21",
         "contract": {
           "expiresAt": "2026-12-31",
-          "daysRemaining": 174,
+          "daysRemaining": 173,
           "status": "expires_within_6_months"
         },
         "marketValue": {
@@ -8760,16 +11281,11 @@
           "lastUpdateChangePercent": -33.33,
           "trend": "down"
         },
-        "transferCount": 0,
-        "clubsInTransferHistory": 0,
+        "transferCount": 4,
+        "clubsInTransferHistory": 4,
         "dataQualityIssues": []
       },
-      "requestErrors": [
-        {
-          "resource": "transfers",
-          "error": "502 Server Error: Bad Gateway for url: http://localhost:8000/players/1083962/transfers"
-        }
-      ]
+      "requestErrors": []
     }
   ]
 }

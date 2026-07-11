@@ -251,6 +251,7 @@
 		>
 			<MarketValueByContractYearChart
 				data={players}
+				referenceDate={referenceDate}
 			/>
 		</ChartCard>
 
