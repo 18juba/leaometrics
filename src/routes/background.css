@@ -47,6 +47,10 @@
 	background-image: url('/images/achievements_background.jpg');
 }
 
+.analysis-background {
+	background-image: url('/images/analysis_background.jpg');
+}
+
 /*
  * Escurece o fundo atual.
  *

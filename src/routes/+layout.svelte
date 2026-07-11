@@ -26,6 +26,7 @@
 		'/images/main_background.webp',
 		'/images/team_background.jpg',
 		'/images/achievements_background.jpg',
+		'/images/analysis_background.jpg',
 	];
 
 	function wait(duration: number) {
@@ -53,6 +54,10 @@
 
 		if (pathname.startsWith('/conquistas')) {
 			return 'achievements-background';
+		}
+
+		if (pathname.startsWith('/analises')) {
+			return 'analysis-background';
 		}
 
 		return 'main-background';
