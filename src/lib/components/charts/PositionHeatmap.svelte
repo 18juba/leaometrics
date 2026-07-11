@@ -146,26 +146,26 @@
 		},
 		averageAge: {
 			label: 'Média de Idade',
-			pillLabel: 'Idade',
+			pillLabel: 'Média de Idade',
 			format: (value) => `${decimalFormatter.format(value)} anos`
 		},
 		averageHeight: {
 			label: 'Média de Altura',
-			pillLabel: 'Altura',
+			pillLabel: 'Média de Altura',
 			format: (value) => `${decimalFormatter.format(value)} m`
 		},
 		totalMarketValue: {
 			label: 'Valor de Mercado Total',
-			pillLabel: 'Valor',
+			pillLabel: 'Valor Total',
 			format: (value) => currencyFormatter.format(value)
 		}
 	};
 
 	const metricOrder: Metric[] = [
-		'playerCount',
 		'averageAge',
 		'averageHeight',
-		'totalMarketValue'
+		'totalMarketValue',
+		'playerCount',
 	];
 
 	const values = $derived(data.map((item) => item[metric]));
@@ -185,7 +185,6 @@
 		return normalize(item[metric]);
 	}
 
-	// Same stops used in the legend gradient (blue -> yellow -> rose)
 	const COLD: [number, number, number] = [59, 130, 246];
 	const MID: [number, number, number] = [250, 204, 21];
 	const HOT: [number, number, number] = [244, 63, 94];
@@ -220,27 +219,27 @@
 
 {#snippet metricIcon(key: Metric)}
 	{#if key === 'playerCount'}
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full">
 			<circle cx="8.5" cy="8" r="3" />
 			<path d="M2.5 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" />
 			<circle cx="16.5" cy="8.5" r="2.4" />
 			<path d="M15 13.6c2.6.3 4.5 2.2 4.5 5" />
 		</svg>
 	{:else if key === 'averageAge'}
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full">
 			<path d="M6 3h12" />
 			<path d="M6 21h12" />
 			<path d="M7 3c0 4 4 5 5 6-1 1-5 2-5 6" />
 			<path d="M17 3c0 4-4 5-5 6 1 1 5 2 5 6" />
 		</svg>
 	{:else if key === 'averageHeight'}
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full">
 			<path d="M12 3v18" />
 			<path d="M8 7l4-4 4 4" />
 			<path d="M8 17l4 4 4-4" />
 		</svg>
 	{:else}
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full">
 			<circle cx="12" cy="12" r="8.5" />
 			<path d="M9.5 9.2c.3-1 1.2-1.6 2.5-1.6 1.6 0 2.7.9 2.7 2 0 2.6-4.4 1.8-4.4 4.3 0 1.1 1.1 2 2.7 2 1.3 0 2.2-.6 2.5-1.6" />
 			<path d="M12 6.4v1.2M12 16.4v1.2" />
@@ -249,7 +248,7 @@
 {/snippet}
 
 <div class="w-full">
-	<div class="mb-2 text-[9px] font-semibold uppercase tracking-wide text-neutral-500">
+	<div class="mb-2 text-[9px] font-semibold uppercase tracking-wide">
 		Métrica exibida no campo
 	</div>
 
@@ -260,15 +259,17 @@
 				title={metricConfig[key].label}
 				onclick={() => (metric = key)}
 				style={metric === key
-					? 'background: color-mix(in srgb, var(--secondary) 16%, transparent); border-color: var(--secondary); color: var(--secondary);'
+					? 'background: color-mix(in srgb, var(--golden) 30%, transparent); border-color: var(--golden); color: var(--tertiary);'
 					: ''}
 				class={`flex flex-col items-center gap-1 rounded-lg border px-1.5 py-1.5 text-[9px] font-semibold transition ${
 					metric === key
 						? ''
-						: 'border-white/10 bg-neutral-900/60 text-neutral-400 hover:border-white/20 hover:text-neutral-200'
+						: 'border-(--tertiary)/10 bg-tertiary-900/60 hover:border-white/20'
 				}`}
 			>
-				{@render metricIcon(key)}
+				<span class="block h-3 w-3">
+					{@render metricIcon(key)}
+				</span>
 				<span class="tracking-wide">{metricConfig[key].pillLabel}</span>
 			</button>
 		{/each}
@@ -354,23 +355,23 @@
 							: item.position;
 				}}
 				style={ringStyle(item)}
-				class={`absolute z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full p-[3px] shadow-md transition hover:z-20 hover:scale-110 ${
+				class={`absolute z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full p-[3px] shadow-md transition hover:z-20 hover:scale-110 sm:h-14 sm:w-14 sm:p-1 lg:h-16 lg:w-16 xl:h-[4.5rem] xl:w-[4.5rem] ${
 					selectedPosition === item.position ? 'z-20 scale-110' : ''
 				}`}
 			>
 				{#if selectedPosition === item.position}
 					<span
-						class="absolute inset-0 -m-1 animate-ping rounded-full bg-white/40"
+						class="absolute inset-0 -m-1 animate-ping rounded-full bg-white/40 sm:-m-1.5"
 					></span>
 				{/if}
 
 				<span
 					class="relative flex h-full w-full flex-col items-center justify-center rounded-full border border-white/70 bg-slate-950/90 text-center text-white"
 				>
-					<span class="text-[6.5px] font-bold uppercase leading-none tracking-wide text-slate-300">
+					<span class="text-[6.5px] font-bold uppercase leading-none tracking-wide text-slate-300 sm:text-[8px] lg:text-[9.5px]">
 						{pos.shortLabel}
 					</span>
-					<span class="mt-0.5 max-w-[38px] truncate text-[9px] font-black leading-none">
+					<span class="mt-0.5 max-w-[38px] truncate text-[9px] font-black leading-none sm:max-w-[48px] sm:text-[11px] lg:max-w-[56px] lg:text-[13px]">
 						{metricConfig[metric].format(item[metric])}
 					</span>
 				</span>
@@ -382,26 +383,26 @@
 			{@const accent = intensityColor(intensityOf(selectedData))}
 
 			<div
-				class="absolute bottom-2 left-1/2 z-30 w-[calc(100%-1rem)] max-w-[360px] -translate-x-1/2 overflow-hidden rounded-xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur"
+				class="absolute bottom-2 left-1/2 z-30 w-[calc(100%-1rem)] max-w-[360px] -translate-x-1/2 overflow-hidden rounded-xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur sm:bottom-3 sm:max-w-[440px] sm:rounded-2xl lg:max-w-[520px]"
 				transition:fly={{ y: 24, duration: 220, easing: cubicOut }}
 			>
-				<div class="h-1 w-full" style={`background:${accent}`}></div>
+				<div class="h-1 w-full sm:h-1.5" style={`background:${accent}`}></div>
 
-				<div class="px-3 py-2.5">
+				<div class="px-3 py-2.5 sm:px-5 sm:py-4">
 					<div class="flex items-center justify-between gap-2">
-						<div class="flex min-w-0 items-center gap-2">
+						<div class="flex min-w-0 items-center gap-2 sm:gap-3">
 							<span
-								class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-[9px] font-bold text-white"
+								class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-[9px] font-bold text-white sm:h-10 sm:w-10 sm:text-xs lg:h-11 lg:w-11 lg:text-sm"
 								style={`background:${accent}`}
 							>
 								{pos.shortLabel}
 							</span>
 
 							<div class="min-w-0 leading-tight">
-								<strong class="block truncate text-[11px] text-white">
+								<strong class="block truncate text-[11px] text-white sm:text-base lg:text-lg">
 									{pos.label}
 								</strong>
-								<span class="block text-[8px] text-slate-400">
+								<span class="block text-[8px] text-slate-400 sm:text-xs">
 									Estatísticas da posição
 								</span>
 							</div>
@@ -413,30 +414,30 @@
 							onclick={() => {
 								selectedPosition = null;
 							}}
-							class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-white/10 hover:text-white"
+							class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-white/10 hover:text-white sm:h-7 sm:w-7 sm:text-sm"
 						>
 							✕
 						</button>
 					</div>
 
-					<div class="mt-2.5 grid grid-cols-2 gap-1.5">
+					<div class="mt-2.5 grid grid-cols-2 gap-1.5 sm:mt-4 sm:gap-2.5">
 						{#each metricOrder as key (key)}
 							<div
-								class={`flex items-center gap-1.5 rounded-lg border px-2 py-1.5 ${
+								class={`flex items-center gap-1.5 rounded-lg border px-2 py-1.5 sm:gap-2.5 sm:rounded-xl sm:px-3.5 sm:py-2.5 ${
 									key === metric
 										? 'border-white/25 bg-white/10'
 										: 'border-white/5 bg-white/[0.03]'
 								}`}
 							>
-								<span class="shrink-0 text-slate-400">
+								<span class="block h-3 w-3 shrink-0 text-slate-400 sm:h-4 sm:w-4 lg:h-5 lg:w-5">
 									{@render metricIcon(key)}
 								</span>
 
 								<div class="min-w-0 leading-tight">
-									<span class="block truncate text-[7.5px] uppercase tracking-wide text-slate-400">
+									<span class="block truncate text-[7.5px] uppercase tracking-wide text-slate-400 sm:text-[10px]">
 										{metricConfig[key].pillLabel}
 									</span>
-									<strong class="block truncate text-[10.5px] font-black tabular-nums text-white">
+									<strong class="block truncate text-[10.5px] font-black tabular-nums text-white sm:text-sm lg:text-base">
 										{metricConfig[key].format(selectedData[key])}
 									</strong>
 								</div>
