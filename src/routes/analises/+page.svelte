@@ -12,6 +12,8 @@
 	import MarketValueByContractYearChart from '$lib/components/charts/MarketValueByContractYearChart.svelte';
 	import NationalityDistributionChart from '$lib/components/charts/NationalityDistributionChart.svelte';
 
+	import ChartCard from '$lib/components/charts/ChartCard.svelte';
+
 	let { data }: { data: PageData } = $props();
 
 	const analysis = data.analysis as ClubAnalysisJson;
@@ -343,75 +345,30 @@
 		</section>
 
 		<!-- Jogadores valiosos -->
-		<section
-			class="
-				min-w-0 overflow-hidden
-				rounded-2xl border border-(--tertiary)/5
-				bg-neutral-800/50 p-6
-				backdrop-blur-lg
-				lg:col-span-7
-			"
+		<ChartCard
+			category="Patrimônio"
+			title="Jogadores mais valiosos"
+			description="Atletas com maior valor atual de mercado."
+			class="lg:col-span-7"
 		>
-			<div class="mb-4">
-				<span
-					class="
-						text-[10px] font-semibold uppercase
-						tracking-wider text-(--golden)
-					"
-				>
-					Patrimônio
-				</span>
-
-				<h2 class="mt-1 font-semibold">
-					Jogadores mais valiosos
-				</h2>
-
-				<p class="mt-1 text-xs text-neutral-400">
-					Atletas com maior valor atual de mercado.
-				</p>
-			</div>
-
 			<MostValuablePlayersChart
 				data={squadAnalysis.mostValuablePlayers}
 			/>
-		</section>
+		</ChartCard>
 
 		<!-- Idade versus valor -->
-		<section
-			class="
-				min-w-0 overflow-hidden
-				rounded-2xl border border-(--tertiary)/5
-				bg-neutral-800/50 p-6
-				backdrop-blur-lg
-				lg:col-span-8
-			"
+		<ChartCard
+			category="Perfil financeiro"
+			title="Idade versus valor de mercado"
+			description="Relação entre idade, valor e posição dos jogadores."
+			class="lg:col-span-8"
 		>
-			<div class="mb-4">
-				<span
-					class="
-						text-[10px] font-semibold uppercase
-						tracking-wider text-(--secondary)
-					"
-				>
-					Perfil financeiro
-				</span>
-
-				<h2 class="mt-1 font-semibold">
-					Idade versus valor de mercado
-				</h2>
-
-				<p class="mt-1 text-xs text-neutral-400">
-					Relação entre idade, valor e posição dos
-					jogadores.
-				</p>
-			</div>
-
 			<AgeVsMarketValueScatterChart
 				data={players}
 				averageAge={squadAnalysis.averageAge}
 				averageMarketValue={squadAnalysis.averageMarketValue}
 			/>
-		</section>
+		</ChartCard>
 
 		<!-- Distribuição etária -->
 		<section

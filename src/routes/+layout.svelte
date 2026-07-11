@@ -1,6 +1,7 @@
 <script lang="ts">
 	import './globals.css';
 	import './background.css';
+	import '$lib/components/charts/chartTheme';
 
 	import favicon from '$lib/assets/favicon.svg';
 
@@ -24,7 +25,7 @@
 	const backgroundImages = [
 		'/images/main_background.webp',
 		'/images/team_background.jpg',
-		'/images/achievements_background.jpg'
+		'/images/achievements_background.jpg',
 	];
 
 	function wait(duration: number) {
