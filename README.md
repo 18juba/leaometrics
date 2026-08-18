@@ -1,42 +1,56 @@
-# sv
+# LeãoFut
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Aplicação web para análise esportiva e financeira do elenco do Fortaleza Esporte Clube.
 
-## Creating a project
+O projeto reúne informações sobre jogadores, valor de mercado, idade, contratos, posições, nacionalidades e histórico de transferências, apresentando os dados através de rankings, gráficos e indicadores interativos.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Funcionalidades
 
-```sh
-# create a new project
-npx sv create my-app
+* Visualização e filtragem do elenco
+* Ordenação por nome, idade, altura e valor de mercado
+* Perfil detalhado dos jogadores
+* Rankings de atletas
+* Análise por posição
+* Distribuição etária
+* Valor de mercado do elenco
+* Análise de contratos e vencimentos
+* Distribuição por nacionalidade
+* Histórico de transferências
+* Gráficos interativos
+* Download dos dados utilizados nas análises
+
+## Tecnologias
+
+* Svelte 5
+* SvelteKit
+* TypeScript
+* Tailwind CSS
+* Chart.js
+
+## Dados
+
+Os dados utilizados pela aplicação são processados e disponibilizados através de arquivos estáticos JSON, permitindo carregamento rápido das análises.
+
+A fonte original das informações esportivas e de mercado é o Transfermarkt.
+
+## Executando o projeto
+
+```bash
+bun install
 ```
 
-To recreate this project with the same configuration:
+Para iniciar o ambiente de desenvolvimento:
 
-```sh
-# recreate this project
-bun x sv@0.16.2 create --template minimal --no-types --add prettier eslint tailwindcss="plugins:none" --install bun leaofut
+```bash
+bun dev
 ```
 
-## Developing
+Para gerar a versão de produção:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+bun run build
 ```
 
-## Building
+## 📄 Aviso
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Este é um projeto independente, desenvolvido para fins de estudo, análise e visualização de dados. Não possui vínculo oficial com o Fortaleza Esporte Clube ou com o Transfermarkt.
