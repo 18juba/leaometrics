@@ -23,7 +23,7 @@
 	const referenceDate = analysis.source.analysisReferenceDate;
 
 	const analysisFileUrl =
-		'/data/fortaleza_analysis_10-07-2026.json';
+		'/data/fortaleza_analysis_19-08-2026.json';
 </script>
 
 <svelte:head>
@@ -141,7 +141,7 @@
 
 				<a
 					href={analysisFileUrl}
-					download="fortaleza_analysis_10-07-2026.json"
+					download="fortaleza_analysis_19-08-2026.json"
 					class="
 						inline-flex w-full
 						shrink-0 items-center
