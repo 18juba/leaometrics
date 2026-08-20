@@ -29,6 +29,7 @@ export type AgeGroup =
 export type ContractStatus =
 	| 'active'
 	| 'expires_within_6_months'
+	| 'expires_within_12_months'
 	| 'expired'
 	| 'unknown';
 
