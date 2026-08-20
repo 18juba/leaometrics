@@ -1,0 +1,151 @@
+<script lang="ts">
+	import { formatCurrency } from '$lib/formatters/formatCurrency';
+	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
+	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
+	import { positionsDictionary } from '$lib/dictionaries/positionsDictionary';
+	import type { Player } from '$lib/types/analysis';
+
+	interface Props {
+		players: Player[];
+		limit?: number;
+	}
+
+	type SortOrder = 'asc' | 'desc';
+
+	let { players, limit = 10 }: Props = $props();
+
+	let sortOrder = $state<SortOrder>('desc');
+
+	const rankedPlayers = $derived(
+		players
+			.toSorted((a, b) => {
+				const valueA = Number(a.marketValue) || 0;
+				const valueB = Number(b.marketValue) || 0;
+
+				return sortOrder === 'desc' ? valueB - valueA : valueA - valueB;
+			})
+			.slice(0, limit)
+	);
+
+	function toggleOrder(): void {
+		sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+	}
+
+	function translatePosition(position: string | null | undefined): string {
+		if (!position) return 'Sem posição';
+		return positionsDictionary[position] ?? position;
+	}
+
+	function getPrimaryNationality(player: Player): string {
+		return player.nationality?.[0] ?? 'Unknown';
+	}
+
+	function translateNationality(nationality: string): string {
+		return countryDictionary[nationality] ?? nationality;
+	}
+
+	function getPlayerFlag(player: Player): string {
+		const translated = translateNationality(getPrimaryNationality(player));
+		return bandeirasPt[translated] ?? '🌎';
+	}
+
+	function handlePlayerImageError(event: Event): void {
+		const image = event.currentTarget as HTMLImageElement;
+		image.onerror = null;
+		image.src = '/images/players/placeholder.webp';
+	}
+</script>
+
+<section
+	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-4 backdrop-blur-lg sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
+>
+	<div class="mb-4 flex items-start justify-between gap-3">
+		<h2
+			class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm"
+		>
+			Jogadores {sortOrder === 'asc' ? 'menos' : 'mais'} valiosos
+			<span class="ml-1 text-[9px] whitespace-nowrap text-neutral-500 sm:text-[10px]">
+				({limit} total)
+			</span>
+		</h2>
+
+		<button
+			type="button"
+			onclick={toggleOrder}
+			aria-label={
+				sortOrder === 'desc'
+					? 'Exibir jogadores menos valiosos'
+					: 'Exibir jogadores mais valiosos'
+			}
+			title={
+				sortOrder === 'desc' ? 'Ordenar do menor valor' : 'Ordenar do maior valor'
+			}
+			class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-(--secondary) text-sm font-bold transition-colors hover:bg-(--secondary)/80"
+		>
+			<span
+				class="inline-block transition-transform duration-200"
+				class:rotate-180={sortOrder === 'asc'}
+			>
+				↓
+			</span>
+		</button>
+	</div>
+
+	<div
+		class="custom-scrollbar max-h-112 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
+	>
+		{#each rankedPlayers as player (player.id)}
+			<div
+				class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 overflow-hidden rounded-lg bg-neutral-900/30 p-2 transition-colors hover:bg-neutral-900/60 sm:gap-3"
+			>
+				<div class="flex min-w-0 items-center gap-2 sm:gap-3">
+					<img
+						src={`/images/players/${player.id}.webp`}
+						alt={player.name}
+						onerror={handlePlayerImageError}
+						class="h-10 w-10 shrink-0 rounded-full bg-(--tertiary)/20 object-contain sm:h-12 sm:w-12"
+					/>
+
+					<div class="min-w-0 flex-1">
+						<div class="flex min-w-0 items-center gap-1.5">
+							<span
+								class="min-w-0 truncate text-xs font-medium text-neutral-200 sm:text-sm"
+								title={player.name}
+							>
+								{player.name}
+							</span>
+
+							<span
+								class="shrink-0 text-base leading-none sm:text-lg"
+								title={translateNationality(getPrimaryNationality(player))}
+								aria-label={`Nacionalidade: ${translateNationality(getPrimaryNationality(player))}`}
+							>
+								<span aria-hidden="true">{getPlayerFlag(player)}</span>
+							</span>
+						</div>
+
+						<span
+							class="mt-0.5 block truncate text-[9px] tracking-tight text-neutral-400 uppercase sm:text-[10px]"
+						>
+							{translatePosition(player.position)} •
+							{player.age ? `${player.age} anos` : 'Idade N/A'}
+						</span>
+					</div>
+				</div>
+
+				<span
+					class="shrink-0 pl-1 text-[10px] font-black whitespace-nowrap text-(--golden) sm:pl-2 sm:text-xs"
+				>
+					{formatCurrency(player.marketValue)}
+				</span>
+			</div>
+		{/each}
+	</div>
+
+	<a
+		href="/elenco"
+		class="mt-4 w-full rounded-xl bg-(--secondary) px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-(--secondary)/80"
+	>
+		Ver elenco completo
+	</a>
+</section>
