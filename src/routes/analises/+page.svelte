@@ -16,11 +16,11 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const analysis = data.analysis as ClubAnalysisJson;
+	const analysis = $derived<ClubAnalysisJson>(data.analysis);
 
-	const players = analysis.players;
-	const squadAnalysis = analysis.squadAnalysis;
-	const referenceDate = analysis.source.analysisReferenceDate;
+	const players = $derived(analysis.players);
+	const squadAnalysis = $derived(analysis.squadAnalysis);
+	const referenceDate = $derived(analysis.source.analysisReferenceDate);
 
 	const analysisFileUrl =
 		'/data/fortaleza_analysis_19-08-2026.json';

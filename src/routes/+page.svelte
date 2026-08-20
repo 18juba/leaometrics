@@ -12,15 +12,12 @@
 
 	let { data }: { data: PageData } = $props();
 
-	/*
-	 * Nova fonte principal da página.
-	 */
-	const analysis = data.analysis as ClubAnalysisJson;
+	const analysis = $derived<ClubAnalysisJson>(data.analysis);
 
-	const players = analysis.players;
-	const squadAnalysis = analysis.squadAnalysis;
+	const players = $derived(analysis.players);
+	const squadAnalysis = $derived(analysis.squadAnalysis);
 	const referenceDate =
-		analysis.source.analysisReferenceDate;
+		$derived(analysis.source.analysisReferenceDate);
 
 	const clubInformation = {
 		name: 'Fortaleza Esporte Clube',

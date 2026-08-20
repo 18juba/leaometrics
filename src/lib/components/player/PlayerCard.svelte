@@ -1,6 +1,8 @@
 <script lang="ts">
 	import PlayerFoot from '$lib/components/player/PlayerFoot.svelte';
 
+	import { formatFoot } from '$lib/formatters/formatFoot';
+	import { formatHeight } from '$lib/formatters/formatHeight';
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
@@ -21,39 +23,6 @@
 			(country) => countryDictionary[country] ?? country
 		)
 	);
-
-	function formatHeight(height: number | null | undefined): string {
-		if (!height) return 'N/A';
-
-		return height > 3
-			? `${height} cm`
-			: `${height.toLocaleString('pt-BR', {
-					minimumFractionDigits: 2,
-					maximumFractionDigits: 2
-				})} m`;
-	}
-
-	function formatFoot(foot: string | null | undefined): string {
-		const normalizedFoot = foot
-			?.trim()
-			.toLocaleLowerCase('pt-BR')
-			.replace(/[\s_-]/g, '');
-
-		const translations: Record<string, string> = {
-			right: 'Direito',
-			rightfoot: 'Direito',
-			left: 'Esquerdo',
-			leftfoot: 'Esquerdo',
-			both: 'Ambidestro',
-			ambidextrous: 'Ambidestro',
-			ambidestro: 'Ambidestro',
-			direito: 'Direito',
-			esquerdo: 'Esquerdo',
-			ambos: 'Ambidestro'
-		};
-
-		return translations[normalizedFoot ?? ''] ?? foot ?? 'N/A';
-	}
 
 	function handleImageError(event: Event): void {
 		const image = event.currentTarget as HTMLImageElement;

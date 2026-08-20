@@ -19,8 +19,8 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const analysis = data.analysis as ClubAnalysisJson;
-	const players = analysis.players;
+	const analysis = $derived<ClubAnalysisJson>(data.analysis);
+	const players = $derived(analysis.players);
 
 	let searchTerm = $state('');
 	let selectedPosition = $state('Todas');

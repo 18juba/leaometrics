@@ -5,6 +5,8 @@
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
 	import { getPositionLabel } from '$lib/components/elenco/elenco.utils';
+	import { formatHeight } from '$lib/formatters/formatHeight';
+	import { formatFoot } from '$lib/formatters/formatFoot';
 
 	import type { ClubPlayer } from '$lib/components/elenco/elenco.types';
 
@@ -79,39 +81,6 @@
 		const image = event.currentTarget as HTMLImageElement;
 		image.onerror = null;
 		image.src = '/images/players/placeholder.webp';
-	}
-
-	function formatHeight(height: number | null | undefined): string {
-		if (!height) return 'N/A';
-
-		return height > 3
-			? `${height} cm`
-			: `${height.toLocaleString('pt-BR', {
-					minimumFractionDigits: 2,
-					maximumFractionDigits: 2
-				})} m`;
-	}
-
-	function formatFoot(foot: string | null | undefined): string {
-		const normalizedFoot = foot
-			?.trim()
-			.toLocaleLowerCase('pt-BR')
-			.replace(/[\s_-]/g, '');
-
-		const translations: Record<string, string> = {
-			right: 'Direito',
-			rightfoot: 'Direito',
-			left: 'Esquerdo',
-			leftfoot: 'Esquerdo',
-			both: 'Ambidestro',
-			ambidextrous: 'Ambidestro',
-			ambidestro: 'Ambidestro',
-			direito: 'Direito',
-			esquerdo: 'Esquerdo',
-			ambos: 'Ambidestro'
-		};
-
-		return translations[normalizedFoot ?? ''] ?? foot ?? 'N/A';
 	}
 
 	function formatDate(value: string | null | undefined): string {
