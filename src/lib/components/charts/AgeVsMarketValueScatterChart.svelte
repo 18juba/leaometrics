@@ -255,5 +255,5 @@
 </script>
 
 <div class="relative h-130 w-full">
-	<canvas bind:this={canvas}></canvas>
+	<canvas bind:this={canvas} aria-label="Comparação entre idade e valor de mercado"></canvas>
 </div>

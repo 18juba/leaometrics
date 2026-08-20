@@ -173,5 +173,5 @@
 </script>
 
 <div class="relative h-80 w-full">
-	<canvas bind:this={canvas}></canvas>
+	<canvas bind:this={canvas} aria-label="Jogadores com maior valor de mercado do elenco"></canvas>
 </div>
