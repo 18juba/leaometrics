@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import type { ClubAnalysisJson } from '$lib/types/analysis';
 	import { formatDateTime } from '$lib/formatters/formatDateTime';
+	import { ANALYSIS_JSON_PATH } from '$lib/data/analysisData';
 
 	import PositionHeatmap from '$lib/components/charts/PositionHeatmap.svelte';
 	import MostValuablePlayersChart from '$lib/components/charts/MostValuablePlayersChart.svelte';
@@ -21,9 +22,6 @@
 	const players = $derived(analysis.players);
 	const squadAnalysis = $derived(analysis.squadAnalysis);
 	const referenceDate = $derived(analysis.source.analysisReferenceDate);
-
-	const analysisFileUrl =
-		'/data/fortaleza_analysis_19-08-2026.json';
 </script>
 
 <svelte:head>
@@ -140,7 +138,7 @@
 				</div>
 
 				<a
-					href={analysisFileUrl}
+					href={ANALYSIS_JSON_PATH}
 					download="fortaleza_analysis_19-08-2026.json"
 					class="
 						inline-flex w-full
