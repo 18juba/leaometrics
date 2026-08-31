@@ -3,6 +3,7 @@
 
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import type { Player } from '$lib/types/analysis';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	type PlayerMarketValueData = Player['marketValueData'];
 	type MarketValueHistoryEntry = PlayerMarketValueData['marketValueHistory'][number];
@@ -85,7 +86,7 @@
 		let cancelled = false;
 
 		async function renderChart(): Promise<void> {
-			const { default: Chart } = await import('chart.js/auto');
+			const Chart = await loadChart();
 
 			if (cancelled) return;
 

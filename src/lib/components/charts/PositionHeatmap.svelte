@@ -411,7 +411,7 @@
 			{@const accent = intensityColor(intensityOf(selectedData))}
 
 			<div
-				class="absolute bottom-2 left-1/2 z-30 w-[calc(100%-1rem)] max-w-[360px] -translate-x-1/2 overflow-hidden rounded-xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur sm:bottom-3 sm:max-w-[440px] sm:rounded-2xl lg:max-w-[520px]"
+				class="absolute bottom-2 left-1/2 z-30 w-[calc(100%-1rem)] max-w-[360px] -translate-x-1/2 overflow-hidden rounded-xl border border-white/15 bg-slate-950/95 shadow-2xl sm:bottom-3 sm:max-w-[440px] sm:rounded-2xl lg:max-w-[520px]"
 				transition:fly={{ y: 24, duration: 220, easing: cubicOut }}
 			>
 				<div class="h-1 w-full sm:h-1.5" style={`background:${accent}`}></div>

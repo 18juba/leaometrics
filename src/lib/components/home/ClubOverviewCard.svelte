@@ -28,7 +28,7 @@
 </script>
 
 <section
-	class="group relative overflow-hidden rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-4 backdrop-blur-lg sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
+	class="group relative overflow-hidden rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-4 sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
 >
 	<div
 		class="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-(--primary) opacity-10 blur-3xl transition-opacity duration-300 group-hover:opacity-20"

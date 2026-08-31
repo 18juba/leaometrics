@@ -48,8 +48,8 @@
 				group relative min-w-0 overflow-hidden
 				rounded-xl
 				border border-(--tertiary)/5
-				bg-neutral-800/50
-				p-3 backdrop-blur-lg
+				bg-neutral-800/90
+				p-3
 				sm:p-4
 				md:col-span-2
 				xl:col-span-12

@@ -18,9 +18,8 @@
 		min-w-0 overflow-hidden
 		rounded-xl
 		border border-(--tertiary)/5
-		bg-neutral-800/50
+		bg-neutral-800/88
 		p-4
-		backdrop-blur-lg
 		${className}
 	`}
 >

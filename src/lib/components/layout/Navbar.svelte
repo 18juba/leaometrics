@@ -115,10 +115,9 @@
 			overflow-hidden
 			rounded-2xl
 			border border-(--tertiary)/10
-			bg-neutral-950/80
+			bg-neutral-950/95
 			px-1.5 py-1.5
 			shadow-2xl shadow-black/40
-			backdrop-blur-xl
 		"
 	>
 		{#each links as link (link.href)}

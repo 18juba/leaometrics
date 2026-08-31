@@ -176,7 +176,7 @@
 		tabindex="-1"
 		onclick={onClose}
 		aria-label="Fechar detalhes do jogador"
-		class="absolute inset-0 cursor-default bg-black/80 backdrop-blur-sm"
+		class="absolute inset-0 cursor-default bg-black/85"
 	></button>
 
 	<section
@@ -190,7 +190,7 @@
 			type="button"
 			onclick={onClose}
 			aria-label="Fechar"
-			class="absolute top-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/5 bg-neutral-950/80 text-xl text-neutral-300 backdrop-blur-md transition-colors hover:bg-neutral-800 hover:text-white focus-visible:ring-2 focus-visible:ring-(--secondary) focus-visible:outline-none"
+			class="absolute top-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/5 bg-neutral-950/95 text-xl text-neutral-300 transition-colors hover:bg-neutral-800 hover:text-white focus-visible:ring-2 focus-visible:ring-(--secondary) focus-visible:outline-none"
 		>
 			×
 		</button>

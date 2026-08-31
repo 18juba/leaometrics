@@ -35,7 +35,7 @@
 	onclick={() => onOpen(player)}
 	aria-haspopup="dialog"
 	aria-label={`Abrir análise de ${player.name}`}
-	class="group relative w-full overflow-hidden rounded-2xl border border-(--tertiary)/5 bg-neutral-800/50 text-left backdrop-blur-lg transition-all duration-200 hover:-translate-y-1 hover:border-(--tertiary)/15 hover:bg-neutral-800/70 hover:shadow-2xl hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--secondary)"
+	class="group relative w-full overflow-hidden rounded-2xl border border-(--tertiary)/5 bg-neutral-800/90 text-left transition-all duration-200 hover:-translate-y-1 hover:border-(--tertiary)/15 hover:bg-neutral-800/95 hover:shadow-2xl hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--secondary)"
 >
 	<div
 		class="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-(--primary) opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-40"
@@ -44,7 +44,7 @@
 	<div class="relative h-52 overflow-hidden border-b border-(--tertiary)/5 bg-neutral-900/40">
 		<div class="absolute left-4 top-4 z-10">
 			<span
-				class="inline-flex rounded-lg border border-white/5 bg-neutral-950/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-300 backdrop-blur-md"
+				class="inline-flex rounded-lg border border-white/5 bg-neutral-950/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-300"
 			>
 				{getPositionLabel(player.position)}
 			</span>
@@ -63,6 +63,8 @@
 		<img
 			src={`/images/players/${player.id}.webp`}
 			alt={player.name}
+			loading="lazy"
+			decoding="async"
 			onerror={handleImageError}
 			class="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-[90%] w-[90%] select-none object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.04]"
 		/>

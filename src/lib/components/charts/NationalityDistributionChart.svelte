@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
-	import Chart from 'chart.js/auto';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	type NationalityMetric = 'playerCount' | 'totalMarketValue';
 
@@ -25,7 +27,7 @@
 	let { data, initialMetric = 'playerCount' }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart<'doughnut', number[], string> | null = null;
+	let chart: ChartInstance<'doughnut', number[], string> | null = null;
 
 	let selectedMetric = $derived<NationalityMetric>(initialMetric);
 
@@ -215,141 +217,153 @@
 	}
 
 	onMount(() => {
-		displayedGroups = sortGroups(selectedMetric);
+		let disposed = false;
 
-		chart = new Chart<'doughnut', number[], string>(canvas, {
-			type: 'doughnut',
+		const initializeChart = async () => {
+			const Chart = await loadChart();
 
-			data: {
-				labels: displayedGroups.map((group) => group.label),
+			if (disposed) return;
 
-				datasets: [
-					{
-						label: metricLabels[selectedMetric],
+			displayedGroups = sortGroups(selectedMetric);
 
-						data: displayedGroups.map((group) => getMetricValue(group, selectedMetric)),
+			chart = new Chart<'doughnut', number[], string>(canvas, {
+				type: 'doughnut',
 
-						backgroundColor: displayedGroups.map(
-							(_, index) => chartColors[index % chartColors.length]
-						),
+				data: {
+					labels: displayedGroups.map((group) => group.label),
 
-						borderColor: '#ffffff',
-						borderWidth: 2,
-						hoverOffset: 6
-					}
-				]
-			},
+					datasets: [
+						{
+							label: metricLabels[selectedMetric],
 
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				animation: false,
+							data: displayedGroups.map((group) => getMetricValue(group, selectedMetric)),
 
-				/*
-				 * Quanto maior o valor, maior o espaço no centro.
-				 */
-				cutout: '54%',
+							backgroundColor: displayedGroups.map(
+								(_, index) => chartColors[index % chartColors.length]
+							),
 
-				plugins: {
-					legend: {
-						position: 'bottom',
-
-						labels: {
-							usePointStyle: true,
-							pointStyle: 'circle',
-
-							boxWidth: 8,
-							boxHeight: 8,
-							padding: 12,
-
-							font: {
-								size: 10
-							}
+							borderColor: '#ffffff',
+							borderWidth: 2,
+							hoverOffset: 6
 						}
-					},
+					]
+				},
 
-					tooltip: {
-						displayColors: true,
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: false,
 
-						callbacks: {
-							title(items) {
-								return items[0]?.label ?? '';
-							},
+					/*
+					 * Quanto maior o valor, maior o espaço no centro.
+					 */
+					cutout: '54%',
 
-							label(context) {
-								const group = displayedGroups[context.dataIndex];
+					plugins: {
+						legend: {
+							position: 'bottom',
 
-								if (!group) {
-									return '';
+							labels: {
+								usePointStyle: true,
+								pointStyle: 'circle',
+
+								boxWidth: 8,
+								boxHeight: 8,
+								padding: 12,
+
+								font: {
+									size: 10
 								}
+							}
+						},
 
-								const value = getMetricValue(group, selectedMetric);
+						tooltip: {
+							displayColors: true,
 
-								return `${metricLabels[selectedMetric]}: ${formatMetricValue(
-									value,
-									selectedMetric
-								)}`;
-							},
+							callbacks: {
+								title(items) {
+									return items[0]?.label ?? '';
+								},
 
-							afterLabel(context) {
-								const group = displayedGroups[context.dataIndex];
+								label(context) {
+									const group = displayedGroups[context.dataIndex];
 
-								if (!group) {
-									return [];
+									if (!group) {
+										return '';
+									}
+
+									const value = getMetricValue(group, selectedMetric);
+
+									return `${metricLabels[selectedMetric]}: ${formatMetricValue(
+										value,
+										selectedMetric
+									)}`;
+								},
+
+								afterLabel(context) {
+									const group = displayedGroups[context.dataIndex];
+
+									if (!group) {
+										return [];
+									}
+
+									const datasetValues = displayedGroups.map((item) =>
+										getMetricValue(item, selectedMetric)
+									);
+
+									const selectedTotal = datasetValues.reduce((total, value) => total + value, 0);
+
+									const currentValue = getMetricValue(group, selectedMetric);
+
+									const percentage = selectedTotal > 0 ? (currentValue / selectedTotal) * 100 : 0;
+
+									return [
+										`Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`,
+										`Participação: ${percentageFormatter.format(percentage)}%`
+									];
+								},
+
+								afterBody(items) {
+									const index = items[0]?.dataIndex;
+
+									if (index === undefined) {
+										return [];
+									}
+
+									const group = displayedGroups[index];
+
+									if (!group) {
+										return [];
+									}
+
+									const sortedPlayers = [...group.players].sort(
+										(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
+									);
+
+									return [
+										'',
+										...sortedPlayers.map(
+											(player) =>
+												`${player.name}: ${
+													player.marketValue !== null
+														? compactCurrencyFormatter.format(player.marketValue)
+														: 'sem valor'
+												}`
+										)
+									];
 								}
-
-								const datasetValues = displayedGroups.map((item) =>
-									getMetricValue(item, selectedMetric)
-								);
-
-								const selectedTotal = datasetValues.reduce((total, value) => total + value, 0);
-
-								const currentValue = getMetricValue(group, selectedMetric);
-
-								const percentage = selectedTotal > 0 ? (currentValue / selectedTotal) * 100 : 0;
-
-								return [
-									`Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`,
-									`Participação: ${percentageFormatter.format(percentage)}%`
-								];
-							},
-
-							afterBody(items) {
-								const index = items[0]?.dataIndex;
-
-								if (index === undefined) {
-									return [];
-								}
-
-								const group = displayedGroups[index];
-
-								if (!group) {
-									return [];
-								}
-
-								const sortedPlayers = [...group.players].sort(
-									(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
-								);
-
-								return [
-									'',
-									...sortedPlayers.map(
-										(player) =>
-											`${player.name}: ${
-												player.marketValue !== null
-													? compactCurrencyFormatter.format(player.marketValue)
-													: 'sem valor'
-											}`
-									)
-								];
 							}
 						}
 					}
 				}
-			}
-		});
+			});
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};

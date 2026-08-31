@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Chart from 'chart.js/auto';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	interface Props {
 		data: Player[];
@@ -22,7 +24,7 @@
 	let { data, referenceDate }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart<'bar', number[], string> | null = null;
+	let chart: ChartInstance<'bar', number[], string> | null = null;
 
 	const SIX_MONTHS_IN_DAYS = 183;
 	const TWELVE_MONTHS_IN_DAYS = 365;
@@ -146,168 +148,180 @@
 	});
 
 	onMount(() => {
-		const buckets = buildContractBuckets(data);
+		let disposed = false;
 
-		const values = buckets.map((bucket) => bucket.players.length);
+		const initializeChart = async () => {
+			const Chart = await loadChart();
 
-		const totalKnownContracts = values.reduce((total, value) => total + value, 0);
+			if (disposed) return;
 
-		const highestValue = Math.max(...values, 0);
+			const buckets = buildContractBuckets(data);
 
-		chart = new Chart<'bar', number[], string>(canvas, {
-			type: 'bar',
+			const values = buckets.map((bucket) => bucket.players.length);
 
-			data: {
-				labels: buckets.map((bucket) => bucket.label),
+			const totalKnownContracts = values.reduce((total, value) => total + value, 0);
 
-				datasets: [
-					{
-						label: 'Jogadores',
-						data: values,
+			const highestValue = Math.max(...values, 0);
 
-						backgroundColor: [
-							'rgba(220, 38, 38, 0.82)',
-							'rgba(249, 115, 22, 0.82)',
-							'rgba(234, 179, 8, 0.82)',
-							'rgba(59, 130, 246, 0.82)',
-							'rgba(34, 197, 94, 0.82)'
-						],
+			chart = new Chart<'bar', number[], string>(canvas, {
+				type: 'bar',
 
-						borderColor: [
-							'rgb(185, 28, 28)',
-							'rgb(234, 88, 12)',
-							'rgb(202, 138, 4)',
-							'rgb(37, 99, 235)',
-							'rgb(22, 163, 74)'
-						],
+				data: {
+					labels: buckets.map((bucket) => bucket.label),
 
-						borderWidth: 1,
-						borderRadius: 6,
-						borderSkipped: false,
+					datasets: [
+						{
+							label: 'Jogadores',
+							data: values,
 
-						maxBarThickness: 46,
-						categoryPercentage: 0.72,
-						barPercentage: 0.86
-					}
-				]
-			},
+							backgroundColor: [
+								'rgba(220, 38, 38, 0.82)',
+								'rgba(249, 115, 22, 0.82)',
+								'rgba(234, 179, 8, 0.82)',
+								'rgba(59, 130, 246, 0.82)',
+								'rgba(34, 197, 94, 0.82)'
+							],
 
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				animation: false,
+							borderColor: [
+								'rgb(185, 28, 28)',
+								'rgb(234, 88, 12)',
+								'rgb(202, 138, 4)',
+								'rgb(37, 99, 235)',
+								'rgb(22, 163, 74)'
+							],
 
-				plugins: {
-					legend: {
-						display: false
-					},
+							borderWidth: 1,
+							borderRadius: 6,
+							borderSkipped: false,
 
-					tooltip: {
-						displayColors: false,
-
-						callbacks: {
-							title(items) {
-								return items[0]?.label ?? '';
-							},
-
-							label(context) {
-								const playerCount = context.parsed.y;
-
-								return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
-							},
-
-							afterLabel(context) {
-								if (totalKnownContracts === 0) {
-									return '';
-								}
-
-								const percentage = (context.parsed.y / totalKnownContracts) * 100;
-
-								return `${percentage.toLocaleString('pt-BR', {
-									maximumFractionDigits: 1
-								})}% dos contratos conhecidos`;
-							},
-
-							afterBody(items) {
-								const index = items[0]?.dataIndex;
-
-								if (index === undefined) {
-									return [];
-								}
-
-								const players = buckets[index].players;
-
-								if (players.length === 0) {
-									return [];
-								}
-
-								return [
-									'',
-									...players.map((player) => {
-										const expiration = player.analysis.contract.expiresAt;
-
-										return `${player.name} — ${formatContractDate(expiration)}`;
-									})
-								];
-							}
+							maxBarThickness: 46,
+							categoryPercentage: 0.72,
+							barPercentage: 0.86
 						}
-					}
+					]
 				},
 
-				scales: {
-					x: {
-						title: {
-							display: true,
-							text: 'Tempo até o vencimento',
-							font: {
-								size: 11
-							}
-						},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: false,
 
-						grid: {
+					plugins: {
+						legend: {
 							display: false
 						},
 
-						ticks: {
-							maxRotation: 0,
-							minRotation: 0,
+						tooltip: {
+							displayColors: false,
 
-							font: {
-								size: 9
+							callbacks: {
+								title(items) {
+									return items[0]?.label ?? '';
+								},
+
+								label(context) {
+									const playerCount = context.parsed.y;
+
+									return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
+								},
+
+								afterLabel(context) {
+									if (totalKnownContracts === 0) {
+										return '';
+									}
+
+									const percentage = (context.parsed.y / totalKnownContracts) * 100;
+
+									return `${percentage.toLocaleString('pt-BR', {
+										maximumFractionDigits: 1
+									})}% dos contratos conhecidos`;
+								},
+
+								afterBody(items) {
+									const index = items[0]?.dataIndex;
+
+									if (index === undefined) {
+										return [];
+									}
+
+									const players = buckets[index].players;
+
+									if (players.length === 0) {
+										return [];
+									}
+
+									return [
+										'',
+										...players.map((player) => {
+											const expiration = player.analysis.contract.expiresAt;
+
+											return `${player.name} — ${formatContractDate(expiration)}`;
+										})
+									];
+								}
 							}
 						}
 					},
 
-					y: {
-						beginAtZero: true,
-						suggestedMax: highestValue + 1,
+					scales: {
+						x: {
+							title: {
+								display: true,
+								text: 'Tempo até o vencimento',
+								font: {
+									size: 11
+								}
+							},
 
-						title: {
-							display: true,
-							text: 'Jogadores',
-							font: {
-								size: 11
+							grid: {
+								display: false
+							},
+
+							ticks: {
+								maxRotation: 0,
+								minRotation: 0,
+
+								font: {
+									size: 9
+								}
 							}
 						},
 
-						grid: {
-							color: 'rgba(148, 163, 184, 0.16)'
-						},
+						y: {
+							beginAtZero: true,
+							suggestedMax: highestValue + 1,
 
-						ticks: {
-							stepSize: 1,
-							precision: 0,
+							title: {
+								display: true,
+								text: 'Jogadores',
+								font: {
+									size: 11
+								}
+							},
 
-							font: {
-								size: 10
+							grid: {
+								color: 'rgba(148, 163, 184, 0.16)'
+							},
+
+							ticks: {
+								stepSize: 1,
+								precision: 0,
+
+								font: {
+									size: 10
+								}
 							}
 						}
 					}
 				}
-			}
-		});
+			});
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};

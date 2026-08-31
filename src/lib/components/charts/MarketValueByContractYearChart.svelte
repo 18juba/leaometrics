@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
-	import Chart from 'chart.js/auto';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	interface Props {
 		data: Player[];
@@ -21,7 +23,7 @@
 	let { data, referenceDate }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart<'bar', number[], string> | null = null;
+	let chart: ChartInstance<'bar', number[], string> | null = null;
 
 	const compactCurrencyFormatter = new Intl.NumberFormat('pt-BR', {
 		style: 'currency',
@@ -209,202 +211,214 @@
 	});
 
 	onMount(() => {
-		const groups = buildContractYearGroups(data);
+		let disposed = false;
 
-		const totalSquadMarketValue = data.reduce(
-			(total, player) => total + (player.marketValue ?? 0),
-			0
-		);
+		const initializeChart = async () => {
+			const Chart = await loadChart();
 
-		chart = new Chart<'bar', number[], string>(canvas, {
-			type: 'bar',
+			if (disposed) return;
 
-			data: {
-				labels: groups.map((group) => String(group.year)),
+			const groups = buildContractYearGroups(data);
 
-				datasets: [
-					{
-						label: 'Patrimônio exposto',
+			const totalSquadMarketValue = data.reduce(
+				(total, player) => total + (player.marketValue ?? 0),
+				0
+			);
 
-						data: groups.map((group) => group.totalMarketValue),
+			chart = new Chart<'bar', number[], string>(canvas, {
+				type: 'bar',
 
-						backgroundColor: groups.map((group) => getBarBackgroundColor(group.year)),
+				data: {
+					labels: groups.map((group) => String(group.year)),
 
-						borderColor: groups.map((group) => getBarBorderColor(group.year)),
+					datasets: [
+						{
+							label: 'Patrimônio exposto',
 
-						hoverBackgroundColor: groups.map((group) => getBarHoverColor(group.year)),
+							data: groups.map((group) => group.totalMarketValue),
 
-						borderWidth: 1,
-						borderRadius: 5,
-						borderSkipped: false,
+							backgroundColor: groups.map((group) => getBarBackgroundColor(group.year)),
 
-						barThickness: 22,
-						maxBarThickness: 26
-					}
-				]
-			},
+							borderColor: groups.map((group) => getBarBorderColor(group.year)),
 
-			options: {
-				indexAxis: 'y',
-				responsive: true,
-				maintainAspectRatio: false,
-				animation: false,
+							hoverBackgroundColor: groups.map((group) => getBarHoverColor(group.year)),
 
-				interaction: {
-					mode: 'nearest',
-					axis: 'y',
-					intersect: true
+							borderWidth: 1,
+							borderRadius: 5,
+							borderSkipped: false,
+
+							barThickness: 22,
+							maxBarThickness: 26
+						}
+					]
 				},
 
-				plugins: {
-					legend: {
-						display: false
+				options: {
+					indexAxis: 'y',
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: false,
+
+					interaction: {
+						mode: 'nearest',
+						axis: 'y',
+						intersect: true
 					},
 
-					tooltip: {
-						displayColors: false,
-
-						callbacks: {
-							title(items) {
-								const year = items[0]?.label ?? '';
-
-								return `Vencimento em ${year}`;
-							},
-
-							label(context) {
-								const group = groups[context.dataIndex];
-
-								if (!group) {
-									return '';
-								}
-
-								return `Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`;
-							},
-
-							afterLabel(context) {
-								const group = groups[context.dataIndex];
-
-								if (!group) {
-									return [];
-								}
-
-								const percentage =
-									totalSquadMarketValue > 0
-										? (group.totalMarketValue / totalSquadMarketValue) * 100
-										: 0;
-
-								return [
-									`Situação: ${getContractRiskLabel(group.year)}`,
-									`Jogadores: ${group.players.length}`,
-									`Valor médio: ${fullCurrencyFormatter.format(group.averageMarketValue)}`,
-									`Patrimônio do elenco: ${percentageFormatter.format(percentage)}%`
-								];
-							},
-
-							afterBody(items) {
-								const index = items[0]?.dataIndex;
-
-								if (index === undefined) {
-									return [];
-								}
-
-								const group = groups[index];
-
-								if (!group) {
-									return [];
-								}
-
-								const sortedPlayers = [...group.players].sort(
-									(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
-								);
-
-								return [
-									'',
-									...sortedPlayers.map(
-										(player) =>
-											`${player.name}: ${
-												player.marketValue !== null
-													? compactCurrencyFormatter.format(player.marketValue)
-													: 'sem valor'
-											}`
-									)
-								];
-							}
-						}
-					}
-				},
-
-				scales: {
-					x: {
-						beginAtZero: true,
-
-						title: {
-							display: true,
-							text: 'Valor de mercado',
-							color: '#e5e5e5',
-
-							font: {
-								size: 11,
-								weight: 600
-							}
-						},
-
-						grid: {
-							color: 'rgba(255, 255, 255, 0.08)'
-						},
-
-						border: {
-							color: 'rgba(255, 255, 255, 0.12)'
-						},
-
-						ticks: {
-							color: '#d4d4d4',
-
-							font: {
-								size: 10
-							},
-
-							callback(value) {
-								return compactCurrencyFormatter.format(Number(value));
-							}
-						}
-					},
-
-					y: {
-						title: {
-							display: true,
-							text: 'Ano de vencimento',
-							color: '#e5e5e5',
-
-							font: {
-								size: 11,
-								weight: 600
-							}
-						},
-
-						grid: {
+					plugins: {
+						legend: {
 							display: false
 						},
 
-						border: {
-							color: 'rgba(255, 255, 255, 0.12)'
+						tooltip: {
+							displayColors: false,
+
+							callbacks: {
+								title(items) {
+									const year = items[0]?.label ?? '';
+
+									return `Vencimento em ${year}`;
+								},
+
+								label(context) {
+									const group = groups[context.dataIndex];
+
+									if (!group) {
+										return '';
+									}
+
+									return `Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`;
+								},
+
+								afterLabel(context) {
+									const group = groups[context.dataIndex];
+
+									if (!group) {
+										return [];
+									}
+
+									const percentage =
+										totalSquadMarketValue > 0
+											? (group.totalMarketValue / totalSquadMarketValue) * 100
+											: 0;
+
+									return [
+										`Situação: ${getContractRiskLabel(group.year)}`,
+										`Jogadores: ${group.players.length}`,
+										`Valor médio: ${fullCurrencyFormatter.format(group.averageMarketValue)}`,
+										`Patrimônio do elenco: ${percentageFormatter.format(percentage)}%`
+									];
+								},
+
+								afterBody(items) {
+									const index = items[0]?.dataIndex;
+
+									if (index === undefined) {
+										return [];
+									}
+
+									const group = groups[index];
+
+									if (!group) {
+										return [];
+									}
+
+									const sortedPlayers = [...group.players].sort(
+										(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
+									);
+
+									return [
+										'',
+										...sortedPlayers.map(
+											(player) =>
+												`${player.name}: ${
+													player.marketValue !== null
+														? compactCurrencyFormatter.format(player.marketValue)
+														: 'sem valor'
+												}`
+										)
+									];
+								}
+							}
+						}
+					},
+
+					scales: {
+						x: {
+							beginAtZero: true,
+
+							title: {
+								display: true,
+								text: 'Valor de mercado',
+								color: '#e5e5e5',
+
+								font: {
+									size: 11,
+									weight: 600
+								}
+							},
+
+							grid: {
+								color: 'rgba(255, 255, 255, 0.08)'
+							},
+
+							border: {
+								color: 'rgba(255, 255, 255, 0.12)'
+							},
+
+							ticks: {
+								color: '#d4d4d4',
+
+								font: {
+									size: 10
+								},
+
+								callback(value) {
+									return compactCurrencyFormatter.format(Number(value));
+								}
+							}
 						},
 
-						ticks: {
-							autoSkip: false,
-							color: '#f5f5f5',
+						y: {
+							title: {
+								display: true,
+								text: 'Ano de vencimento',
+								color: '#e5e5e5',
 
-							font: {
-								size: 10,
-								weight: 600
+								font: {
+									size: 11,
+									weight: 600
+								}
+							},
+
+							grid: {
+								display: false
+							},
+
+							border: {
+								color: 'rgba(255, 255, 255, 0.12)'
+							},
+
+							ticks: {
+								autoSkip: false,
+								color: '#f5f5f5',
+
+								font: {
+									size: 10,
+									weight: 600
+								}
 							}
 						}
 					}
 				}
-			}
-		});
+			});
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};

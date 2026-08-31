@@ -58,7 +58,7 @@
 </script>
 
 <section
-	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-4 backdrop-blur-lg sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
+	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-4 sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
 >
 	<div class="mb-4 flex items-start justify-between gap-3">
 		<h2 class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm">
@@ -97,6 +97,8 @@
 					<img
 						src={`/images/players/${player.id}.webp`}
 						alt={player.name}
+						loading="lazy"
+						decoding="async"
 						onerror={handlePlayerImageError}
 						class="h-10 w-10 shrink-0 rounded-full bg-(--tertiary)/20 object-contain sm:h-12 sm:w-12"
 					/>

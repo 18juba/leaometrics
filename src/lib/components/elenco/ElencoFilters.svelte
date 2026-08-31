@@ -63,7 +63,7 @@
 </script>
 
 <section
-	class="rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-3 backdrop-blur-lg sm:rounded-2xl sm:p-5"
+	class="rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-3 sm:rounded-2xl sm:p-5"
 >
 	<div class="flex items-start justify-between gap-3">
 		<div class="min-w-0">

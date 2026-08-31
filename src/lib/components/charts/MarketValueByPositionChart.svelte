@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Chart from 'chart.js/auto';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { PlayerPosition, PositionAnalysis } from '$lib/types/analysis';
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	interface Props {
 		data: PositionAnalysis[];
@@ -12,7 +14,7 @@
 	let { data }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart<'bar', number[], string> | null = null;
+	let chart: ChartInstance<'bar', number[], string> | null = null;
 
 	const positionLabels: Record<PlayerPosition, string> = {
 		Goalkeeper: 'Goleiros',
@@ -66,133 +68,145 @@
 	});
 
 	onMount(() => {
-		chart = new Chart<'bar', number[], string>(canvas, {
-			type: 'bar',
+		let disposed = false;
 
-			data: {
-				labels: sortedPositions.map((position) => positionLabels[position.position]),
+		const initializeChart = async () => {
+			const Chart = await loadChart();
 
-				datasets: [
-					{
-						label: 'Valor de mercado',
-						data: sortedPositions.map((position) => position.totalMarketValue),
+			if (disposed) return;
 
-						backgroundColor: 'rgba(59, 130, 246, 0.82)',
+			chart = new Chart<'bar', number[], string>(canvas, {
+				type: 'bar',
 
-						borderColor: 'rgb(37, 99, 235)',
-						borderWidth: 1,
+				data: {
+					labels: sortedPositions.map((position) => positionLabels[position.position]),
 
-						borderRadius: 5,
-						borderSkipped: false,
+					datasets: [
+						{
+							label: 'Valor de mercado',
+							data: sortedPositions.map((position) => position.totalMarketValue),
 
-						barThickness: 18,
-						maxBarThickness: 22
-					}
-				]
-			},
+							backgroundColor: 'rgba(59, 130, 246, 0.82)',
 
-			options: {
-				indexAxis: 'y',
-				responsive: true,
-				maintainAspectRatio: false,
-				animation: false,
+							borderColor: 'rgb(37, 99, 235)',
+							borderWidth: 1,
 
-				interaction: {
-					mode: 'nearest',
-					axis: 'y',
-					intersect: true
+							borderRadius: 5,
+							borderSkipped: false,
+
+							barThickness: 18,
+							maxBarThickness: 22
+						}
+					]
 				},
 
-				plugins: {
-					legend: {
-						display: false
+				options: {
+					indexAxis: 'y',
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: false,
+
+					interaction: {
+						mode: 'nearest',
+						axis: 'y',
+						intersect: true
 					},
 
-					tooltip: {
-						displayColors: false,
-
-						callbacks: {
-							title(items) {
-								return items[0]?.label ?? '';
-							},
-
-							label(context) {
-								const position = sortedPositions[context.dataIndex];
-
-								if (!position) {
-									return '';
-								}
-
-								return `Valor total: ${fullCurrencyFormatter.format(position.totalMarketValue)}`;
-							},
-
-							afterLabel(context) {
-								const position = sortedPositions[context.dataIndex];
-
-								if (!position) {
-									return [];
-								}
-
-								const percentage =
-									totalSquadMarketValue > 0
-										? (position.totalMarketValue / totalSquadMarketValue) * 100
-										: 0;
-
-								return [
-									`Jogadores: ${position.playerCount}`,
-									`Valor médio: ${fullCurrencyFormatter.format(position.averageMarketValue)}`,
-									`Participação: ${percentageFormatter.format(percentage)}% do elenco`
-								];
-							}
-						}
-					}
-				},
-
-				scales: {
-					x: {
-						beginAtZero: true,
-
-						title: {
-							display: true,
-							text: 'Valor de mercado',
-							font: {
-								size: 11
-							}
-						},
-
-						grid: {
-							color: 'rgba(148, 163, 184, 0.16)'
-						},
-
-						ticks: {
-							font: {
-								size: 10
-							},
-
-							callback(value) {
-								return compactCurrencyFormatter.format(Number(value));
-							}
-						}
-					},
-
-					y: {
-						grid: {
+					plugins: {
+						legend: {
 							display: false
 						},
 
-						ticks: {
-							autoSkip: false,
+						tooltip: {
+							displayColors: false,
 
-							font: {
-								size: 10
+							callbacks: {
+								title(items) {
+									return items[0]?.label ?? '';
+								},
+
+								label(context) {
+									const position = sortedPositions[context.dataIndex];
+
+									if (!position) {
+										return '';
+									}
+
+									return `Valor total: ${fullCurrencyFormatter.format(position.totalMarketValue)}`;
+								},
+
+								afterLabel(context) {
+									const position = sortedPositions[context.dataIndex];
+
+									if (!position) {
+										return [];
+									}
+
+									const percentage =
+										totalSquadMarketValue > 0
+											? (position.totalMarketValue / totalSquadMarketValue) * 100
+											: 0;
+
+									return [
+										`Jogadores: ${position.playerCount}`,
+										`Valor médio: ${fullCurrencyFormatter.format(position.averageMarketValue)}`,
+										`Participação: ${percentageFormatter.format(percentage)}% do elenco`
+									];
+								}
+							}
+						}
+					},
+
+					scales: {
+						x: {
+							beginAtZero: true,
+
+							title: {
+								display: true,
+								text: 'Valor de mercado',
+								font: {
+									size: 11
+								}
+							},
+
+							grid: {
+								color: 'rgba(148, 163, 184, 0.16)'
+							},
+
+							ticks: {
+								font: {
+									size: 10
+								},
+
+								callback(value) {
+									return compactCurrencyFormatter.format(Number(value));
+								}
+							}
+						},
+
+						y: {
+							grid: {
+								display: false
+							},
+
+							ticks: {
+								autoSkip: false,
+
+								font: {
+									size: 10
+								}
 							}
 						}
 					}
 				}
-			}
-		});
+			});
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};

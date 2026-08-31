@@ -123,8 +123,7 @@
 		h-full overflow-hidden
 		rounded-2xl
 		border border-(--tertiary)/5
-		bg-neutral-800/50
-		backdrop-blur-lg
+		bg-neutral-800/90
 	"
 >
 	<header
@@ -165,11 +164,10 @@
 				<thead
 					class="
 						sticky top-0 z-10
-						bg-neutral-900/90
+						bg-neutral-900/95
 						text-[10px] uppercase
 						tracking-wider
 						text-neutral-400
-						backdrop-blur-lg
 					"
 				>
 					<tr

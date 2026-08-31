@@ -1,7 +1,6 @@
 <script lang="ts">
 	import './globals.css';
 	import './background.css';
-	import '$lib/components/charts/chartTheme';
 
 	import favicon from '$lib/assets/favicon.svg';
 
@@ -23,13 +22,6 @@
 
 	const COVER_DURATION = 280; // ms
 	const REVEAL_DURATION = 480; // ms
-
-	const backgroundImages = [
-		'/images/main_background.webp',
-		'/images/team_background.jpg',
-		'/images/achievements_background.jpg',
-		'/images/analysis_background.jpg'
-	];
 
 	function wait(duration: number) {
 		return new Promise<void>((resolve) => {
@@ -70,11 +62,6 @@
 	let backgroundClass = $derived(getBackgroundClass(page.url.pathname));
 
 	onMount(() => {
-		for (const src of backgroundImages) {
-			const image = new Image();
-			image.src = src;
-		}
-
 		const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const pointerQuery = window.matchMedia('(pointer: fine)');
 

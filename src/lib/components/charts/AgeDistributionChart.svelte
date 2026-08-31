@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Chart from 'chart.js/auto';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { AgeGroup, AgeGroupAnalysis } from '$lib/types/analysis';
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	interface Props {
 		data: AgeGroupAnalysis[];
@@ -12,7 +14,7 @@
 	let { data }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart<'bar', number[], string> | null = null;
+	let chart: ChartInstance<'bar', number[], string> | null = null;
 
 	const ageGroupOrder: AgeGroup[] = ['up_to_21', '22_to_25', '26_to_29', '30_to_33', '34_plus'];
 
@@ -81,157 +83,169 @@
 	});
 
 	onMount(() => {
-		const values = ageGroupOrder.map(getPlayerCount);
+		let disposed = false;
 
-		const totalPlayers = values.reduce((total, playerCount) => total + playerCount, 0);
+		const initializeChart = async () => {
+			const Chart = await loadChart();
 
-		const highestValue = Math.max(...values, 0);
+			if (disposed) return;
 
-		chart = new Chart<'bar', number[], string>(canvas, {
-			type: 'bar',
+			const values = ageGroupOrder.map(getPlayerCount);
 
-			data: {
-				labels: ageGroupOrder.map((ageGroup) => ageGroupLabels[ageGroup]),
+			const totalPlayers = values.reduce((total, playerCount) => total + playerCount, 0);
 
-				datasets: [
-					{
-						label: 'Jogadores',
-						data: values,
+			const highestValue = Math.max(...values, 0);
 
-						backgroundColor: ageGroupOrder.map((ageGroup) => backgroundColors[ageGroup]),
+			chart = new Chart<'bar', number[], string>(canvas, {
+				type: 'bar',
 
-						borderColor: ageGroupOrder.map((ageGroup) => borderColors[ageGroup]),
+				data: {
+					labels: ageGroupOrder.map((ageGroup) => ageGroupLabels[ageGroup]),
 
-						hoverBackgroundColor: ageGroupOrder.map((ageGroup) => hoverColors[ageGroup]),
+					datasets: [
+						{
+							label: 'Jogadores',
+							data: values,
 
-						borderWidth: 1,
-						borderRadius: 6,
-						borderSkipped: false,
+							backgroundColor: ageGroupOrder.map((ageGroup) => backgroundColors[ageGroup]),
 
-						maxBarThickness: 48,
-						categoryPercentage: 0.72,
-						barPercentage: 0.86
-					}
-				]
-			},
+							borderColor: ageGroupOrder.map((ageGroup) => borderColors[ageGroup]),
 
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				animation: false,
+							hoverBackgroundColor: ageGroupOrder.map((ageGroup) => hoverColors[ageGroup]),
 
-				interaction: {
-					mode: 'nearest',
-					axis: 'x',
-					intersect: true
+							borderWidth: 1,
+							borderRadius: 6,
+							borderSkipped: false,
+
+							maxBarThickness: 48,
+							categoryPercentage: 0.72,
+							barPercentage: 0.86
+						}
+					]
 				},
 
-				plugins: {
-					legend: {
-						display: false
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: false,
+
+					interaction: {
+						mode: 'nearest',
+						axis: 'x',
+						intersect: true
 					},
 
-					tooltip: {
-						displayColors: false,
-
-						callbacks: {
-							title(items) {
-								const label = items[0]?.label ?? '';
-
-								return `Faixa etária: ${label}`;
-							},
-
-							label(context) {
-								const playerCount = context.parsed.y;
-
-								return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
-							},
-
-							afterLabel(context) {
-								const ageGroup = ageGroupOrder[context.dataIndex];
-
-								const percentage = totalPlayers > 0 ? (context.parsed.y / totalPlayers) * 100 : 0;
-
-								return [
-									`${percentage.toLocaleString('pt-BR', {
-										maximumFractionDigits: 1
-									})}% do elenco`,
-									`Perfil: ${ageGroupDescriptions[ageGroup]}`
-								];
-							}
-						}
-					}
-				},
-
-				scales: {
-					x: {
-						title: {
-							display: true,
-							text: 'Faixa etária',
-							color: '#e5e5e5',
-
-							font: {
-								size: 11,
-								weight: 600
-							}
-						},
-
-						grid: {
+					plugins: {
+						legend: {
 							display: false
 						},
 
-						border: {
-							color: 'rgba(255, 255, 255, 0.12)'
-						},
+						tooltip: {
+							displayColors: false,
 
-						ticks: {
-							color: '#f5f5f5',
+							callbacks: {
+								title(items) {
+									const label = items[0]?.label ?? '';
 
-							font: {
-								size: 10,
-								weight: 600
+									return `Faixa etária: ${label}`;
+								},
+
+								label(context) {
+									const playerCount = context.parsed.y;
+
+									return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
+								},
+
+								afterLabel(context) {
+									const ageGroup = ageGroupOrder[context.dataIndex];
+
+									const percentage = totalPlayers > 0 ? (context.parsed.y / totalPlayers) * 100 : 0;
+
+									return [
+										`${percentage.toLocaleString('pt-BR', {
+											maximumFractionDigits: 1
+										})}% do elenco`,
+										`Perfil: ${ageGroupDescriptions[ageGroup]}`
+									];
+								}
 							}
 						}
 					},
 
-					y: {
-						beginAtZero: true,
-						suggestedMax: highestValue + 1,
+					scales: {
+						x: {
+							title: {
+								display: true,
+								text: 'Faixa etária',
+								color: '#e5e5e5',
 
-						title: {
-							display: true,
-							text: 'Jogadores',
-							color: '#e5e5e5',
+								font: {
+									size: 11,
+									weight: 600
+								}
+							},
 
-							font: {
-								size: 11,
-								weight: 600
+							grid: {
+								display: false
+							},
+
+							border: {
+								color: 'rgba(255, 255, 255, 0.12)'
+							},
+
+							ticks: {
+								color: '#f5f5f5',
+
+								font: {
+									size: 10,
+									weight: 600
+								}
 							}
 						},
 
-						grid: {
-							color: 'rgba(255, 255, 255, 0.08)'
-						},
+						y: {
+							beginAtZero: true,
+							suggestedMax: highestValue + 1,
 
-						border: {
-							color: 'rgba(255, 255, 255, 0.12)'
-						},
+							title: {
+								display: true,
+								text: 'Jogadores',
+								color: '#e5e5e5',
 
-						ticks: {
-							stepSize: 1,
-							precision: 0,
-							color: '#d4d4d4',
+								font: {
+									size: 11,
+									weight: 600
+								}
+							},
 
-							font: {
-								size: 10
+							grid: {
+								color: 'rgba(255, 255, 255, 0.08)'
+							},
+
+							border: {
+								color: 'rgba(255, 255, 255, 0.12)'
+							},
+
+							ticks: {
+								stepSize: 1,
+								precision: 0,
+								color: '#d4d4d4',
+
+								font: {
+									size: 10
+								}
 							}
 						}
 					}
 				}
-			}
-		});
+			});
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};

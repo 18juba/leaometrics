@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
-	import Chart from 'chart.js/auto';
-	import annotationPlugin from 'chartjs-plugin-annotation';
+	import type { Chart as ChartInstance } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player, PlayerPosition } from '$lib/types/analysis';
-
-	Chart.register(annotationPlugin);
+	import { observeWhenVisible } from '$lib/utils/observeWhenVisible';
+	import { loadChart } from '$lib/utils/loadChart';
 
 	interface Props {
 		data: Player[];
@@ -28,7 +27,7 @@
 	let { data, averageAge, averageMarketValue }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart | null = null;
+	let chart: ChartInstance | null = null;
 
 	const positionLabels: Record<PlayerPosition, string> = {
 		Goalkeeper: 'Goleiro',
@@ -136,7 +135,7 @@
 		}));
 	}
 
-	function createChart() {
+	function createChart(Chart: typeof import('chart.js/auto').default) {
 		if (!canvas) return;
 
 		chart = new Chart(canvas, {
@@ -264,9 +263,25 @@
 	}
 
 	onMount(() => {
-		createChart();
+		let disposed = false;
+
+		const initializeChart = async () => {
+			const [{ default: annotationPlugin }, Chart] = await Promise.all([
+				import('chartjs-plugin-annotation'),
+				loadChart()
+			]);
+
+			if (disposed) return;
+
+			Chart.register(annotationPlugin);
+			createChart(Chart);
+		};
+
+		const stopObserving = observeWhenVisible(canvas, initializeChart);
 
 		return () => {
+			disposed = true;
+			stopObserving();
 			chart?.destroy();
 			chart = null;
 		};
