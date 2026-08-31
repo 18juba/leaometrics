@@ -3,6 +3,7 @@
 	import { SvelteMap } from 'svelte/reactivity';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
 
 	interface Props {
@@ -188,6 +189,24 @@
 	const unknownContractCount = $derived(
 		data.filter((player) => getContractYear(player) === null).length
 	);
+
+	const contractYearGroups = $derived(buildContractYearGroups(data));
+
+	const chartSummary = $derived.by(() => {
+		const highestValueGroup = contractYearGroups.toSorted(
+			(a, b) => b.totalMarketValue - a.totalMarketValue
+		)[0];
+
+		if (!highestValueGroup) {
+			return 'Gráfico de barras sem contratos com ano de vencimento conhecido.';
+		}
+
+		const unknownText = unknownContractCount
+			? ` ${unknownContractCount} ${unknownContractCount === 1 ? 'jogador não possui' : 'jogadores não possuem'} ano de vencimento conhecido.`
+			: '';
+
+		return `Gráfico de barras com o valor de mercado agrupado por ano de vencimento dos contratos. O maior patrimônio concentrado está em ${highestValueGroup.year}, com ${fullCurrencyFormatter.format(highestValueGroup.totalMarketValue)} distribuídos entre ${highestValueGroup.players.length} ${highestValueGroup.players.length === 1 ? 'jogador' : 'jogadores'}.${unknownText}`;
+	});
 
 	onMount(() => {
 		const groups = buildContractYearGroups(data);
@@ -397,6 +416,7 @@
 		<canvas
 			bind:this={canvas}
 			aria-label="Valor de mercado agrupado pelo ano de vencimento dos contratos"
+			aria-describedby="contract-year-summary"
 		></canvas>
 	</div>
 
@@ -454,4 +474,49 @@
 				: ' jogadores sem vencimento conhecido'}
 		</p>
 	{/if}
+
+	<AccessibleChartData
+		summaryId="contract-year-summary"
+		summary={chartSummary}
+		tableLabel="Ver valor por ano de vencimento em tabela"
+	>
+		<table class="min-w-full text-left text-[11px] text-neutral-300">
+			<caption class="sr-only"
+				>Valor de mercado agrupado pelo ano de vencimento dos contratos</caption
+			>
+			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+				<tr>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Ano</th>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Situação</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Jogadores</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor total</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor médio</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{#each contractYearGroups as group (group.year)}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">{group.year}</td>
+						<td class="px-2 py-1.5">{getContractRiskLabel(group.year)}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{group.players.length}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{fullCurrencyFormatter.format(group.totalMarketValue)}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{fullCurrencyFormatter.format(group.averageMarketValue)}
+						</td>
+					</tr>
+				{/each}
+
+				{#if unknownContractCount > 0}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">Não informado</td>
+						<td class="px-2 py-1.5">Ano desconhecido</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{unknownContractCount}</td>
+						<td colspan="2" class="px-2 py-1.5 text-right text-neutral-500">—</td>
+					</tr>
+				{/if}
+			</tbody>
+		</table>
+	</AccessibleChartData>
 </div>

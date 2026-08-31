@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { AgeGroup, AgeGroupAnalysis } from '$lib/types/analysis';
 
 	interface Props {
@@ -58,6 +59,26 @@
 	function getPlayerCount(ageGroup: AgeGroup): number {
 		return data.find((item) => item.ageGroup === ageGroup)?.playerCount ?? 0;
 	}
+
+	const ageGroupRows = $derived(
+		ageGroupOrder.map((ageGroup) => ({
+			ageGroup,
+			label: ageGroupLabels[ageGroup],
+			description: ageGroupDescriptions[ageGroup],
+			playerCount: getPlayerCount(ageGroup)
+		}))
+	);
+
+	const chartSummary = $derived.by(() => {
+		const totalPlayers = ageGroupRows.reduce((total, row) => total + row.playerCount, 0);
+		const largestGroup = ageGroupRows.toSorted((a, b) => b.playerCount - a.playerCount)[0];
+
+		if (!largestGroup || totalPlayers === 0) {
+			return 'Gráfico de barras sem jogadores disponíveis para análise por faixa etária.';
+		}
+
+		return `Gráfico de barras com ${totalPlayers} jogadores distribuídos por faixa etária. A maior concentração está na faixa ${largestGroup.label}, com ${largestGroup.playerCount} ${largestGroup.playerCount === 1 ? 'jogador' : 'jogadores'}.`;
+	});
 
 	onMount(() => {
 		const values = ageGroupOrder.map(getPlayerCount);
@@ -219,7 +240,11 @@
 
 <div class="w-full">
 	<div class="relative h-80 w-full">
-		<canvas bind:this={canvas} aria-label="Distribuição dos jogadores por faixa etária"></canvas>
+		<canvas
+			bind:this={canvas}
+			aria-label="Distribuição dos jogadores por faixa etária"
+			aria-describedby="age-distribution-summary"
+		></canvas>
 	</div>
 
 	<div
@@ -254,4 +279,30 @@
 			34+
 		</span>
 	</div>
+
+	<AccessibleChartData
+		summaryId="age-distribution-summary"
+		summary={chartSummary}
+		tableLabel="Ver distribuição etária em tabela"
+	>
+		<table class="min-w-full text-left text-[11px] text-neutral-300">
+			<caption class="sr-only">Dados da distribuição dos jogadores por faixa etária</caption>
+			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+				<tr>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Faixa</th>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Perfil</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Jogadores</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{#each ageGroupRows as row (row.ageGroup)}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">{row.label}</td>
+						<td class="px-2 py-1.5">{row.description}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{row.playerCount}</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</AccessibleChartData>
 </div>

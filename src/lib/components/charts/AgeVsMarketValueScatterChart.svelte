@@ -4,6 +4,7 @@
 	import Chart from 'chart.js/auto';
 	import annotationPlugin from 'chartjs-plugin-annotation';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player, PlayerPosition } from '$lib/types/analysis';
 
 	Chart.register(annotationPlugin);
@@ -76,6 +77,25 @@
 
 	const numberFormatter = new Intl.NumberFormat('pt-BR', {
 		maximumFractionDigits: 1
+	});
+
+	const accessiblePlayers = $derived(
+		data
+			.filter(
+				(player) =>
+					player.marketValue !== null && player.marketValue > 0 && typeof player.age === 'number'
+			)
+			.toSorted((a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0))
+	);
+
+	const chartSummary = $derived.by(() => {
+		const highestValuePlayer = accessiblePlayers[0];
+
+		if (!highestValuePlayer) {
+			return 'Gráfico de dispersão sem jogadores com idade e valor de mercado disponíveis.';
+		}
+
+		return `Gráfico de dispersão com ${accessiblePlayers.length} jogadores, relacionando idade e valor de mercado. A idade média do elenco é ${numberFormatter.format(averageAge)} anos e o valor médio é ${compactCurrencyFormatter.format(averageMarketValue)}. O maior valor entre os dados exibidos pertence a ${highestValuePlayer.name}, com ${fullCurrencyFormatter.format(highestValuePlayer.marketValue ?? 0)}.`;
 	});
 
 	function buildDatasets(players: Player[]) {
@@ -254,5 +274,41 @@
 </script>
 
 <div class="relative h-130 w-full">
-	<canvas bind:this={canvas} aria-label="Comparação entre idade e valor de mercado"></canvas>
+	<canvas
+		bind:this={canvas}
+		aria-label="Comparação entre idade e valor de mercado"
+		aria-describedby="age-market-value-summary"
+	></canvas>
 </div>
+
+<AccessibleChartData
+	summaryId="age-market-value-summary"
+	summary={chartSummary}
+	tableLabel="Ver idade e valor de mercado em tabela"
+>
+	<table class="min-w-full text-left text-[11px] text-neutral-300">
+		<caption class="sr-only">Dados da comparação entre idade e valor de mercado</caption>
+		<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<tr>
+				<th scope="col" class="px-2 py-1.5 font-semibold">Jogador</th>
+				<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Idade</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor</th>
+			</tr>
+		</thead>
+		<tbody class="divide-y divide-white/5">
+			{#each accessiblePlayers as player (player.id)}
+				<tr>
+					<td class="max-w-42 truncate px-2 py-1.5 font-medium text-neutral-100" title={player.name}
+						>{player.name}</td
+					>
+					<td class="px-2 py-1.5">{positionLabels[player.position]}</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">{player.age ?? 'N/A'}</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">
+						{fullCurrencyFormatter.format(player.marketValue ?? 0)}
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</AccessibleChartData>

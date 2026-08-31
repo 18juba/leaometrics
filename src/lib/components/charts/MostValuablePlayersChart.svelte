@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { ValuablePlayer } from '$lib/types/analysis';
 
 	interface Props {
@@ -40,6 +41,20 @@
 		style: 'currency',
 		currency: 'EUR',
 		maximumFractionDigits: 0
+	});
+
+	const rankedPlayers = $derived(
+		data.toSorted((a, b) => b.marketValue - a.marketValue).slice(0, 10)
+	);
+
+	const chartSummary = $derived.by(() => {
+		const topPlayer = rankedPlayers[0];
+
+		if (!topPlayer) {
+			return 'Gráfico de barras sem jogadores com valor de mercado disponível.';
+		}
+
+		return `Gráfico de barras com os ${rankedPlayers.length} jogadores mais valiosos do elenco. ${topPlayer.name} lidera o ranking, com valor de mercado estimado em ${fullCurrencyFormatter.format(topPlayer.marketValue)}.`;
 	});
 
 	function buildChartData(players: ValuablePlayer[]) {
@@ -166,5 +181,41 @@
 </script>
 
 <div class="relative h-80 w-full">
-	<canvas bind:this={canvas} aria-label="Jogadores com maior valor de mercado do elenco"></canvas>
+	<canvas
+		bind:this={canvas}
+		aria-label="Jogadores com maior valor de mercado do elenco"
+		aria-describedby="most-valuable-players-summary"
+	></canvas>
 </div>
+
+<AccessibleChartData
+	summaryId="most-valuable-players-summary"
+	summary={chartSummary}
+	tableLabel="Ver ranking de jogadores em tabela"
+>
+	<table class="min-w-full text-left text-[11px] text-neutral-300">
+		<caption class="sr-only">Ranking dos jogadores com maior valor de mercado</caption>
+		<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<tr>
+				<th scope="col" class="px-2 py-1.5 font-semibold">Jogador</th>
+				<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Idade</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor</th>
+			</tr>
+		</thead>
+		<tbody class="divide-y divide-white/5">
+			{#each rankedPlayers as player (player.name)}
+				<tr>
+					<td class="max-w-42 truncate px-2 py-1.5 font-medium text-neutral-100" title={player.name}
+						>{player.name}</td
+					>
+					<td class="px-2 py-1.5">{positionLabels[player.position]}</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">{player.age} anos</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">
+						{fullCurrencyFormatter.format(player.marketValue)}
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</AccessibleChartData>

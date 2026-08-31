@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { PlayerPosition, PositionAnalysis } from '$lib/types/analysis';
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
@@ -161,6 +162,17 @@
 	const maximum = $derived(values.length ? Math.max(...values) : 0);
 
 	const selectedData = $derived(data.find((item) => item.position === selectedPosition) ?? null);
+	const orderedPositions = $derived([...data].sort((a, b) => b[metric] - a[metric]));
+
+	const chartSummary = $derived.by(() => {
+		const highestValuePosition = orderedPositions[0];
+
+		if (!highestValuePosition) {
+			return `Mapa de posições sem dados para a métrica ${metricConfig[metric].label.toLowerCase()}.`;
+		}
+
+		return `Mapa interativo das posições do elenco. A métrica exibida é ${metricConfig[metric].label.toLowerCase()}. ${positions[highestValuePosition.position].label} apresenta o maior valor, com ${metricConfig[metric].format(highestValuePosition[metric])}.`;
+	});
 
 	function normalize(value: number): number {
 		if (maximum === minimum) return 0.5;
@@ -267,7 +279,12 @@
 	{/if}
 {/snippet}
 
-<div class="w-full">
+<div
+	class="w-full"
+	role="group"
+	aria-label="Mapa de posições do elenco"
+	aria-describedby="position-heatmap-summary"
+>
 	<div class="mb-2 text-[9px] font-semibold uppercase tracking-wide">Métrica exibida no campo</div>
 
 	<div class="mb-3 grid grid-cols-4 gap-1.5">
@@ -481,4 +498,44 @@
 			</span>
 		</div>
 	</div>
+
+	<AccessibleChartData
+		summaryId="position-heatmap-summary"
+		summary={chartSummary}
+		tableLabel="Ver dados das posições em tabela"
+	>
+		<table class="min-w-full text-left text-[11px] text-neutral-300">
+			<caption class="sr-only">Dados das posições do elenco para todas as métricas</caption>
+			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+				<tr>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Atletas</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Idade média</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Altura média</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor total</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{#each orderedPositions as item (item.position)}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">
+							{positions[item.position].label}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{metricConfig.playerCount.format(item.playerCount)}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{metricConfig.averageAge.format(item.averageAge)}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{metricConfig.averageHeight.format(item.averageHeight)}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{metricConfig.totalMarketValue.format(item.totalMarketValue)}
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</AccessibleChartData>
 </div>

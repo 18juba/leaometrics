@@ -3,6 +3,7 @@
 	import { SvelteMap } from 'svelte/reactivity';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
 
 	type NationalityMetric = 'playerCount' | 'totalMarketValue';
@@ -165,6 +166,25 @@
 			(a, b) => getMetricValue(b, metric) - getMetricValue(a, metric)
 		);
 	}
+
+	const accessibleGroups = $derived(sortGroups(selectedMetric));
+
+	const chartSummary = $derived.by(() => {
+		const leadingGroup = accessibleGroups[0];
+		const selectedTotal = accessibleGroups.reduce(
+			(total, group) => total + getMetricValue(group, selectedMetric),
+			0
+		);
+
+		if (!leadingGroup || selectedTotal === 0) {
+			return `Gráfico de rosca sem dados disponíveis para a métrica ${metricLabels[selectedMetric].toLowerCase()}.`;
+		}
+
+		const leadingValue = getMetricValue(leadingGroup, selectedMetric);
+		const percentage = (leadingValue / selectedTotal) * 100;
+
+		return `Gráfico de rosca sobre nacionalidade principal, exibindo ${metricLabels[selectedMetric].toLowerCase()}. ${leadingGroup.label} lidera a distribuição com ${formatMetricValue(leadingValue, selectedMetric)}, equivalente a ${percentageFormatter.format(percentage)}% do total.`;
+	});
 
 	function updateChart(metric: NationalityMetric): void {
 		if (!chart) {
@@ -367,7 +387,44 @@
 	</div>
 
 	<div class="relative h-80 w-full">
-		<canvas bind:this={canvas} aria-label="Distribuição dos jogadores por nacionalidade principal"
+		<canvas
+			bind:this={canvas}
+			aria-label="Distribuição dos jogadores por nacionalidade principal"
+			aria-describedby="nationality-distribution-summary"
 		></canvas>
 	</div>
+
+	<AccessibleChartData
+		summaryId="nationality-distribution-summary"
+		summary={chartSummary}
+		tableLabel="Ver nacionalidades em tabela"
+	>
+		<table class="min-w-full text-left text-[11px] text-neutral-300">
+			<caption class="sr-only">Distribuição por nacionalidade principal</caption>
+			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+				<tr>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Nacionalidade</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Jogadores</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor total</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold"
+						>{metricLabels[selectedMetric]}</th
+					>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{#each accessibleGroups as group (group.nationality)}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">{group.label}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{group.playerCount}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{fullCurrencyFormatter.format(group.totalMarketValue)}
+						</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">
+							{formatMetricValue(getMetricValue(group, selectedMetric), selectedMetric)}
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</AccessibleChartData>
 </div>

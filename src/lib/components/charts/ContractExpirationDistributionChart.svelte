@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player } from '$lib/types/analysis';
 
 	interface Props {
@@ -121,6 +122,28 @@
 	const unknownContractCount = $derived(
 		data.filter((player) => player.analysis.contract.daysRemaining === null).length
 	);
+
+	const contractBuckets = $derived(buildContractBuckets(data));
+
+	const chartSummary = $derived.by(() => {
+		const knownContracts = contractBuckets.reduce(
+			(total, bucket) => total + bucket.players.length,
+			0
+		);
+		const largestBucket = contractBuckets.toSorted(
+			(a, b) => b.players.length - a.players.length
+		)[0];
+
+		if (!largestBucket || knownContracts === 0) {
+			return 'Gráfico de barras sem contratos com vencimento conhecido para analisar.';
+		}
+
+		const unknownText = unknownContractCount
+			? ` ${unknownContractCount} ${unknownContractCount === 1 ? 'jogador não possui' : 'jogadores não possuem'} vencimento conhecido.`
+			: '';
+
+		return `Gráfico de barras com ${knownContracts} contratos agrupados pelo tempo restante até o vencimento. A maior concentração está na faixa ${largestBucket.label}, com ${largestBucket.players.length} ${largestBucket.players.length === 1 ? 'jogador' : 'jogadores'}.${unknownText}`;
+	});
 
 	onMount(() => {
 		const buckets = buildContractBuckets(data);
@@ -293,7 +316,11 @@
 
 <div class="w-full">
 	<div class="relative h-80 w-full">
-		<canvas bind:this={canvas} aria-label="Distribuição do tempo restante dos contratos"></canvas>
+		<canvas
+			bind:this={canvas}
+			aria-label="Distribuição do tempo restante dos contratos"
+			aria-describedby="contract-expiration-summary"
+		></canvas>
 	</div>
 
 	{#if unknownContractCount > 0}
@@ -304,4 +331,50 @@
 				: ' contratos sem vencimento conhecido'}
 		</p>
 	{/if}
+
+	<AccessibleChartData
+		summaryId="contract-expiration-summary"
+		summary={chartSummary}
+		tableLabel="Ver vencimentos de contratos em tabela"
+	>
+		<table class="min-w-full text-left text-[11px] text-neutral-300">
+			<caption class="sr-only">Dados da distribuição do tempo restante dos contratos</caption>
+			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+				<tr>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Faixa</th>
+					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Jogadores</th>
+					<th scope="col" class="px-2 py-1.5 font-semibold">Vencimentos</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{#each contractBuckets as bucket (bucket.key)}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">{bucket.label}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{bucket.players.length}</td>
+						<td class="px-2 py-1.5">
+							{#if bucket.players.length > 0}
+								<ul class="space-y-1">
+									{#each bucket.players as player (player.id)}
+										<li>
+											{player.name} — {formatContractDate(player.analysis.contract.expiresAt)}
+										</li>
+									{/each}
+								</ul>
+							{:else}
+								<span class="text-neutral-500">Nenhum jogador</span>
+							{/if}
+						</td>
+					</tr>
+				{/each}
+
+				{#if unknownContractCount > 0}
+					<tr>
+						<td class="px-2 py-1.5 font-medium text-neutral-100">Não informado</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{unknownContractCount}</td>
+						<td class="px-2 py-1.5">Vencimento desconhecido</td>
+					</tr>
+				{/if}
+			</tbody>
+		</table>
+	</AccessibleChartData>
 </div>

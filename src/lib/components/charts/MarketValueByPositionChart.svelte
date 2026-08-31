@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
+	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { PlayerPosition, PositionAnalysis } from '$lib/types/analysis';
 
 	interface Props {
@@ -46,14 +47,25 @@
 		maximumFractionDigits: 1
 	});
 
+	const sortedPositions = $derived(
+		[...data].sort((a, b) => b.totalMarketValue - a.totalMarketValue)
+	);
+
+	const totalSquadMarketValue = $derived(
+		sortedPositions.reduce((total, position) => total + position.totalMarketValue, 0)
+	);
+
+	const chartSummary = $derived.by(() => {
+		const highestValuePosition = sortedPositions[0];
+
+		if (!highestValuePosition) {
+			return 'Gráfico de barras sem dados de valor de mercado por posição.';
+		}
+
+		return `Gráfico de barras com o valor de mercado total por posição. ${positionLabels[highestValuePosition.position]} concentram o maior valor, com ${fullCurrencyFormatter.format(highestValuePosition.totalMarketValue)} entre ${highestValuePosition.playerCount} ${highestValuePosition.playerCount === 1 ? 'jogador' : 'jogadores'}.`;
+	});
+
 	onMount(() => {
-		const sortedPositions = [...data].sort((a, b) => b.totalMarketValue - a.totalMarketValue);
-
-		const totalSquadMarketValue = sortedPositions.reduce(
-			(total, position) => total + position.totalMarketValue,
-			0
-		);
-
 		chart = new Chart<'bar', number[], string>(canvas, {
 			type: 'bar',
 
@@ -188,5 +200,49 @@
 </script>
 
 <div class="relative h-80 w-full">
-	<canvas bind:this={canvas} aria-label="Valor de mercado total dos jogadores por posição"></canvas>
+	<canvas
+		bind:this={canvas}
+		aria-label="Valor de mercado total dos jogadores por posição"
+		aria-describedby="market-value-position-summary"
+	></canvas>
 </div>
+
+<AccessibleChartData
+	summaryId="market-value-position-summary"
+	summary={chartSummary}
+	tableLabel="Ver valor de mercado por posição em tabela"
+>
+	<table class="min-w-full text-left text-[11px] text-neutral-300">
+		<caption class="sr-only">Valor de mercado total dos jogadores por posição</caption>
+		<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<tr>
+				<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Jogadores</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor médio</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Valor total</th>
+				<th scope="col" class="px-2 py-1.5 text-right font-semibold">Participação</th>
+			</tr>
+		</thead>
+		<tbody class="divide-y divide-white/5">
+			{#each sortedPositions as position (position.position)}
+				{@const percentage =
+					totalSquadMarketValue > 0 ? (position.totalMarketValue / totalSquadMarketValue) * 100 : 0}
+				<tr>
+					<td class="px-2 py-1.5 font-medium text-neutral-100">
+						{positionLabels[position.position]}
+					</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">{position.playerCount}</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">
+						{fullCurrencyFormatter.format(position.averageMarketValue)}
+					</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">
+						{fullCurrencyFormatter.format(position.totalMarketValue)}
+					</td>
+					<td class="px-2 py-1.5 text-right tabular-nums">
+						{percentageFormatter.format(percentage)}%
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</AccessibleChartData>
