@@ -8,6 +8,7 @@
 	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
+	import { preloadAllBackgrounds, preloadBackground } from '$lib/utils/backgroundPreload';
 
 	let { children } = $props();
 
@@ -64,6 +65,12 @@
 	onMount(() => {
 		const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const pointerQuery = window.matchMedia('(pointer: fine)');
+		const idleWindow = window as Window & {
+			requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number;
+			cancelIdleCallback?: (handle: number) => void;
+		};
+		let idleRequest: number | undefined;
+		let timeoutRequest: number | undefined;
 
 		function updateParallaxPreference() {
 			parallaxEnabled = pointerQuery.matches && !motionQuery.matches;
@@ -79,9 +86,27 @@
 		motionQuery.addEventListener('change', updateParallaxPreference);
 		pointerQuery.addEventListener('change', updateParallaxPreference);
 
+		const preloadRemainingBackgrounds = () => {
+			void preloadAllBackgrounds();
+		};
+
+		if (typeof idleWindow.requestIdleCallback === 'function') {
+			idleRequest = idleWindow.requestIdleCallback(preloadRemainingBackgrounds, { timeout: 1200 });
+		} else {
+			timeoutRequest = window.setTimeout(preloadRemainingBackgrounds, 300);
+		}
+
 		return () => {
 			motionQuery.removeEventListener('change', updateParallaxPreference);
 			pointerQuery.removeEventListener('change', updateParallaxPreference);
+
+			if (idleRequest !== undefined && typeof idleWindow.cancelIdleCallback === 'function') {
+				idleWindow.cancelIdleCallback(idleRequest);
+			}
+
+			if (timeoutRequest !== undefined) {
+				window.clearTimeout(timeoutRequest);
+			}
 		};
 	});
 
@@ -90,10 +115,11 @@
 		if (from.url.pathname === to.url.pathname) return;
 
 		const currentTransition = ++transitionId;
+		const backgroundReady = preloadBackground(to.url.pathname);
 
 		transitionPhase = 'cover';
 
-		await wait(COVER_DURATION);
+		await Promise.all([wait(COVER_DURATION), backgroundReady]);
 
 		return () => {
 			if (currentTransition !== transitionId) return;

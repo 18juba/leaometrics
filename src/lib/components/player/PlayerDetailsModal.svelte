@@ -9,6 +9,7 @@
 	import { formatFoot } from '$lib/formatters/formatFoot';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
 	import { getPositionLabel } from '$lib/components/elenco/elenco.utils';
+	import { getPlayerImage, playerPlaceholder } from '$lib/data/playerImages';
 
 	import type { ClubPlayer } from '$lib/components/elenco/elenco.types';
 
@@ -48,7 +49,12 @@
 		(profile?.socialMedia ?? []).filter((link) => /^https?:\/\//i.test(link))
 	);
 
-	const playerImage = $derived(profile?.imageUrl || `/images/players/${player.id}.webp`);
+	const playerImage = $derived(
+		profile?.imageUrl ||
+			getPlayerImage(String(player.id))?.img.src ||
+			playerPlaceholder?.img.src ||
+			''
+	);
 
 	const translatedNationalities = $derived(
 		(player.nationality ?? []).map((country) => countryDictionary[country] ?? country)
@@ -121,7 +127,7 @@
 	function handleImageError(event: Event): void {
 		const image = event.currentTarget as HTMLImageElement;
 		image.onerror = null;
-		image.src = '/images/players/placeholder.webp';
+		image.src = playerPlaceholder?.img.src || '';
 	}
 
 	function formatDate(value: string | null | undefined): string {

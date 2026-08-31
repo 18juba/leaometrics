@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PlayerFoot from '$lib/components/player/PlayerFoot.svelte';
+	import PlayerImage from '$lib/components/player/PlayerImage.svelte';
 
 	import { formatFoot } from '$lib/formatters/formatFoot';
 	import { formatHeight } from '$lib/formatters/formatHeight';
@@ -21,13 +22,6 @@
 	const translatedNationalities = $derived(
 		(player.nationality ?? []).map((country) => countryDictionary[country] ?? country)
 	);
-
-	function handleImageError(event: Event): void {
-		const image = event.currentTarget as HTMLImageElement;
-
-		image.onerror = null;
-		image.src = '/images/players/placeholder.webp';
-	}
 </script>
 
 <button
@@ -60,12 +54,10 @@
 			</span>
 		</div>
 
-		<img
-			src={`/images/players/${player.id}.webp`}
+		<PlayerImage
+			playerId={player.id}
 			alt={player.name}
-			loading="lazy"
-			decoding="async"
-			onerror={handleImageError}
+			sizes="(min-width: 1280px) 300px, 90vw"
 			class="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-[90%] w-[90%] select-none object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.04]"
 		/>
 

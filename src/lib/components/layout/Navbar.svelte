@@ -2,6 +2,12 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
+	import analysisIcon from '$lib/assets/icons/ball.png';
+	import clubIcon from '$lib/assets/icons/escudo.png';
+	import achievementsIcon from '$lib/assets/icons/lampions.png';
+	import squadIcon from '$lib/assets/icons/camisa.webp';
+	import { preloadBackground } from '$lib/utils/backgroundPreload';
+
 	type NavLink = {
 		href: '/' | '/elenco' | '/analises' | '/conquistas';
 		label: string;
@@ -13,25 +19,25 @@
 		{
 			href: '/',
 			label: 'Clube',
-			icon: '/icons/escudo.png',
+			icon: clubIcon,
 			alt: 'Clube'
 		},
 		{
 			href: '/elenco',
 			label: 'Elenco',
-			icon: '/icons/camisa.webp',
+			icon: squadIcon,
 			alt: 'Elenco'
 		},
 		{
 			href: '/analises',
 			label: 'Análises',
-			icon: '/icons/ball.png',
+			icon: analysisIcon,
 			alt: 'Análises'
 		},
 		{
 			href: '/conquistas',
 			label: 'Conquistas',
-			icon: '/icons/lampions.png',
+			icon: achievementsIcon,
 			alt: 'Conquistas'
 		}
 	];
@@ -69,6 +75,8 @@
 				<li class="menu-item" class:active={isActive(link.href)}>
 					<a
 						href={resolve(link.href)}
+						onpointerenter={() => void preloadBackground(link.href)}
+						onfocus={() => void preloadBackground(link.href)}
 						aria-current={isActive(link.href) ? 'page' : undefined}
 						class="
 							flex items-center gap-2
@@ -124,6 +132,8 @@
 			<li class="min-w-0">
 				<a
 					href={resolve(link.href)}
+					onpointerenter={() => void preloadBackground(link.href)}
+					onfocus={() => void preloadBackground(link.href)}
 					aria-current={isActive(link.href) ? 'page' : undefined}
 					class:active={isActive(link.href)}
 					class="

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import crestImage from '$lib/assets/optimized/escudo.png?enhanced';
+
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import type { ClubInformation } from '$lib/data/clubInformation';
 
@@ -36,9 +38,10 @@
 
 	<div class="relative flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
 		<div class="flex min-w-0 items-start gap-3 sm:gap-4">
-			<img
-				src="/images/escudo.png"
+			<enhanced:img
+				src={crestImage}
 				alt={name}
+				decoding="async"
 				class="h-16 w-16 shrink-0 object-contain sm:h-20 sm:w-20"
 			/>
 

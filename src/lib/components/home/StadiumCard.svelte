@@ -1,11 +1,12 @@
 <script lang="ts">
+	import stadiumImage from '$lib/assets/optimized/castelao.jpg?enhanced';
+
 	interface Props {
 		stadiumName: string;
 		stadiumSeats: number;
-		imageSrc?: string;
 	}
 
-	let { stadiumName, stadiumSeats, imageSrc = '/images/castelao.jpg' }: Props = $props();
+	let { stadiumName, stadiumSeats }: Props = $props();
 </script>
 
 <section
@@ -26,9 +27,12 @@
 	</div>
 
 	<div class="relative overflow-hidden rounded-xl bg-neutral-900/40">
-		<img
-			src={imageSrc}
+		<enhanced:img
+			src={stadiumImage}
 			alt={stadiumName}
+			sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+			loading="lazy"
+			decoding="async"
 			class="h-52 w-full object-cover sm:h-72 lg:h-80 xl:h-full"
 		/>
 

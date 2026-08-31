@@ -24,19 +24,19 @@
 }
 
 .main-background {
-	background-image: url('/images/main_background.webp');
+	background-image: url('../lib/assets/backgrounds/main_background.webp');
 }
 
 .team-background {
-	background-image: url('/images/team_background.jpg');
+	background-image: url('../lib/assets/backgrounds/team_background.jpg');
 }
 
 .achievements-background {
-	background-image: url('/images/achievements_background.jpg');
+	background-image: url('../lib/assets/backgrounds/achievements_background.jpg');
 }
 
 .analysis-background {
-	background-image: url('/images/analysis_background.jpg');
+	background-image: url('../lib/assets/backgrounds/analysis_background.jpg');
 }
 
 .background-cover {

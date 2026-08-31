@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import PlayerImage from '$lib/components/player/PlayerImage.svelte';
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
@@ -49,12 +50,6 @@
 		const translated = translateNationality(getPrimaryNationality(player));
 		return bandeirasPt[translated] ?? '🌎';
 	}
-
-	function handlePlayerImageError(event: Event): void {
-		const image = event.currentTarget as HTMLImageElement;
-		image.onerror = null;
-		image.src = '/images/players/placeholder.webp';
-	}
 </script>
 
 <section
@@ -94,12 +89,10 @@
 				class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 overflow-hidden rounded-lg bg-neutral-900/30 p-2 transition-colors hover:bg-neutral-900/60 sm:gap-3"
 			>
 				<div class="flex min-w-0 items-center gap-2 sm:gap-3">
-					<img
-						src={`/images/players/${player.id}.webp`}
+					<PlayerImage
+						playerId={player.id}
 						alt={player.name}
-						loading="lazy"
-						decoding="async"
-						onerror={handlePlayerImageError}
+						sizes="48px"
 						class="h-10 w-10 shrink-0 rounded-full bg-(--tertiary)/20 object-contain sm:h-12 sm:w-12"
 					/>
 
