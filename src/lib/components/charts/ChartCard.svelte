@@ -14,6 +14,7 @@
 
 <section
 	class={`
+		flex h-full flex-col
 		min-w-0 overflow-hidden
 		rounded-xl
 		border border-(--tertiary)/5
@@ -71,7 +72,7 @@
 		{/if}
 	</header>
 
-	<div class="min-w-0">
+	<div class="flex min-h-0 min-w-0 flex-1 flex-col">
 		{@render children()}
 	</div>
 </section>

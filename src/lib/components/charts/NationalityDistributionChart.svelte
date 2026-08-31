@@ -356,7 +356,7 @@
 	});
 </script>
 
-<div class="w-full">
+<div class="flex h-full w-full flex-col">
 	<div class="mb-2 flex items-center justify-between gap-3">
 		<p class="text-xs text-slate-500 dark:text-slate-400">
 			Considera apenas a nacionalidade principal

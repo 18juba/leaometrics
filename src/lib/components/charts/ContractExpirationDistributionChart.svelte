@@ -314,7 +314,7 @@
 	});
 </script>
 
-<div class="w-full">
+<div class="flex h-full w-full flex-col">
 	<div class="relative h-80 w-full">
 		<canvas
 			bind:this={canvas}

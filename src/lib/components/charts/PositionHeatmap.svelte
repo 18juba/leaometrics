@@ -280,7 +280,7 @@
 {/snippet}
 
 <div
-	class="w-full"
+	class="flex h-full w-full flex-col"
 	role="group"
 	aria-label="Mapa de posições do elenco"
 	aria-describedby="position-heatmap-summary"
