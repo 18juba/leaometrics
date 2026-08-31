@@ -4,17 +4,13 @@
 
 	import type { Player } from '$lib/types/analysis';
 
-    interface Props {
-    	data: Player[];
-    	referenceDate: string;
-    }
+	interface Props {
+		data: Player[];
+		referenceDate: string;
+	}
 
 	type ContractBucketKey =
-		| 'expired'
-		| 'upTo6Months'
-		| 'sixTo12Months'
-		| 'twelveTo24Months'
-		| 'moreThan24Months';
+		'expired' | 'upTo6Months' | 'sixTo12Months' | 'twelveTo24Months' | 'moreThan24Months';
 
 	interface ContractBucket {
 		key: ContractBucketKey;
@@ -61,97 +57,77 @@
 		];
 	}
 
-    function parseISODate(value: string): Date {
-    	const [year, month, day] = value.split('-').map(Number);
+	function parseISODate(value: string): Date {
+		const [year, month, day] = value.split('-').map(Number);
 
-    	return new Date(Date.UTC(year, month - 1, day));
-    }
+		return new Date(Date.UTC(year, month - 1, day));
+	}
 
-    function calculateDaysRemaining(
-    	expiresAt: string,
-    	referenceDate: string
-    ): number {
-    	const expiration = parseISODate(expiresAt);
-    	const reference = parseISODate(referenceDate);
+	function calculateDaysRemaining(expiresAt: string, referenceDate: string): number {
+		const expiration = parseISODate(expiresAt);
+		const reference = parseISODate(referenceDate);
 
-    	const millisecondsPerDay = 1000 * 60 * 60 * 24;
+		const millisecondsPerDay = 1000 * 60 * 60 * 24;
 
-    	return Math.ceil(
-    		(expiration.getTime() - reference.getTime()) /
-    			millisecondsPerDay
-    	);
-    }
+		return Math.ceil((expiration.getTime() - reference.getTime()) / millisecondsPerDay);
+	}
 
-    function buildContractBuckets(players: Player[]): ContractBucket[] {
-    	const buckets = createEmptyBuckets();
+	function buildContractBuckets(players: Player[]): ContractBucket[] {
+		const buckets = createEmptyBuckets();
 
-    	for (const player of players) {
-    		const expiresAt =
-    			player.analysis.contract.expiresAt ??
-    			player.contract ??
-    			null;
+		for (const player of players) {
+			const expiresAt = player.analysis.contract.expiresAt ?? player.contract ?? null;
 
-    		if (!expiresAt) {
-    			continue;
-    		}
+			if (!expiresAt) {
+				continue;
+			}
 
-    		const daysRemaining = calculateDaysRemaining(
-    			expiresAt,
-    			referenceDate
-    		);
+			const daysRemaining = calculateDaysRemaining(expiresAt, referenceDate);
 
-    		if (daysRemaining < 0) {
-    			buckets[0].players.push(player);
-    			continue;
-    		}
+			if (daysRemaining < 0) {
+				buckets[0].players.push(player);
+				continue;
+			}
 
-    		if (daysRemaining <= SIX_MONTHS_IN_DAYS) {
-    			buckets[1].players.push(player);
-    			continue;
-    		}
+			if (daysRemaining <= SIX_MONTHS_IN_DAYS) {
+				buckets[1].players.push(player);
+				continue;
+			}
 
-    		if (daysRemaining <= TWELVE_MONTHS_IN_DAYS) {
-    			buckets[2].players.push(player);
-    			continue;
-    		}
+			if (daysRemaining <= TWELVE_MONTHS_IN_DAYS) {
+				buckets[2].players.push(player);
+				continue;
+			}
 
-    		if (daysRemaining <= TWENTY_FOUR_MONTHS_IN_DAYS) {
-    			buckets[3].players.push(player);
-    			continue;
-    		}
+			if (daysRemaining <= TWENTY_FOUR_MONTHS_IN_DAYS) {
+				buckets[3].players.push(player);
+				continue;
+			}
 
-    		buckets[4].players.push(player);
-    	}
+			buckets[4].players.push(player);
+		}
 
-    	return buckets;
-    }
+		return buckets;
+	}
 
 	function formatContractDate(value: string | null): string {
 		if (!value) {
 			return 'Data desconhecida';
 		}
 
-		return new Intl.DateTimeFormat('pt-BR').format(
-			new Date(`${value}T12:00:00`)
-		);
+		return new Intl.DateTimeFormat('pt-BR').format(new Date(`${value}T12:00:00`));
 	}
 
-	const unknownContractCount = data.filter(
-		(player) =>
-			player.analysis.contract.daysRemaining === null
-	).length;
+	const unknownContractCount = $derived(
+		data.filter((player) => player.analysis.contract.daysRemaining === null).length
+	);
 
 	onMount(() => {
 		const buckets = buildContractBuckets(data);
 
-		const values = buckets.map(
-			(bucket) => bucket.players.length
-		);
+		const values = buckets.map((bucket) => bucket.players.length);
 
-		const totalKnownContracts = values.reduce(
-			(total, value) => total + value,
-			0
-		);
+		const totalKnownContracts = values.reduce((total, value) => total + value, 0);
 
 		const highestValue = Math.max(...values, 0);
 
@@ -214,11 +190,7 @@
 							label(context) {
 								const playerCount = context.parsed.y;
 
-								return `${playerCount} ${
-									playerCount === 1
-										? 'jogador'
-										: 'jogadores'
-								}`;
+								return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
 							},
 
 							afterLabel(context) {
@@ -226,29 +198,21 @@
 									return '';
 								}
 
-								const percentage =
-									(context.parsed.y /
-										totalKnownContracts) *
-									100;
+								const percentage = (context.parsed.y / totalKnownContracts) * 100;
 
-								return `${percentage.toLocaleString(
-									'pt-BR',
-									{
-										maximumFractionDigits: 1
-									}
-								)}% dos contratos conhecidos`;
+								return `${percentage.toLocaleString('pt-BR', {
+									maximumFractionDigits: 1
+								})}% dos contratos conhecidos`;
 							},
 
 							afterBody(items) {
-								const index =
-									items[0]?.dataIndex;
+								const index = items[0]?.dataIndex;
 
 								if (index === undefined) {
 									return [];
 								}
 
-								const players =
-									buckets[index].players;
+								const players = buckets[index].players;
 
 								if (players.length === 0) {
 									return [];
@@ -257,13 +221,9 @@
 								return [
 									'',
 									...players.map((player) => {
-										const expiration =
-											player.analysis.contract
-												.expiresAt;
+										const expiration = player.analysis.contract.expiresAt;
 
-										return `${player.name} — ${formatContractDate(
-											expiration
-										)}`;
+										return `${player.name} — ${formatContractDate(expiration)}`;
 									})
 								];
 							}
@@ -333,10 +293,7 @@
 
 <div class="w-full">
 	<div class="relative h-80 w-full">
-		<canvas
-			bind:this={canvas}
-			aria-label="Distribuição do tempo restante dos contratos"
-		></canvas>
+		<canvas bind:this={canvas} aria-label="Distribuição do tempo restante dos contratos"></canvas>
 	</div>
 
 	{#if unknownContractCount > 0}

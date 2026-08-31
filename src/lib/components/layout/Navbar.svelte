@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
 	type NavLink = {
-		href: string;
+		href: '/' | '/elenco' | '/analises' | '/conquistas';
 		label: string;
 		icon: string;
 		alt: string;
@@ -40,10 +41,7 @@
 			return page.url.pathname === '/';
 		}
 
-		return (
-			page.url.pathname === href ||
-			page.url.pathname.startsWith(`${href}/`)
-		);
+		return page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
 	}
 </script>
 
@@ -53,10 +51,7 @@
 	A sidebar fixa sai do fluxo normal da página.
 	Este elemento evita que o conteúdo fique atrás dela.
 -->
-<div
-	class="hidden w-56 shrink-0 2xl:block"
-	aria-hidden="true"
-></div>
+<div class="hidden w-56 shrink-0 2xl:block" aria-hidden="true"></div>
 
 <!-- Sidebar fixa em telas grandes -->
 <aside
@@ -68,18 +63,12 @@
 		2xl:flex
 	"
 >
-	<nav
-		class="nav-soft w-full"
-		aria-label="Navegação principal"
-	>
+	<nav class="nav-soft w-full" aria-label="Navegação principal">
 		<ul class="flex flex-col gap-3 font-medium">
 			{#each links as link (link.href)}
-				<li
-					class="menu-item"
-					class:active={isActive(link.href)}
-				>
+				<li class="menu-item" class:active={isActive(link.href)}>
 					<a
-						href={link.href}
+						href={resolve(link.href)}
 						aria-current={isActive(link.href) ? 'page' : undefined}
 						class="
 							flex items-center gap-2
@@ -135,7 +124,7 @@
 		{#each links as link (link.href)}
 			<li class="min-w-0">
 				<a
-					href={link.href}
+					href={resolve(link.href)}
 					aria-current={isActive(link.href) ? 'page' : undefined}
 					class:active={isActive(link.href)}
 					class="
@@ -217,11 +206,7 @@
 		padding: 0.35rem 0.5rem;
 		border-radius: 0.5rem;
 
-		background: linear-gradient(
-			90deg,
-			rgb(from var(--tertiary) r g b / 0.12),
-			transparent
-		);
+		background: linear-gradient(90deg, rgb(from var(--tertiary) r g b / 0.12), transparent);
 
 		background-position: left center;
 		background-repeat: no-repeat;
@@ -302,10 +287,7 @@
 	}
 
 	.mobile-menu-item.active img {
-		filter: drop-shadow(
-			0 0 6px
-			rgb(from var(--tertiary) r g b / 0.5)
-		);
+		filter: drop-shadow(0 0 6px rgb(from var(--tertiary) r g b / 0.5));
 
 		transform: scale(1.08);
 	}

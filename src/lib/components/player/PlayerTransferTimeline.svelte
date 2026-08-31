@@ -12,19 +12,13 @@
 
 	const sortedTransfers = $derived.by(() => {
 		return [...(transfers ?? [])].sort((transferA, transferB) => {
-			const dateDifference =
-				getIsoDateKey(transferA.date) -
-				getIsoDateKey(transferB.date);
+			const dateDifference = getIsoDateKey(transferA.date) - getIsoDateKey(transferB.date);
 
 			if (dateDifference !== 0) {
 				return dateDifference;
 			}
 
-			return String(transferA.id).localeCompare(
-				String(transferB.id),
-				'pt-BR',
-				{ numeric: true }
-			);
+			return String(transferA.id).localeCompare(String(transferB.id), 'pt-BR', { numeric: true });
 		});
 	});
 
@@ -41,13 +35,7 @@
 		const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
 		if (!match) return null;
 
-		const date = new Date(
-			Date.UTC(
-				Number(match[1]),
-				Number(match[2]) - 1,
-				Number(match[3])
-			)
-		);
+		const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
 
 		return Number.isNaN(date.getTime()) ? null : date;
 	}
@@ -76,9 +64,7 @@
 	<div>
 		<div class="mb-5 flex items-center justify-between gap-4">
 			<div>
-				<h3 class="text-sm font-bold text-neutral-200">
-					Linha do tempo da carreira
-				</h3>
+				<h3 class="text-sm font-bold text-neutral-200">Linha do tempo da carreira</h3>
 				<p class="mt-1 text-xs text-neutral-500">
 					Da transferência mais antiga para a mais recente
 				</p>
@@ -93,9 +79,7 @@
 		</div>
 
 		<div class="relative">
-			<div
-				class="absolute bottom-6 left-[7px] top-6 w-px bg-(--tertiary)/10"
-			></div>
+			<div class="absolute bottom-6 left-[7px] top-6 w-px bg-(--tertiary)/10"></div>
 
 			<div class="space-y-5">
 				{#each sortedTransfers as transfer, index (transfer.id)}
@@ -113,9 +97,7 @@
 						<div
 							class="group w-full rounded-2xl border border-(--tertiary)/5 bg-neutral-950/35 p-4 transition-colors hover:bg-neutral-950/55 sm:p-5"
 						>
-							<div
-								class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
-							>
+							<div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 								<div>
 									<div class="flex flex-wrap items-center gap-2">
 										<span class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
@@ -212,8 +194,6 @@
 	<div
 		class="flex min-h-72 items-center justify-center rounded-2xl border border-dashed border-(--tertiary)/10 bg-neutral-950/20 p-6 text-center"
 	>
-		<p class="text-sm text-neutral-500">
-			Não há transferências disponíveis para este atleta.
-		</p>
+		<p class="text-sm text-neutral-500">Não há transferências disponíveis para este atleta.</p>
 	</div>
 {/if}

@@ -39,9 +39,7 @@
 				⌕
 			</div>
 
-			<h2 class="mt-4 text-base font-bold sm:text-lg">
-				Nenhum atleta encontrado
-			</h2>
+			<h2 class="mt-4 text-base font-bold sm:text-lg">Nenhum atleta encontrado</h2>
 
 			<p class="mt-1 max-w-md text-xs text-neutral-500 sm:text-sm">
 				Não encontramos jogadores correspondentes aos filtros selecionados.

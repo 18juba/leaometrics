@@ -5,19 +5,13 @@
 		imageSrc?: string;
 	}
 
-	let {
-		stadiumName,
-		stadiumSeats,
-		imageSrc = '/images/castelao.jpg'
-	}: Props = $props();
+	let { stadiumName, stadiumSeats, imageSrc = '/images/castelao.jpg' }: Props = $props();
 </script>
 
 <section
 	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-4 backdrop-blur-lg sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-2 xl:p-6"
 >
-	<div
-		class="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between"
-	>
+	<div class="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
 		<h2
 			class="min-w-0 text-xs font-semibold tracking-wider break-words text-neutral-400 uppercase sm:text-sm"
 		>

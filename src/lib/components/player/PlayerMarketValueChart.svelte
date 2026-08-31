@@ -1,15 +1,11 @@
 <script lang="ts">
-	import type {
-		Chart as ChartInstance,
-		ChartConfiguration
-	} from 'chart.js';
+	import type { Chart as ChartInstance, ChartConfiguration } from 'chart.js';
 
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import type { Player } from '$lib/types/analysis';
 
 	type PlayerMarketValueData = Player['marketValueData'];
-	type MarketValueHistoryEntry =
-		PlayerMarketValueData['marketValueHistory'][number];
+	type MarketValueHistoryEntry = PlayerMarketValueData['marketValueHistory'][number];
 
 	type OrderedEntry = MarketValueHistoryEntry & {
 		timestamp: number;
@@ -60,31 +56,21 @@
 		if (!entries.length) return null;
 
 		return entries.reduce((highest, entry) =>
-			Number(entry.marketValue) > Number(highest.marketValue)
-				? entry
-				: highest
+			Number(entry.marketValue) > Number(highest.marketValue) ? entry : highest
 		);
 	});
 
 	const firstValue = $derived(Number(firstEntry?.marketValue) || 0);
 
 	const latestValue = $derived(
-		Number(history?.marketValue) ||
-			Number(latestEntry?.marketValue) ||
-			0
+		Number(history?.marketValue) || Number(latestEntry?.marketValue) || 0
 	);
 
-	const highestValue = $derived(
-		Number(highestEntry?.marketValue) || 0
-	);
+	const highestValue = $derived(Number(highestEntry?.marketValue) || 0);
 
 	const absoluteVariation = $derived(latestValue - firstValue);
 
-	const percentageVariation = $derived(
-		firstValue > 0
-			? (absoluteVariation / firstValue) * 100
-			: 0
-	);
+	const percentageVariation = $derived(firstValue > 0 ? (absoluteVariation / firstValue) * 100 : 0);
 
 	$effect(() => {
 		const currentCanvas = canvas;
@@ -112,47 +98,25 @@
 			const goldenColor = getCssVariable('--golden', '#fbbf24');
 			const secondaryColor = getCssVariable('--secondary', '#22c55e');
 
-			const gradient = context.createLinearGradient(
-				0,
-				0,
-				0,
-				currentCanvas.clientHeight || 320
-			);
+			const gradient = context.createLinearGradient(0, 0, 0, currentCanvas.clientHeight || 320);
 
-			gradient.addColorStop(
-				0,
-				createTransparentColor(goldenColor, 0.3)
-			);
-			gradient.addColorStop(
-				1,
-				createTransparentColor(goldenColor, 0.01)
-			);
+			gradient.addColorStop(0, createTransparentColor(goldenColor, 0.3));
+			gradient.addColorStop(1, createTransparentColor(goldenColor, 0.01));
 
-			const configuration: ChartConfiguration<
-				'line',
-				number[],
-				string
-			> = {
+			const configuration: ChartConfiguration<'line', number[], string> = {
 				type: 'line',
 				data: {
 					labels: currentEntries.map((entry) => entry.date),
 					datasets: [
 						{
 							label: 'Valor de mercado',
-							data: currentEntries.map(
-								(entry) => Number(entry.marketValue) || 0
-							),
+							data: currentEntries.map((entry) => Number(entry.marketValue) || 0),
 							borderColor: goldenColor,
 							backgroundColor: gradient,
 							pointBackgroundColor: secondaryColor,
 							pointBorderColor: '#171717',
 							pointBorderWidth: 2,
-							pointRadius:
-								currentEntries.length > 35
-									? 2
-									: currentEntries.length > 20
-										? 3
-										: 4,
+							pointRadius: currentEntries.length > 35 ? 2 : currentEntries.length > 20 ? 3 : 4,
 							pointHoverRadius: 6,
 							pointHitRadius: 12,
 							borderWidth: 3,
@@ -190,14 +154,10 @@
 									const index = context[0]?.dataIndex;
 									const entry = currentEntries[index];
 
-									return entry
-										? formatFullDate(entry.date)
-										: '';
+									return entry ? formatFullDate(entry.date) : '';
 								},
 								label(context) {
-									return `Valor: ${formatCurrency(
-										Number(context.parsed.y) || 0
-									)}`;
+									return `Valor: ${formatCurrency(Number(context.parsed.y) || 0)}`;
 								},
 								afterLabel(context) {
 									const entry = currentEntries[context.dataIndex];
@@ -228,9 +188,7 @@
 								autoSkip: true,
 								maxTicksLimit: 7,
 								callback(value) {
-									const isoDate = this.getLabelForValue(
-										Number(value)
-									);
+									const isoDate = this.getLabelForValue(Number(value));
 
 									return formatAxisDate(isoDate);
 								}
@@ -287,11 +245,7 @@
 		const parts = extractIsoDate(value);
 		if (!parts) return Number.NaN;
 
-		const timestamp = Date.UTC(
-			parts.year,
-			parts.month - 1,
-			parts.day
-		);
+		const timestamp = Date.UTC(parts.year, parts.month - 1, parts.day);
 
 		const parsedDate = new Date(timestamp);
 
@@ -339,17 +293,13 @@
 	}
 
 	function getCssVariable(name: string, fallback: string): string {
-		const value = getComputedStyle(document.documentElement)
-			.getPropertyValue(name)
-			.trim();
+		const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 		return value || fallback;
 	}
 
 	function createTransparentColor(color: string, alpha: number): string {
-		const hexadecimalMatch = color.match(
-			/^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
-		);
+		const hexadecimalMatch = color.match(/^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
 
 		if (hexadecimalMatch) {
 			const red = Number.parseInt(hexadecimalMatch[1], 16);
@@ -359,30 +309,17 @@
 			return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 		}
 
-		const shortHexadecimalMatch = color.match(
-			/^#([a-f\d])([a-f\d])([a-f\d])$/i
-		);
+		const shortHexadecimalMatch = color.match(/^#([a-f\d])([a-f\d])([a-f\d])$/i);
 
 		if (shortHexadecimalMatch) {
-			const red = Number.parseInt(
-				`${shortHexadecimalMatch[1]}${shortHexadecimalMatch[1]}`,
-				16
-			);
-			const green = Number.parseInt(
-				`${shortHexadecimalMatch[2]}${shortHexadecimalMatch[2]}`,
-				16
-			);
-			const blue = Number.parseInt(
-				`${shortHexadecimalMatch[3]}${shortHexadecimalMatch[3]}`,
-				16
-			);
+			const red = Number.parseInt(`${shortHexadecimalMatch[1]}${shortHexadecimalMatch[1]}`, 16);
+			const green = Number.parseInt(`${shortHexadecimalMatch[2]}${shortHexadecimalMatch[2]}`, 16);
+			const blue = Number.parseInt(`${shortHexadecimalMatch[3]}${shortHexadecimalMatch[3]}`, 16);
 
 			return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 		}
 
-		const rgbMatch = color.match(
-			/^rgb\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)\s*\)$/i
-		);
+		const rgbMatch = color.match(/^rgb\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)\s*\)$/i);
 
 		if (rgbMatch) {
 			return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
@@ -396,18 +333,14 @@
 	<div class="space-y-5">
 		<div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
 			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
-					Valor atual
-				</span>
+				<span class="text-[10px] uppercase tracking-wider text-neutral-500"> Valor atual </span>
 				<span class="mt-1 block text-lg font-black text-(--golden)">
 					{formatCurrency(latestValue)}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
-					Maior valor
-				</span>
+				<span class="text-[10px] uppercase tracking-wider text-neutral-500"> Maior valor </span>
 				<span class="mt-1 block text-lg font-black text-neutral-100">
 					{formatCurrency(highestValue)}
 				</span>
@@ -423,38 +356,27 @@
 			</div>
 
 			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
-					Variação total
-				</span>
+				<span class="text-[10px] uppercase tracking-wider text-neutral-500"> Variação total </span>
 				<span
 					class={`mt-1 block text-lg font-black ${
-						percentageVariation >= 0
-							? 'text-emerald-400'
-							: 'text-red-400'
+						percentageVariation >= 0 ? 'text-emerald-400' : 'text-red-400'
 					}`}
 				>
-					{percentageVariation >= 0 ? '+' : ''}{percentageVariation.toLocaleString(
-						'pt-BR',
-						{ maximumFractionDigits: 1 }
-					)}%
+					{percentageVariation >= 0 ? '+' : ''}{percentageVariation.toLocaleString('pt-BR', {
+						maximumFractionDigits: 1
+					})}%
 				</span>
 				<span
 					class={`mt-1 block text-[10px] ${
-						absoluteVariation >= 0
-							? 'text-emerald-400/70'
-							: 'text-red-400/70'
+						absoluteVariation >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'
 					}`}
 				>
-					{absoluteVariation >= 0 ? '+' : ''}{formatCompactCurrency(
-						absoluteVariation
-					)}
+					{absoluteVariation >= 0 ? '+' : ''}{formatCompactCurrency(absoluteVariation)}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-950/40 p-4">
-				<span class="text-[10px] uppercase tracking-wider text-neutral-500">
-					Avaliações
-				</span>
+				<span class="text-[10px] uppercase tracking-wider text-neutral-500"> Avaliações </span>
 				<span class="mt-1 block text-lg font-black text-neutral-100">
 					{entries.length}
 				</span>
@@ -470,10 +392,7 @@
 		<div
 			class="relative h-72 rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-3 sm:h-80 sm:p-5"
 		>
-			<canvas
-				bind:this={canvas}
-				aria-label="Histórico cronológico de valor de mercado"
-			></canvas>
+			<canvas bind:this={canvas} aria-label="Histórico cronológico de valor de mercado"></canvas>
 		</div>
 
 		<p class="text-[10px] text-neutral-500">
@@ -484,8 +403,6 @@
 	<div
 		class="flex min-h-72 items-center justify-center rounded-2xl border border-dashed border-(--tertiary)/10 bg-neutral-950/20 p-6 text-center"
 	>
-		<p class="text-sm text-neutral-500">
-			Não há histórico de valor disponível para este atleta.
-		</p>
+		<p class="text-sm text-neutral-500">Não há histórico de valor disponível para este atleta.</p>
 	</div>
 {/if}

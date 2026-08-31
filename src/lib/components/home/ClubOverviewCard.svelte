@@ -34,9 +34,7 @@
 		class="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-(--primary) opacity-10 blur-3xl transition-opacity duration-300 group-hover:opacity-20"
 	></div>
 
-	<div
-		class="relative flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8"
-	>
+	<div class="relative flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
 		<div class="flex min-w-0 items-start gap-3 sm:gap-4">
 			<img
 				src="/images/escudo.png"

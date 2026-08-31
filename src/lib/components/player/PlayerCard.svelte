@@ -19,9 +19,7 @@
 	} = $props();
 
 	const translatedNationalities = $derived(
-		(player.nationality ?? []).map(
-			(country) => countryDictionary[country] ?? country
-		)
+		(player.nationality ?? []).map((country) => countryDictionary[country] ?? country)
 	);
 
 	function handleImageError(event: Event): void {
@@ -43,9 +41,7 @@
 		class="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-(--primary) opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-40"
 	></div>
 
-	<div
-		class="relative h-52 overflow-hidden border-b border-(--tertiary)/5 bg-neutral-900/40"
-	>
+	<div class="relative h-52 overflow-hidden border-b border-(--tertiary)/5 bg-neutral-900/40">
 		<div class="absolute left-4 top-4 z-10">
 			<span
 				class="inline-flex rounded-lg border border-white/5 bg-neutral-950/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-300 backdrop-blur-md"
@@ -115,36 +111,28 @@
 
 		<div class="mt-5 grid grid-cols-3 gap-2">
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
-					Idade
-				</span>
+				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Idade </span>
 				<span class="mt-0.5 block text-xs font-bold text-neutral-200">
 					{player.age ? `${player.age} anos` : 'N/A'}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
-					Altura
-				</span>
+				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Altura </span>
 				<span class="mt-0.5 block text-xs font-bold text-neutral-200">
 					{formatHeight(player.height)}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
-					Pé
-				</span>
+				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Pé </span>
 				<span class="mt-0.5 block truncate text-xs font-bold text-neutral-200">
 					{formatFoot(player.foot)}
 				</span>
 			</div>
 		</div>
 
-		<div
-			class="mt-4 flex items-center justify-between border-t border-(--tertiary)/5 pt-4"
-		>
+		<div class="mt-4 flex items-center justify-between border-t border-(--tertiary)/5 pt-4">
 			<div>
 				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
 					Análise disponível
@@ -154,9 +142,7 @@
 				</span>
 			</div>
 
-			<span
-				class="text-lg text-(--secondary) transition-transform group-hover:translate-x-1"
-			>
+			<span class="text-lg text-(--secondary) transition-transform group-hover:translate-x-1">
 				→
 			</span>
 		</div>

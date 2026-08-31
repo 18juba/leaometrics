@@ -19,19 +19,10 @@ export type PlayerPosition =
 
 export type PreferredFoot = 'right' | 'left' | 'both';
 
-export type AgeGroup =
-	| 'up_to_21'
-	| '22_to_25'
-	| '26_to_29'
-	| '30_to_33'
-	| '34_plus';
+export type AgeGroup = 'up_to_21' | '22_to_25' | '26_to_29' | '30_to_33' | '34_plus';
 
 export type ContractStatus =
-	| 'active'
-	| 'expires_within_6_months'
-	| 'expires_within_12_months'
-	| 'expired'
-	| 'unknown';
+	'active' | 'expires_within_6_months' | 'expires_within_12_months' | 'expired' | 'unknown';
 
 export type MarketValueTrend = 'up' | 'down' | 'stable' | 'unknown';
 

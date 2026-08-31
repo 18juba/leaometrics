@@ -6,16 +6,9 @@
 
 	import type { PageData } from './$types';
 	import type { ClubAnalysisJson } from '$lib/types/analysis';
-	import type {
-		ClubPlayer,
-		FootFilter,
-		SortOption
-	} from '$lib/components/elenco/elenco.types';
+	import type { ClubPlayer, FootFilter, SortOption } from '$lib/components/elenco/elenco.types';
 
-	import {
-		filterAndSortPlayers,
-		getPositions
-	} from '$lib/components/elenco/elenco.utils';
+	import { filterAndSortPlayers, getPositions } from '$lib/components/elenco/elenco.utils';
 
 	let { data }: { data: PageData } = $props();
 
@@ -42,9 +35,9 @@
 	const hasActiveFilters = $derived(
 		Boolean(
 			searchTerm.trim() ||
-				selectedPosition !== 'Todas' ||
-				selectedFoot !== 'all' ||
-				sortBy !== 'value-desc'
+			selectedPosition !== 'Todas' ||
+			selectedFoot !== 'all' ||
+			sortBy !== 'value-desc'
 		)
 	);
 
@@ -66,16 +59,11 @@
 
 <svelte:head>
 	<title>LeãoFut - Elenco</title>
-	<meta
-		name="description"
-		content="Análise do elenco, jogadores e valores de mercado."
-	/>
+	<meta name="description" content="Análise do elenco, jogadores e valores de mercado." />
 </svelte:head>
 
 <div class="h-full min-h-0 w-full py-2 sm:py-3 md:py-0">
-	<div
-		class="mx-auto flex h-full min-h-0 w-full max-w-[1800px] flex-col gap-3 sm:gap-4"
-	>
+	<div class="mx-auto flex h-full min-h-0 w-full max-w-[1800px] flex-col gap-3 sm:gap-4">
 		<div class="shrink-0">
 			<ElencoFilters
 				{positions}
@@ -98,17 +86,10 @@
 			/>
 		</div>
 
-		<ElencoPlayerGrid
-			players={filteredPlayers}
-			onOpen={openPlayer}
-			onClear={clearFilters}
-		/>
+		<ElencoPlayerGrid players={filteredPlayers} onOpen={openPlayer} onClear={clearFilters} />
 	</div>
 </div>
 
 {#if selectedPlayer}
-	<PlayerDetailsModal
-		player={selectedPlayer}
-		onClose={closePlayer}
-	/>
+	<PlayerDetailsModal player={selectedPlayer} onClose={closePlayer} />
 {/if}

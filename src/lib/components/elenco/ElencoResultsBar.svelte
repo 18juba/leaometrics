@@ -1,14 +1,7 @@
 <script lang="ts">
-	import type {
-		FootFilter,
-		SortOption
-	} from './elenco.types';
+	import type { FootFilter, SortOption } from './elenco.types';
 
-	import {
-		getFootLabel,
-		getPositionLabel,
-		getSortLabel
-	} from './elenco.utils';
+	import { getFootLabel, getPositionLabel, getSortLabel } from './elenco.utils';
 
 	let {
 		visiblePlayers,
@@ -25,9 +18,7 @@
 	} = $props();
 </script>
 
-<div
-	class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
->
+<div class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 	<p class="shrink-0 text-[11px] text-neutral-500 sm:text-xs">
 		Exibindo
 		<span class="font-bold text-neutral-300">{visiblePlayers}</span>

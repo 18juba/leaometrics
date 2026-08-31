@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteMap } from 'svelte/reactivity';
 	import Chart from 'chart.js/auto';
 
 	import type { Player } from '$lib/types/analysis';
@@ -38,19 +39,14 @@
 		maximumFractionDigits: 1
 	});
 
-	const parsedReferenceYear = Number(
-		referenceDate.slice(0, 4)
-	);
+	const referenceYear = $derived.by(() => {
+		const parsedReferenceYear = Number(referenceDate.slice(0, 4));
 
-	const referenceYear = Number.isInteger(parsedReferenceYear)
-		? parsedReferenceYear
-		: new Date().getFullYear();
+		return Number.isInteger(parsedReferenceYear) ? parsedReferenceYear : new Date().getFullYear();
+	});
 
 	function getContractYear(player: Player): number | null {
-		const expiresAt =
-			player.analysis.contract.expiresAt ??
-			player.contract ??
-			null;
+		const expiresAt = player.analysis.contract.expiresAt ?? player.contract ?? null;
 
 		if (!expiresAt) {
 			return null;
@@ -65,10 +61,8 @@
 		return year;
 	}
 
-	function buildContractYearGroups(
-		players: Player[]
-	): ContractYearGroup[] {
-		const groups = new Map<number, Player[]>();
+	function buildContractYearGroups(players: Player[]): ContractYearGroup[] {
+		const groups = new SvelteMap<number, Player[]>();
 
 		for (const player of players) {
 			const year = getContractYear(player);
@@ -86,8 +80,7 @@
 		return Array.from(groups.entries())
 			.map(([year, groupedPlayers]) => {
 				const totalMarketValue = groupedPlayers.reduce(
-					(total, player) =>
-						total + (player.marketValue ?? 0),
+					(total, player) => total + (player.marketValue ?? 0),
 					0
 				);
 
@@ -96,10 +89,7 @@
 				);
 
 				const averageMarketValue =
-					playersWithMarketValue.length > 0
-						? totalMarketValue /
-							playersWithMarketValue.length
-						: 0;
+					playersWithMarketValue.length > 0 ? totalMarketValue / playersWithMarketValue.length : 0;
 
 				return {
 					year,
@@ -195,16 +185,15 @@
 		return 'Longo prazo';
 	}
 
-	const unknownContractCount = data.filter(
-		(player) => getContractYear(player) === null
-	).length;
+	const unknownContractCount = $derived(
+		data.filter((player) => getContractYear(player) === null).length
+	);
 
 	onMount(() => {
 		const groups = buildContractYearGroups(data);
 
 		const totalSquadMarketValue = data.reduce(
-			(total, player) =>
-				total + (player.marketValue ?? 0),
+			(total, player) => total + (player.marketValue ?? 0),
 			0
 		);
 
@@ -212,29 +201,19 @@
 			type: 'bar',
 
 			data: {
-				labels: groups.map((group) =>
-					String(group.year)
-				),
+				labels: groups.map((group) => String(group.year)),
 
 				datasets: [
 					{
 						label: 'Patrimônio exposto',
 
-						data: groups.map(
-							(group) => group.totalMarketValue
-						),
+						data: groups.map((group) => group.totalMarketValue),
 
-						backgroundColor: groups.map((group) =>
-							getBarBackgroundColor(group.year)
-						),
+						backgroundColor: groups.map((group) => getBarBackgroundColor(group.year)),
 
-						borderColor: groups.map((group) =>
-							getBarBorderColor(group.year)
-						),
+						borderColor: groups.map((group) => getBarBorderColor(group.year)),
 
-						hoverBackgroundColor: groups.map((group) =>
-							getBarHoverColor(group.year)
-						),
+						hoverBackgroundColor: groups.map((group) => getBarHoverColor(group.year)),
 
 						borderWidth: 1,
 						borderRadius: 5,
@@ -268,28 +247,23 @@
 
 						callbacks: {
 							title(items) {
-								const year =
-									items[0]?.label ?? '';
+								const year = items[0]?.label ?? '';
 
 								return `Vencimento em ${year}`;
 							},
 
 							label(context) {
-								const group =
-									groups[context.dataIndex];
+								const group = groups[context.dataIndex];
 
 								if (!group) {
 									return '';
 								}
 
-								return `Valor total: ${fullCurrencyFormatter.format(
-									group.totalMarketValue
-								)}`;
+								return `Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`;
 							},
 
 							afterLabel(context) {
-								const group =
-									groups[context.dataIndex];
+								const group = groups[context.dataIndex];
 
 								if (!group) {
 									return [];
@@ -297,28 +271,19 @@
 
 								const percentage =
 									totalSquadMarketValue > 0
-										? (group.totalMarketValue /
-												totalSquadMarketValue) *
-											100
+										? (group.totalMarketValue / totalSquadMarketValue) * 100
 										: 0;
 
 								return [
-									`Situação: ${getContractRiskLabel(
-										group.year
-									)}`,
+									`Situação: ${getContractRiskLabel(group.year)}`,
 									`Jogadores: ${group.players.length}`,
-									`Valor médio: ${fullCurrencyFormatter.format(
-										group.averageMarketValue
-									)}`,
-									`Patrimônio do elenco: ${percentageFormatter.format(
-										percentage
-									)}%`
+									`Valor médio: ${fullCurrencyFormatter.format(group.averageMarketValue)}`,
+									`Patrimônio do elenco: ${percentageFormatter.format(percentage)}%`
 								];
 							},
 
 							afterBody(items) {
-								const index =
-									items[0]?.dataIndex;
+								const index = items[0]?.dataIndex;
 
 								if (index === undefined) {
 									return [];
@@ -330,12 +295,8 @@
 									return [];
 								}
 
-								const sortedPlayers = [
-									...group.players
-								].sort(
-									(a, b) =>
-										(b.marketValue ?? 0) -
-										(a.marketValue ?? 0)
+								const sortedPlayers = [...group.players].sort(
+									(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
 								);
 
 								return [
@@ -344,9 +305,7 @@
 										(player) =>
 											`${player.name}: ${
 												player.marketValue !== null
-													? compactCurrencyFormatter.format(
-															player.marketValue
-														)
+													? compactCurrencyFormatter.format(player.marketValue)
 													: 'sem valor'
 											}`
 									)
@@ -387,9 +346,7 @@
 							},
 
 							callback(value) {
-								return compactCurrencyFormatter.format(
-									Number(value)
-								);
+								return compactCurrencyFormatter.format(Number(value));
 							}
 						}
 					},

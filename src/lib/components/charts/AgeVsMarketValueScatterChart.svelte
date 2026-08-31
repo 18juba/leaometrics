@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteMap } from 'svelte/reactivity';
 	import Chart from 'chart.js/auto';
 	import annotationPlugin from 'chartjs-plugin-annotation';
 
@@ -80,12 +81,10 @@
 	function buildDatasets(players: Player[]) {
 		const validPlayers = players.filter(
 			(player) =>
-				player.marketValue !== null &&
-				player.marketValue > 0 &&
-				typeof player.age === 'number'
+				player.marketValue !== null && player.marketValue > 0 && typeof player.age === 'number'
 		);
 
-		const grouped = new Map<PlayerPosition, ScatterPoint[]>();
+		const grouped = new SvelteMap<PlayerPosition, ScatterPoint[]>();
 
 		for (const player of validPlayers) {
 			const point: ScatterPoint = {

@@ -2,13 +2,9 @@ import Chart from 'chart.js/auto';
 
 Chart.defaults.color = '#d4d4d4';
 
-Chart.defaults.font.family = [
-	'Saira',
-	'Inter',
-	'ui-sans-serif',
-	'system-ui',
-	'sans-serif'
-].join(', ');
+Chart.defaults.font.family = ['Saira', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'].join(
+	', '
+);
 
 Chart.defaults.font.size = 12;
 
@@ -22,13 +18,11 @@ Chart.defaults.plugins.legend.labels.font = {
 
 Chart.defaults.plugins.legend.labels.padding = 14;
 
-Chart.defaults.plugins.tooltip.backgroundColor =
-	'rgba(23, 23, 23, 0.96)';
+Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(23, 23, 23, 0.96)';
 
 Chart.defaults.plugins.tooltip.titleColor = '#fafafa';
 Chart.defaults.plugins.tooltip.bodyColor = '#e5e5e5';
-Chart.defaults.plugins.tooltip.borderColor =
-	'rgba(255, 255, 255, 0.14)';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.14)';
 
 Chart.defaults.plugins.tooltip.borderWidth = 1;
 Chart.defaults.plugins.tooltip.padding = 12;

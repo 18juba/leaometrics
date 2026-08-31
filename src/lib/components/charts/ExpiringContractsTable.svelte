@@ -13,11 +13,7 @@
 		daysRemaining: number;
 	}
 
-	let {
-		data,
-		referenceDate,
-		limitDays = 60
-	}: Props = $props();
+	let { data, referenceDate, limitDays = 60 }: Props = $props();
 
 	const currencyFormatter = new Intl.NumberFormat('pt-BR', {
 		style: 'currency',
@@ -36,17 +32,13 @@
 
 	function parseISODate(value: string): Date | null {
 		const normalizedValue = value.slice(0, 10);
-		const [year, month, day] = normalizedValue
-			.split('-')
-			.map(Number);
+		const [year, month, day] = normalizedValue.split('-').map(Number);
 
 		if (!year || !month || !day) {
 			return null;
 		}
 
-		const parsedDate = new Date(
-			Date.UTC(year, month - 1, day)
-		);
+		const parsedDate = new Date(Date.UTC(year, month - 1, day));
 
 		if (Number.isNaN(parsedDate.getTime())) {
 			return null;
@@ -55,10 +47,7 @@
 		return parsedDate;
 	}
 
-	function calculateDaysRemaining(
-		expiresAt: string,
-		reference: string
-	): number | null {
+	function calculateDaysRemaining(expiresAt: string, reference: string): number | null {
 		const expirationDate = parseISODate(expiresAt);
 		const currentReferenceDate = parseISODate(reference);
 
@@ -69,9 +58,7 @@
 		const millisecondsPerDay = 1000 * 60 * 60 * 24;
 
 		return Math.round(
-			(expirationDate.getTime() -
-				currentReferenceDate.getTime()) /
-				millisecondsPerDay
+			(expirationDate.getTime() - currentReferenceDate.getTime()) / millisecondsPerDay
 		);
 	}
 
@@ -88,25 +75,15 @@
 	const expiringPlayers = $derived.by<ExpiringPlayer[]>(() => {
 		return data
 			.map((player): ExpiringPlayer | null => {
-				const expiresAt =
-					player.analysis.contract.expiresAt ??
-					player.contract ??
-					null;
+				const expiresAt = player.analysis.contract.expiresAt ?? player.contract ?? null;
 
 				if (!expiresAt) {
 					return null;
 				}
 
-				const daysRemaining = calculateDaysRemaining(
-					expiresAt,
-					referenceDate
-				);
+				const daysRemaining = calculateDaysRemaining(expiresAt, referenceDate);
 
-				if (
-					daysRemaining === null ||
-					daysRemaining < 0 ||
-					daysRemaining > limitDays
-				) {
+				if (daysRemaining === null || daysRemaining < 0 || daysRemaining > limitDays) {
 					return null;
 				}
 
@@ -116,23 +93,16 @@
 					daysRemaining
 				};
 			})
-			.filter(
-				(item): item is ExpiringPlayer => item !== null
-			)
+			.filter((item): item is ExpiringPlayer => item !== null)
 			.sort(
 				(a, b) =>
 					a.daysRemaining - b.daysRemaining ||
-					(b.player.marketValue ?? 0) -
-						(a.player.marketValue ?? 0)
+					(b.player.marketValue ?? 0) - (a.player.marketValue ?? 0)
 			);
 	});
 
 	const totalMarketValue = $derived(
-		expiringPlayers.reduce(
-			(total, item) =>
-				total + (item.player.marketValue ?? 0),
-			0
-		)
+		expiringPlayers.reduce((total, item) => total + (item.player.marketValue ?? 0), 0)
 	);
 
 	function getDaysLabel(days: number): string {
@@ -177,9 +147,7 @@
 		<div class="text-right">
 			<p class="text-xs font-semibold text-slate-900 dark:text-white">
 				{expiringPlayers.length}
-				{expiringPlayers.length === 1
-					? ' jogador'
-					: ' jogadores'}
+				{expiringPlayers.length === 1 ? ' jogador' : ' jogadores'}
 			</p>
 
 			<p
@@ -210,27 +178,17 @@
 							hover:bg-neutral-900/40
 						"
 					>
-						<th class="px-3 py-2 font-medium">
-							Jogador
-						</th>
+						<th class="px-3 py-2 font-medium"> Jogador </th>
 
-						<th class="hidden px-3 py-2 font-medium sm:table-cell">
-							Vencimento
-						</th>
+						<th class="hidden px-3 py-2 font-medium sm:table-cell"> Vencimento </th>
 
-						<th class="px-3 py-2 text-right font-medium">
-							Restante
-						</th>
+						<th class="px-3 py-2 text-right font-medium"> Restante </th>
 
-						<th class="px-3 py-2 text-right font-medium">
-							Valor
-						</th>
+						<th class="px-3 py-2 text-right font-medium"> Valor </th>
 					</tr>
 				</thead>
 
-				<tbody
-					class="divide-y divide-slate-100 dark:divide-slate-800"
-				>
+				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 					{#each expiringPlayers as item (item.player.id)}
 						<tr
 							class="
@@ -246,9 +204,7 @@
 									{item.player.name}
 								</p>
 
-								<p
-									class="mt-0.5 text-[10px] text-slate-400 sm:hidden"
-								>
+								<p class="mt-0.5 text-[10px] text-slate-400 sm:hidden">
 									{formatDate(item.expiresAt)}
 								</p>
 							</td>
@@ -275,18 +231,12 @@
 
 							<td
 								class="whitespace-nowrap px-3 py-2 text-right text-xs font-semibold text-slate-900 dark:text-white"
-								title={
-									item.player.marketValue !== null
-										? fullCurrencyFormatter.format(
-												item.player.marketValue
-											)
-										: 'Valor não disponível'
-								}
+								title={item.player.marketValue !== null
+									? fullCurrencyFormatter.format(item.player.marketValue)
+									: 'Valor não disponível'}
 							>
 								{item.player.marketValue !== null
-									? currencyFormatter.format(
-											item.player.marketValue
-										)
+									? currencyFormatter.format(item.player.marketValue)
 									: '—'}
 							</td>
 						</tr>

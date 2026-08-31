@@ -1,11 +1,6 @@
 import { countryDictionary } from '$lib/dictionaries/countryDictionary';
 
-import type {
-	ClubPlayer,
-	ElencoFilterState,
-	FootFilter,
-	SortOption
-} from './elenco.types';
+import type { ClubPlayer, ElencoFilterState, FootFilter, SortOption } from './elenco.types';
 
 const positionLabels: Record<string, string> = {
 	Goalkeeper: 'Goleiro',
@@ -39,24 +34,14 @@ export function getCountryLabel(country: string): string {
 	return countryDictionary[country] ?? country;
 }
 
-export function normalizeFoot(
-	foot: string | null | undefined
-): Exclude<FootFilter, 'all'> | null {
+export function normalizeFoot(foot: string | null | undefined): Exclude<FootFilter, 'all'> | null {
 	const normalized = normalizeText(foot).replace(/[\s_-]/g, '');
 
-	if (
-		normalized === 'right' ||
-		normalized === 'rightfoot' ||
-		normalized === 'direito'
-	) {
+	if (normalized === 'right' || normalized === 'rightfoot' || normalized === 'direito') {
 		return 'right';
 	}
 
-	if (
-		normalized === 'left' ||
-		normalized === 'leftfoot' ||
-		normalized === 'esquerdo'
-	) {
+	if (normalized === 'left' || normalized === 'leftfoot' || normalized === 'esquerdo') {
 		return 'left';
 	}
 
@@ -73,17 +58,9 @@ export function normalizeFoot(
 }
 
 export function getPositions(players: ClubPlayer[]): string[] {
-	return Array.from(
-		new Set(
-			players
-				.map((player) => player.position)
-				.filter((position): position is string => Boolean(position))
-		)
-	).sort((positionA, positionB) =>
-		getPositionLabel(positionA).localeCompare(
-			getPositionLabel(positionB),
-			'pt-BR'
-		)
+	return Array.from(new Set(players.map((player) => player.position))).sort(
+		(positionA, positionB) =>
+			getPositionLabel(positionA).localeCompare(getPositionLabel(positionB), 'pt-BR')
 	);
 }
 
@@ -94,17 +71,11 @@ export function filterAndSortPlayers(
 	const query = normalizeText(filters.searchTerm);
 
 	const filteredPlayers = players.filter((player) => {
-		if (
-			filters.selectedPosition !== 'Todas' &&
-			player.position !== filters.selectedPosition
-		) {
+		if (filters.selectedPosition !== 'Todas' && player.position !== filters.selectedPosition) {
 			return false;
 		}
 
-		if (
-			filters.selectedFoot !== 'all' &&
-			normalizeFoot(player.foot) !== filters.selectedFoot
-		) {
+		if (filters.selectedFoot !== 'all' && normalizeFoot(player.foot) !== filters.selectedFoot) {
 			return false;
 		}
 
@@ -127,9 +98,7 @@ export function filterAndSortPlayers(
 			...translatedNationalities
 		];
 
-		return searchableValues.some((value) =>
-			normalizeText(value).includes(query)
-		);
+		return searchableValues.some((value) => normalizeText(value).includes(query));
 	});
 
 	return [...filteredPlayers].sort((playerA, playerB) => {

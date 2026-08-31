@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
 	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
@@ -60,9 +61,7 @@
 	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/50 p-4 backdrop-blur-lg sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
 >
 	<div class="mb-4 flex items-start justify-between gap-3">
-		<h2
-			class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm"
-		>
+		<h2 class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm">
 			Jogadores {sortOrder === 'asc' ? 'menos' : 'mais'} valiosos
 			<span class="ml-1 text-[9px] whitespace-nowrap text-neutral-500 sm:text-[10px]">
 				({limit} total)
@@ -72,14 +71,10 @@
 		<button
 			type="button"
 			onclick={toggleOrder}
-			aria-label={
-				sortOrder === 'desc'
-					? 'Exibir jogadores menos valiosos'
-					: 'Exibir jogadores mais valiosos'
-			}
-			title={
-				sortOrder === 'desc' ? 'Ordenar do menor valor' : 'Ordenar do maior valor'
-			}
+			aria-label={sortOrder === 'desc'
+				? 'Exibir jogadores menos valiosos'
+				: 'Exibir jogadores mais valiosos'}
+			title={sortOrder === 'desc' ? 'Ordenar do menor valor' : 'Ordenar do maior valor'}
 			class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-(--secondary) text-sm font-bold transition-colors hover:bg-(--secondary)/80"
 		>
 			<span
@@ -143,7 +138,7 @@
 	</div>
 
 	<a
-		href="/elenco"
+		href={resolve('/elenco')}
 		class="mt-4 w-full rounded-xl bg-(--secondary) px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-(--secondary)/80"
 	>
 		Ver elenco completo

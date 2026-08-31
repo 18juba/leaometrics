@@ -9,13 +9,7 @@
 		class?: string;
 	}
 
-	let {
-		category,
-		title,
-		description,
-		children,
-		class: className = ''
-	}: Props = $props();
+	let { category, title, description, children, class: className = '' }: Props = $props();
 </script>
 
 <section

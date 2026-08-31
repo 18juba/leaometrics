@@ -2,10 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
-	import type {
-		AgeGroup,
-		AgeGroupAnalysis
-	} from '$lib/types/analysis';
+	import type { AgeGroup, AgeGroupAnalysis } from '$lib/types/analysis';
 
 	interface Props {
 		data: AgeGroupAnalysis[];
@@ -16,13 +13,7 @@
 	let canvas: HTMLCanvasElement;
 	let chart: Chart<'bar', number[], string> | null = null;
 
-	const ageGroupOrder: AgeGroup[] = [
-		'up_to_21',
-		'22_to_25',
-		'26_to_29',
-		'30_to_33',
-		'34_plus'
-	];
+	const ageGroupOrder: AgeGroup[] = ['up_to_21', '22_to_25', '26_to_29', '30_to_33', '34_plus'];
 
 	const ageGroupLabels: Record<AgeGroup, string> = {
 		up_to_21: 'Até 21',
@@ -65,20 +56,13 @@
 	};
 
 	function getPlayerCount(ageGroup: AgeGroup): number {
-		return (
-			data.find(
-				(item) => item.ageGroup === ageGroup
-			)?.playerCount ?? 0
-		);
+		return data.find((item) => item.ageGroup === ageGroup)?.playerCount ?? 0;
 	}
 
 	onMount(() => {
 		const values = ageGroupOrder.map(getPlayerCount);
 
-		const totalPlayers = values.reduce(
-			(total, playerCount) => total + playerCount,
-			0
-		);
+		const totalPlayers = values.reduce((total, playerCount) => total + playerCount, 0);
 
 		const highestValue = Math.max(...values, 0);
 
@@ -86,29 +70,18 @@
 			type: 'bar',
 
 			data: {
-				labels: ageGroupOrder.map(
-					(ageGroup) => ageGroupLabels[ageGroup]
-				),
+				labels: ageGroupOrder.map((ageGroup) => ageGroupLabels[ageGroup]),
 
 				datasets: [
 					{
 						label: 'Jogadores',
 						data: values,
 
-						backgroundColor: ageGroupOrder.map(
-							(ageGroup) =>
-								backgroundColors[ageGroup]
-						),
+						backgroundColor: ageGroupOrder.map((ageGroup) => backgroundColors[ageGroup]),
 
-						borderColor: ageGroupOrder.map(
-							(ageGroup) =>
-								borderColors[ageGroup]
-						),
+						borderColor: ageGroupOrder.map((ageGroup) => borderColors[ageGroup]),
 
-						hoverBackgroundColor: ageGroupOrder.map(
-							(ageGroup) =>
-								hoverColors[ageGroup]
-						),
+						hoverBackgroundColor: ageGroupOrder.map((ageGroup) => hoverColors[ageGroup]),
 
 						borderWidth: 1,
 						borderRadius: 6,
@@ -142,43 +115,26 @@
 
 						callbacks: {
 							title(items) {
-								const label =
-									items[0]?.label ?? '';
+								const label = items[0]?.label ?? '';
 
 								return `Faixa etária: ${label}`;
 							},
 
 							label(context) {
-								const playerCount =
-									context.parsed.y;
+								const playerCount = context.parsed.y;
 
-								return `${playerCount} ${
-									playerCount === 1
-										? 'jogador'
-										: 'jogadores'
-								}`;
+								return `${playerCount} ${playerCount === 1 ? 'jogador' : 'jogadores'}`;
 							},
 
 							afterLabel(context) {
-								const ageGroup =
-									ageGroupOrder[
-										context.dataIndex
-									];
+								const ageGroup = ageGroupOrder[context.dataIndex];
 
-								const percentage =
-									totalPlayers > 0
-										? (context.parsed.y /
-												totalPlayers) *
-											100
-										: 0;
+								const percentage = totalPlayers > 0 ? (context.parsed.y / totalPlayers) * 100 : 0;
 
 								return [
-									`${percentage.toLocaleString(
-										'pt-BR',
-										{
-											maximumFractionDigits: 1
-										}
-									)}% do elenco`,
+									`${percentage.toLocaleString('pt-BR', {
+										maximumFractionDigits: 1
+									})}% do elenco`,
 									`Perfil: ${ageGroupDescriptions[ageGroup]}`
 								];
 							}
@@ -233,13 +189,11 @@
 						},
 
 						grid: {
-							color:
-								'rgba(255, 255, 255, 0.08)'
+							color: 'rgba(255, 255, 255, 0.08)'
 						},
 
 						border: {
-							color:
-								'rgba(255, 255, 255, 0.12)'
+							color: 'rgba(255, 255, 255, 0.12)'
 						},
 
 						ticks: {
@@ -265,10 +219,7 @@
 
 <div class="w-full">
 	<div class="relative h-80 w-full">
-		<canvas
-			bind:this={canvas}
-			aria-label="Distribuição dos jogadores por faixa etária"
-		></canvas>
+		<canvas bind:this={canvas} aria-label="Distribuição dos jogadores por faixa etária"></canvas>
 	</div>
 
 	<div

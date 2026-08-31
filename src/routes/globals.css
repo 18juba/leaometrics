@@ -1,56 +1,52 @@
 @import 'tailwindcss';
 
 :root {
-  --primary: #d12f14;
-  --secondary: #2861a6;
-  --tertiary: #fefefe;
-  --golden: #b98742;
+	--primary: #d12f14;
+	--secondary: #2861a6;
+	--tertiary: #fefefe;
+	--golden: #b98742;
 }
 
 body {
-  font-family: 'Saira', sans-serif;
-  color: var(--tertiary);
+	font-family: 'Saira', sans-serif;
+	color: var(--tertiary);
 }
 
 .parallelogram {
-  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
+	clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .parallelogram-reverse {
-  clip-path: polygon(0 0, 96% 0, 100% 100%, 0 100%);
+	clip-path: polygon(0 0, 96% 0, 100% 100%, 0 100%);
 }
 
 .parallelogram-bottom {
-  clip-path: polygon(0 0, 100% 0, 0% 100%, 0% 100%);
+	clip-path: polygon(0 0, 100% 0, 0% 100%, 0% 100%);
 }
 
 .parallelogram-bottom-reverse {
-  clip-path: polygon(4% 0, 100% 0, 100% 100%, 96% 100%);
+	clip-path: polygon(4% 0, 100% 0, 100% 100%, 96% 100%);
 }
 
 .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: var(--golden) transparent;
+	scrollbar-width: thin;
+	scrollbar-color: var(--golden) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+	width: 4px;
+	height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: var(--golden);
-    border-radius: 9999px;
+	background-color: var(--golden);
+	border-radius: 9999px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: color-mix(
-        in srgb,
-        var(--golden) 80%,
-        transparent
-    );
+	background-color: color-mix(in srgb, var(--golden) 80%, transparent);
 }

@@ -15,44 +15,21 @@
 	);
 
 	const leftActive = $derived(
-		[
-			'left',
-			'leftfoot',
-			'esquerdo',
-			'both',
-			'ambidextrous',
-			'ambidestro',
-			'ambos'
-		].includes(normalizedFoot)
+		['left', 'leftfoot', 'esquerdo', 'both', 'ambidextrous', 'ambidestro', 'ambos'].includes(
+			normalizedFoot
+		)
 	);
 
 	const rightActive = $derived(
-		[
-			'right',
-			'rightfoot',
-			'direito',
-			'both',
-			'ambidextrous',
-			'ambidestro',
-			'ambos'
-		].includes(normalizedFoot)
+		['right', 'rightfoot', 'direito', 'both', 'ambidextrous', 'ambidestro', 'ambos'].includes(
+			normalizedFoot
+		)
 	);
 
-	const sizeClass = $derived(
-		size === 'lg'
-			? 'h-7 w-7'
-			: size === 'md'
-				? 'h-6 w-6'
-				: 'h-5 w-5'
-	);
+	const sizeClass = $derived(size === 'lg' ? 'h-7 w-7' : size === 'md' ? 'h-6 w-6' : 'h-5 w-5');
 
 	const label = $derived(
-		[
-			'both',
-			'ambidextrous',
-			'ambidestro',
-			'ambos'
-		].includes(normalizedFoot)
+		['both', 'ambidextrous', 'ambidestro', 'ambos'].includes(normalizedFoot)
 			? 'Jogador ambidestro'
 			: ['left', 'leftfoot', 'esquerdo'].includes(normalizedFoot)
 				? 'Pé dominante esquerdo'
@@ -62,21 +39,14 @@
 	);
 </script>
 
-<span
-	class="inline-flex shrink-0 items-center gap-1"
-	role="img"
-	aria-label={label}
-	title={label}
->
+<span class="inline-flex shrink-0 items-center gap-1" role="img" aria-label={label} title={label}>
 	<svg
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 297 297"
 		aria-hidden="true"
 		class={`${sizeClass} fill-current transition-all duration-200 ${
-			leftActive
-				? 'text-(--tertiary) drop-shadow-[0_0_5px_currentColor]'
-				: 'text-neutral-500/60'
+			leftActive ? 'text-(--tertiary) drop-shadow-[0_0_5px_currentColor]' : 'text-neutral-500/60'
 		}`}
 	>
 		<g>
@@ -95,9 +65,7 @@
 		viewBox="0 0 297 297"
 		aria-hidden="true"
 		class={`${sizeClass} -scale-x-100 fill-current transition-all duration-200 ${
-			rightActive
-				? 'text-(--tertiary) drop-shadow-[0_0_5px_currentColor]'
-				: 'text-neutral-500/60'
+			rightActive ? 'text-(--tertiary) drop-shadow-[0_0_5px_currentColor]' : 'text-neutral-500/60'
 		}`}
 	>
 		<g>

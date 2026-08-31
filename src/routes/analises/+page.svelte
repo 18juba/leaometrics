@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { PageData } from './$types';
 	import type { ClubAnalysisJson } from '$lib/types/analysis';
 	import { formatDateTime } from '$lib/formatters/formatDateTime';
-	import { ANALYSIS_JSON_PATH } from '$lib/data/analysisData';
+	import { ANALYSIS_JSON_FILENAME, ANALYSIS_JSON_PATH } from '$lib/data/analysisData';
 
 	import PositionHeatmap from '$lib/components/charts/PositionHeatmap.svelte';
 	import MostValuablePlayersChart from '$lib/components/charts/MostValuablePlayersChart.svelte';
@@ -27,10 +28,7 @@
 <svelte:head>
 	<title>Análise esportiva e financeira</title>
 
-	<meta
-		name="description"
-		content="Dashboard financeiro e esportivo do elenco"
-	/>
+	<meta name="description" content="Dashboard financeiro e esportivo do elenco" />
 </svelte:head>
 
 <div class="flex w-full items-start justify-center">
@@ -115,9 +113,7 @@
 					>
 						Baixe os dados utilizados nos gráficos em JSON.
 
-						<span class="mx-1 text-neutral-600">
-							•
-						</span>
+						<span class="mx-1 text-neutral-600"> • </span>
 
 						Fonte:
 
@@ -138,8 +134,8 @@
 				</div>
 
 				<a
-					href={ANALYSIS_JSON_PATH}
-					download="fortaleza_analysis_19-08-2026.json"
+					href={resolve(ANALYSIS_JSON_PATH as Parameters<typeof resolve>[0])}
+					download={ANALYSIS_JSON_FILENAME}
 					class="
 						inline-flex w-full
 						shrink-0 items-center
@@ -188,9 +184,7 @@
 				xl:col-span-5
 			"
 		>
-			<PositionHeatmap
-				data={squadAnalysis.byPosition}
-			/>
+			<PositionHeatmap data={squadAnalysis.byPosition} />
 		</ChartCard>
 
 		<ChartCard
@@ -219,9 +213,7 @@
 				xl:col-span-4
 			"
 		>
-			<MostValuablePlayersChart
-				data={squadAnalysis.mostValuablePlayers}
-			/>
+			<MostValuablePlayersChart data={squadAnalysis.mostValuablePlayers} />
 		</ChartCard>
 
 		<ChartCard
@@ -233,9 +225,7 @@
 				xl:col-span-4
 			"
 		>
-			<MarketValueByPositionChart
-				data={squadAnalysis.byPosition}
-			/>
+			<MarketValueByPositionChart data={squadAnalysis.byPosition} />
 		</ChartCard>
 
 		<ChartCard
@@ -247,10 +237,7 @@
 				xl:col-span-4
 			"
 		>
-			<MarketValueByContractYearChart
-				data={players}
-				referenceDate={referenceDate}
-			/>
+			<MarketValueByContractYearChart data={players} {referenceDate} />
 		</ChartCard>
 
 		<!-- Gráficos de composição -->
@@ -263,9 +250,7 @@
 				xl:col-span-4
 			"
 		>
-			<AgeDistributionChart
-				data={squadAnalysis.byAgeGroup}
-			/>
+			<AgeDistributionChart data={squadAnalysis.byAgeGroup} />
 		</ChartCard>
 
 		<ChartCard
@@ -277,10 +262,7 @@
 				xl:col-span-4
 			"
 		>
-			<ContractExpirationDistributionChart
-				data={players}
-				referenceDate={referenceDate}
-			/>
+			<ContractExpirationDistributionChart data={players} {referenceDate} />
 		</ChartCard>
 
 		<ChartCard
@@ -292,9 +274,7 @@
 				xl:col-span-4
 			"
 		>
-			<NationalityDistributionChart
-				data={players}
-			/>
+			<NationalityDistributionChart data={players} />
 		</ChartCard>
 
 		<!-- Tabela completa -->
@@ -305,10 +285,7 @@
 				xl:col-span-12
 			"
 		>
-			<ExpiringContractsTable
-				data={players}
-				referenceDate={referenceDate}
-			/>
+			<ExpiringContractsTable data={players} {referenceDate} />
 		</div>
 	</div>
 </div>

@@ -1,13 +1,7 @@
 <script lang="ts">
-	import type {
-		FootFilter,
-		SortOption
-	} from './elenco.types';
+	import type { FootFilter, SortOption } from './elenco.types';
 
-	import {
-		getPositionLabel,
-		getSortLabel
-	} from './elenco.utils';
+	import { getPositionLabel, getSortLabel } from './elenco.utils';
 
 	let {
 		positions,
@@ -49,21 +43,13 @@
 		sm:text-[10px]
 	`;
 
-	const nameSort = $derived(
-		sortBy.startsWith('name-') ? sortBy : 'none'
-	);
+	const nameSort = $derived(sortBy.startsWith('name-') ? sortBy : 'none');
 
-	const ageSort = $derived(
-		sortBy.startsWith('age-') ? sortBy : 'none'
-	);
+	const ageSort = $derived(sortBy.startsWith('age-') ? sortBy : 'none');
 
-	const heightSort = $derived(
-		sortBy.startsWith('height-') ? sortBy : 'none'
-	);
+	const heightSort = $derived(sortBy.startsWith('height-') ? sortBy : 'none');
 
-	const valueSort = $derived(
-		sortBy.startsWith('value-') ? sortBy : 'none'
-	);
+	const valueSort = $derived(sortBy.startsWith('value-') ? sortBy : 'none');
 
 	function changeSort(event: Event): void {
 		const select = event.currentTarget as HTMLSelectElement;
@@ -81,9 +67,7 @@
 >
 	<div class="flex items-start justify-between gap-3">
 		<div class="min-w-0">
-			<h2 class="text-xs font-bold uppercase tracking-wider text-neutral-300">
-				Filtros do elenco
-			</h2>
+			<h2 class="text-xs font-bold uppercase tracking-wider text-neutral-300">Filtros do elenco</h2>
 
 			<p class="mt-1 hidden text-xs text-neutral-500 sm:block">
 				Pesquise, filtre e ordene os atletas.
@@ -196,9 +180,7 @@
 					</svg>
 
 					<span class="sr-only">
-						{showSortOptions
-							? 'Ocultar ordenações'
-							: 'Exibir ordenações'}
+						{showSortOptions ? 'Ocultar ordenações' : 'Exibir ordenações'}
 					</span>
 				</button>
 			</div>

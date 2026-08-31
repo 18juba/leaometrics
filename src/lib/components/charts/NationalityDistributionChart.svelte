@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteMap } from 'svelte/reactivity';
 	import Chart from 'chart.js/auto';
 
 	import type { Player } from '$lib/types/analysis';
 
-	type NationalityMetric =
-		| 'playerCount'
-		| 'totalMarketValue'
+	type NationalityMetric = 'playerCount' | 'totalMarketValue';
 
 	interface Props {
 		data: Player[];
@@ -22,15 +21,12 @@
 		playersWithMarketValue: number;
 	}
 
-	let {
-		data,
-		initialMetric = 'playerCount'
-	}: Props = $props();
+	let { data, initialMetric = 'playerCount' }: Props = $props();
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart<'doughnut', number[], string> | null = null;
 
-	let selectedMetric = $state<NationalityMetric>(initialMetric);
+	let selectedMetric = $derived<NationalityMetric>(initialMetric);
 
 	/*
 	 * Esta variável acompanha a ordem atual dos setores.
@@ -49,12 +45,12 @@
 		{
 			value: 'totalMarketValue',
 			label: 'Valor total'
-		},
+		}
 	];
 
 	const metricLabels: Record<NationalityMetric, string> = {
 		playerCount: 'Jogadores',
-		totalMarketValue: 'Valor total de mercado',
+		totalMarketValue: 'Valor total de mercado'
 	};
 
 	const nationalityLabels: Record<string, string> = {
@@ -119,10 +115,8 @@
 		return primaryNationality || 'Unknown';
 	}
 
-	function buildNationalityGroups(
-		players: Player[]
-	): NationalityGroup[] {
-		const groups = new Map<string, Player[]>();
+	function buildNationalityGroups(players: Player[]): NationalityGroup[] {
+		const groups = new SvelteMap<string, Player[]>();
 
 		for (const player of players) {
 			const nationality = getPrimaryNationality(player);
@@ -133,60 +127,42 @@
 			groups.set(nationality, currentPlayers);
 		}
 
-		return Array.from(groups.entries()).map(
-			([nationality, groupedPlayers]) => {
-				const playersWithMarketValue = groupedPlayers.filter(
-					(player) => player.marketValue !== null
-				);
+		return Array.from(groups.entries()).map(([nationality, groupedPlayers]) => {
+			const playersWithMarketValue = groupedPlayers.filter((player) => player.marketValue !== null);
 
-				const totalMarketValue = playersWithMarketValue.reduce(
-					(total, player) =>
-						total + (player.marketValue ?? 0),
-					0
-				);
+			const totalMarketValue = playersWithMarketValue.reduce(
+				(total, player) => total + (player.marketValue ?? 0),
+				0
+			);
 
-				return {
-					nationality,
-					label: translateNationality(nationality),
-					players: groupedPlayers,
-					playerCount: groupedPlayers.length,
-					totalMarketValue,
-					playersWithMarketValue:
-						playersWithMarketValue.length
-				};
-			}
-		);
+			return {
+				nationality,
+				label: translateNationality(nationality),
+				players: groupedPlayers,
+				playerCount: groupedPlayers.length,
+				totalMarketValue,
+				playersWithMarketValue: playersWithMarketValue.length
+			};
+		});
 	}
 
-	const nationalityGroups = buildNationalityGroups(data);
+	const nationalityGroups = $derived(buildNationalityGroups(data));
 
-	function getMetricValue(
-		group: NationalityGroup,
-		metric: NationalityMetric
-	): number {
+	function getMetricValue(group: NationalityGroup, metric: NationalityMetric): number {
 		return group[metric];
 	}
 
-	function formatMetricValue(
-		value: number,
-		metric: NationalityMetric
-	): string {
+	function formatMetricValue(value: number, metric: NationalityMetric): string {
 		if (metric === 'playerCount') {
-			return `${value} ${
-				value === 1 ? 'jogador' : 'jogadores'
-			}`;
+			return `${value} ${value === 1 ? 'jogador' : 'jogadores'}`;
 		}
 
 		return fullCurrencyFormatter.format(value);
 	}
 
-	function sortGroups(
-		metric: NationalityMetric
-	): NationalityGroup[] {
+	function sortGroups(metric: NationalityMetric): NationalityGroup[] {
 		return [...nationalityGroups].sort(
-			(a, b) =>
-				getMetricValue(b, metric) -
-				getMetricValue(a, metric)
+			(a, b) => getMetricValue(b, metric) - getMetricValue(a, metric)
 		);
 	}
 
@@ -197,15 +173,11 @@
 
 		displayedGroups = sortGroups(metric);
 
-		chart.data.labels = displayedGroups.map(
-			(group) => group.label
-		);
+		chart.data.labels = displayedGroups.map((group) => group.label);
 
 		chart.data.datasets[0].label = metricLabels[metric];
 
-		chart.data.datasets[0].data = displayedGroups.map(
-			(group) => getMetricValue(group, metric)
-		);
+		chart.data.datasets[0].data = displayedGroups.map((group) => getMetricValue(group, metric));
 
 		/*
 		 * A API do Chart.js permite alterar data e labels e depois
@@ -229,26 +201,16 @@
 			type: 'doughnut',
 
 			data: {
-				labels: displayedGroups.map(
-					(group) => group.label
-				),
+				labels: displayedGroups.map((group) => group.label),
 
 				datasets: [
 					{
 						label: metricLabels[selectedMetric],
 
-						data: displayedGroups.map((group) =>
-							getMetricValue(
-								group,
-								selectedMetric
-							)
-						),
+						data: displayedGroups.map((group) => getMetricValue(group, selectedMetric)),
 
 						backgroundColor: displayedGroups.map(
-							(_, index) =>
-								chartColors[
-									index % chartColors.length
-								]
+							(_, index) => chartColors[index % chartColors.length]
 						),
 
 						borderColor: '#ffffff',
@@ -295,19 +257,13 @@
 							},
 
 							label(context) {
-								const group =
-									displayedGroups[
-										context.dataIndex
-									];
+								const group = displayedGroups[context.dataIndex];
 
 								if (!group) {
 									return '';
 								}
 
-								const value = getMetricValue(
-									group,
-									selectedMetric
-								);
+								const value = getMetricValue(group, selectedMetric);
 
 								return `${metricLabels[selectedMetric]}: ${formatMetricValue(
 									value,
@@ -316,74 +272,43 @@
 							},
 
 							afterLabel(context) {
-								const group =
-									displayedGroups[
-										context.dataIndex
-									];
+								const group = displayedGroups[context.dataIndex];
 
 								if (!group) {
 									return [];
 								}
 
-								const datasetValues =
-									displayedGroups.map(
-										(item) =>
-											getMetricValue(
-												item,
-												selectedMetric
-											)
-									);
-
-								const selectedTotal =
-									datasetValues.reduce(
-										(total, value) =>
-											total + value,
-										0
-									);
-
-								const currentValue = getMetricValue(
-									group,
-									selectedMetric
+								const datasetValues = displayedGroups.map((item) =>
+									getMetricValue(item, selectedMetric)
 								);
 
-								const percentage =
-									selectedTotal > 0
-										? (currentValue /
-												selectedTotal) *
-											100
-										: 0;
+								const selectedTotal = datasetValues.reduce((total, value) => total + value, 0);
+
+								const currentValue = getMetricValue(group, selectedMetric);
+
+								const percentage = selectedTotal > 0 ? (currentValue / selectedTotal) * 100 : 0;
 
 								return [
-									`Valor total: ${fullCurrencyFormatter.format(
-										group.totalMarketValue
-									)}`,
-									`Participação: ${percentageFormatter.format(
-										percentage
-									)}%`
+									`Valor total: ${fullCurrencyFormatter.format(group.totalMarketValue)}`,
+									`Participação: ${percentageFormatter.format(percentage)}%`
 								];
 							},
 
 							afterBody(items) {
-								const index =
-									items[0]?.dataIndex;
+								const index = items[0]?.dataIndex;
 
 								if (index === undefined) {
 									return [];
 								}
 
-								const group =
-									displayedGroups[index];
+								const group = displayedGroups[index];
 
 								if (!group) {
 									return [];
 								}
 
-								const sortedPlayers = [
-									...group.players
-								].sort(
-									(a, b) =>
-										(b.marketValue ?? 0) -
-										(a.marketValue ?? 0)
+								const sortedPlayers = [...group.players].sort(
+									(a, b) => (b.marketValue ?? 0) - (a.marketValue ?? 0)
 								);
 
 								return [
@@ -392,9 +317,7 @@
 										(player) =>
 											`${player.name}: ${
 												player.marketValue !== null
-													? compactCurrencyFormatter.format(
-															player.marketValue
-														)
+													? compactCurrencyFormatter.format(player.marketValue)
 													: 'sem valor'
 											}`
 									)
@@ -444,9 +367,7 @@
 	</div>
 
 	<div class="relative h-80 w-full">
-		<canvas
-			bind:this={canvas}
-			aria-label="Distribuição dos jogadores por nacionalidade principal"
+		<canvas bind:this={canvas} aria-label="Distribuição dos jogadores por nacionalidade principal"
 		></canvas>
 	</div>
 </div>

@@ -6,26 +6,26 @@ O projeto reúne informações sobre jogadores, valor de mercado, idade, contrat
 
 ## Funcionalidades
 
-* Visualização e filtragem do elenco
-* Ordenação por nome, idade, altura e valor de mercado
-* Perfil detalhado dos jogadores
-* Rankings de atletas
-* Análise por posição
-* Distribuição etária
-* Valor de mercado do elenco
-* Análise de contratos e vencimentos
-* Distribuição por nacionalidade
-* Histórico de transferências
-* Gráficos interativos
-* Download dos dados utilizados nas análises
+- Visualização e filtragem do elenco
+- Ordenação por nome, idade, altura e valor de mercado
+- Perfil detalhado dos jogadores
+- Rankings de atletas
+- Análise por posição
+- Distribuição etária
+- Valor de mercado do elenco
+- Análise de contratos e vencimentos
+- Distribuição por nacionalidade
+- Histórico de transferências
+- Gráficos interativos
+- Download dos dados utilizados nas análises
 
 ## Tecnologias
 
-* Svelte 5
-* SvelteKit
-* TypeScript
-* Tailwind CSS
-* Chart.js
+- Svelte 5
+- SvelteKit
+- TypeScript
+- Tailwind CSS
+- Chart.js
 
 ## Dados
 

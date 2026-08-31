@@ -2,11 +2,7 @@ import type { Player } from '$lib/types/analysis';
 
 export type ClubPlayer = Player;
 
-export type FootFilter =
-	| 'all'
-	| 'right'
-	| 'left'
-	| 'both';
+export type FootFilter = 'all' | 'right' | 'left' | 'both';
 
 export type SortOption =
 	| 'name-asc'

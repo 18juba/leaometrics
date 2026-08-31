@@ -42,28 +42,20 @@
 	const transfers = $derived(player.transferData?.transfers ?? []);
 	const requestErrors = $derived(player.requestErrors ?? []);
 
-	const hasDetailedProfile = $derived(
-		Boolean(profile && Object.keys(profile).length > 0)
-	);
+	const hasDetailedProfile = $derived(Boolean(profile && Object.keys(profile).length > 0));
 
 	const socialLinks = $derived(
 		(profile?.socialMedia ?? []).filter((link) => /^https?:\/\//i.test(link))
 	);
 
-	const playerImage = $derived(
-		profile?.imageUrl || `/images/players/${player.id}.webp`
-	);
+	const playerImage = $derived(profile?.imageUrl || `/images/players/${player.id}.webp`);
 
 	const translatedNationalities = $derived(
-		(player.nationality ?? []).map(
-			(country) => countryDictionary[country] ?? country
-		)
+		(player.nationality ?? []).map((country) => countryDictionary[country] ?? country)
 	);
 
 	const translatedCitizenships = $derived(
-		(profile?.citizenship ?? []).map(
-			(country) => countryDictionary[country] ?? country
-		)
+		(profile?.citizenship ?? []).map((country) => countryDictionary[country] ?? country)
 	);
 
 	const tabs = [
@@ -73,19 +65,17 @@
 	];
 
 	$effect(() => {
-		player.id;
-		activeTab = 'overview';
+		if (player.id) {
+			activeTab = 'overview';
+		}
 	});
 
 	function getFocusableElements(): HTMLElement[] {
 		if (!dialogElement) return [];
 
-		return Array.from(
-			dialogElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-		).filter(
+		return Array.from(dialogElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
 			(element) =>
-				!element.hasAttribute('disabled') &&
-				element.getAttribute('aria-hidden') !== 'true'
+				!element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true'
 		);
 	}
 
@@ -140,9 +130,7 @@
 		const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
 		if (!match) return value;
 
-		const date = new Date(
-			Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
-		);
+		const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
 
 		if (Number.isNaN(date.getTime())) return value;
 
@@ -166,7 +154,11 @@
 		document.body.style.overflow = 'hidden';
 
 		void tick().then(() => {
-			closeButtonElement?.focus() ?? dialogElement?.focus();
+			if (closeButtonElement) {
+				closeButtonElement.focus();
+			} else {
+				dialogElement?.focus();
+			}
 		});
 
 		return () => {
@@ -223,9 +215,7 @@
 
 			<div class="relative min-w-0">
 				<div class="flex flex-wrap items-center gap-2">
-					<span
-						class="text-[10px] font-bold tracking-[0.2em] text-(--golden) uppercase"
-					>
+					<span class="text-[10px] font-bold tracking-[0.2em] text-(--golden) uppercase">
 						{getPositionLabel(profile?.position?.main || player.position)}
 					</span>
 
@@ -247,9 +237,7 @@
 				</h2>
 
 				<p class="mt-0.5 truncate text-xs text-neutral-500 sm:text-sm">
-					{profile?.fullName ||
-						translatedNationalities.join(' • ') ||
-						'Informações do atleta'}
+					{profile?.fullName || translatedNationalities.join(' • ') || 'Informações do atleta'}
 				</p>
 			</div>
 
@@ -300,8 +288,8 @@
 						<div
 							class="rounded-xl border border-amber-400/10 bg-amber-400/5 px-4 py-3 text-xs text-amber-200"
 						>
-							O perfil detalhado não estava disponível quando o arquivo foi gerado.
-							Os dados básicos do elenco continuam disponíveis abaixo.
+							O perfil detalhado não estava disponível quando o arquivo foi gerado. Os dados básicos
+							do elenco continuam disponíveis abaixo.
 						</div>
 					{/if}
 
@@ -312,14 +300,11 @@
 							<span class="text-[10px] font-bold tracking-wider text-neutral-500 uppercase">
 								Perfil
 							</span>
-							<h3
-								class="mt-1 truncate text-xl font-black text-neutral-100 sm:text-2xl"
-							>
+							<h3 class="mt-1 truncate text-xl font-black text-neutral-100 sm:text-2xl">
 								{profile?.fullName || profile?.name || player.name}
 							</h3>
 							<p class="mt-1 text-xs text-neutral-500">
-								{translatedNationalities.join(' • ') ||
-									'Nacionalidade não informada'}
+								{translatedNationalities.join(' • ') || 'Nacionalidade não informada'}
 							</p>
 						</div>
 
@@ -328,9 +313,7 @@
 								Valor de mercado
 							</span>
 							<span class="mt-1 block text-2xl font-black text-(--golden)">
-								{formatCurrency(
-									profile?.marketValue ?? player.marketValue ?? 0
-								)}
+								{formatCurrency(profile?.marketValue ?? player.marketValue ?? 0)}
 							</span>
 						</div>
 					</div>
@@ -346,9 +329,7 @@
 						</div>
 
 						<div class="rounded-xl bg-neutral-950/40 p-4">
-							<span class="text-[10px] tracking-wider text-neutral-500 uppercase">
-								Altura
-							</span>
+							<span class="text-[10px] tracking-wider text-neutral-500 uppercase"> Altura </span>
 							<span class="mt-1 block text-sm font-bold text-neutral-200">
 								{formatHeight(profile?.height ?? player.height)}
 							</span>
@@ -364,9 +345,7 @@
 						</div>
 
 						<div class="rounded-xl bg-neutral-950/40 p-4">
-							<span class="text-[10px] tracking-wider text-neutral-500 uppercase">
-								Camisa
-							</span>
+							<span class="text-[10px] tracking-wider text-neutral-500 uppercase"> Camisa </span>
 							<span class="mt-1 block text-sm font-bold text-neutral-200">
 								{profile?.shirtNumber || 'N/A'}
 							</span>
@@ -374,9 +353,7 @@
 					</div>
 
 					<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-						<section
-							class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5"
-						>
+						<section class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5">
 							<h3 class="text-xs font-bold tracking-wider text-neutral-400 uppercase">
 								Carreira atual
 							</h3>
@@ -409,28 +386,21 @@
 
 								<div class="flex items-start justify-between gap-5">
 									<span class="text-xs text-neutral-500">Contratado de</span>
-									<span
-										class="max-w-[65%] text-right text-sm font-bold text-neutral-200"
-									>
+									<span class="max-w-[65%] text-right text-sm font-bold text-neutral-200">
 										{player.signedFrom || 'N/A'}
 									</span>
 								</div>
 
 								<div class="flex items-start justify-between gap-5">
 									<span class="text-xs text-neutral-500">Outras posições</span>
-									<span
-										class="max-w-[65%] text-right text-sm font-bold text-neutral-200"
-									>
-										{profile?.position?.other?.map(getPositionLabel).join(', ') ||
-											'N/A'}
+									<span class="max-w-[65%] text-right text-sm font-bold text-neutral-200">
+										{profile?.position?.other?.map(getPositionLabel).join(', ') || 'N/A'}
 									</span>
 								</div>
 							</div>
 						</section>
 
-						<section
-							class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5"
-						>
+						<section class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5">
 							<h3 class="text-xs font-bold tracking-wider text-neutral-400 uppercase">
 								Informações pessoais
 							</h3>
@@ -438,13 +408,8 @@
 							<div class="mt-5 space-y-4">
 								<div class="flex items-start justify-between gap-5">
 									<span class="text-xs text-neutral-500">Naturalidade</span>
-									<span
-										class="max-w-[65%] text-right text-sm font-bold text-neutral-200"
-									>
-										{[
-											profile?.placeOfBirth?.city,
-											translateCountry(profile?.placeOfBirth?.country)
-										]
+									<span class="max-w-[65%] text-right text-sm font-bold text-neutral-200">
+										{[profile?.placeOfBirth?.city, translateCountry(profile?.placeOfBirth?.country)]
 											.filter(Boolean)
 											.join(', ') || 'N/A'}
 									</span>
@@ -452,9 +417,7 @@
 
 								<div class="flex items-start justify-between gap-5">
 									<span class="text-xs text-neutral-500">Cidadania</span>
-									<span
-										class="max-w-[65%] text-right text-sm font-bold text-neutral-200"
-									>
+									<span class="max-w-[65%] text-right text-sm font-bold text-neutral-200">
 										{translatedCitizenships.join(', ') ||
 											translatedNationalities.join(', ') ||
 											'N/A'}
@@ -479,9 +442,7 @@
 					</div>
 
 					{#if profile?.relatives?.length}
-						<section
-							class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5"
-						>
+						<section class="rounded-2xl border border-(--tertiary)/5 bg-neutral-950/30 p-5">
 							<h3 class="text-xs font-bold tracking-wider text-neutral-400 uppercase">
 								Parentes no futebol
 							</h3>
@@ -492,9 +453,7 @@
 										<span class="block truncate text-sm font-bold text-neutral-200">
 											{relative.name}
 										</span>
-										<span
-											class="mt-1 block text-[10px] tracking-wider text-neutral-500 uppercase"
-										>
+										<span class="mt-1 block text-[10px] tracking-wider text-neutral-500 uppercase">
 											{relative.profileType || 'Perfil relacionado'}
 										</span>
 									</div>
@@ -506,6 +465,8 @@
 					{#if socialLinks.length}
 						<div class="flex flex-wrap gap-2">
 							{#each socialLinks as link, index (link)}
+								<!-- External URL is intentionally not passed through SvelteKit's route resolver. -->
+								<!-- eslint-disable svelte/no-navigation-without-resolve -->
 								<a
 									href={link}
 									target="_blank"
@@ -514,6 +475,7 @@
 								>
 									Rede social {index + 1}
 								</a>
+								<!-- eslint-enable svelte/no-navigation-without-resolve -->
 							{/each}
 						</div>
 					{/if}

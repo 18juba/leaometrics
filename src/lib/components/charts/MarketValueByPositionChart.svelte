@@ -2,10 +2,7 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
-	import type {
-		PlayerPosition,
-		PositionAnalysis
-	} from '$lib/types/analysis';
+	import type { PlayerPosition, PositionAnalysis } from '$lib/types/analysis';
 
 	interface Props {
 		data: PositionAnalysis[];
@@ -50,13 +47,10 @@
 	});
 
 	onMount(() => {
-		const sortedPositions = [...data].sort(
-			(a, b) => b.totalMarketValue - a.totalMarketValue
-		);
+		const sortedPositions = [...data].sort((a, b) => b.totalMarketValue - a.totalMarketValue);
 
 		const totalSquadMarketValue = sortedPositions.reduce(
-			(total, position) =>
-				total + position.totalMarketValue,
+			(total, position) => total + position.totalMarketValue,
 			0
 		);
 
@@ -64,21 +58,14 @@
 			type: 'bar',
 
 			data: {
-				labels: sortedPositions.map(
-					(position) =>
-						positionLabels[position.position]
-				),
+				labels: sortedPositions.map((position) => positionLabels[position.position]),
 
 				datasets: [
 					{
 						label: 'Valor de mercado',
-						data: sortedPositions.map(
-							(position) =>
-								position.totalMarketValue
-						),
+						data: sortedPositions.map((position) => position.totalMarketValue),
 
-						backgroundColor:
-							'rgba(59, 130, 246, 0.82)',
+						backgroundColor: 'rgba(59, 130, 246, 0.82)',
 
 						borderColor: 'rgb(37, 99, 235)',
 						borderWidth: 1,
@@ -118,25 +105,17 @@
 							},
 
 							label(context) {
-								const position =
-									sortedPositions[
-										context.dataIndex
-									];
+								const position = sortedPositions[context.dataIndex];
 
 								if (!position) {
 									return '';
 								}
 
-								return `Valor total: ${fullCurrencyFormatter.format(
-									position.totalMarketValue
-								)}`;
+								return `Valor total: ${fullCurrencyFormatter.format(position.totalMarketValue)}`;
 							},
 
 							afterLabel(context) {
-								const position =
-									sortedPositions[
-										context.dataIndex
-									];
+								const position = sortedPositions[context.dataIndex];
 
 								if (!position) {
 									return [];
@@ -144,19 +123,13 @@
 
 								const percentage =
 									totalSquadMarketValue > 0
-										? (position.totalMarketValue /
-												totalSquadMarketValue) *
-											100
+										? (position.totalMarketValue / totalSquadMarketValue) * 100
 										: 0;
 
 								return [
 									`Jogadores: ${position.playerCount}`,
-									`Valor médio: ${fullCurrencyFormatter.format(
-										position.averageMarketValue
-									)}`,
-									`Participação: ${percentageFormatter.format(
-										percentage
-									)}% do elenco`
+									`Valor médio: ${fullCurrencyFormatter.format(position.averageMarketValue)}`,
+									`Participação: ${percentageFormatter.format(percentage)}% do elenco`
 								];
 							}
 						}
@@ -176,8 +149,7 @@
 						},
 
 						grid: {
-							color:
-								'rgba(148, 163, 184, 0.16)'
+							color: 'rgba(148, 163, 184, 0.16)'
 						},
 
 						ticks: {
@@ -186,9 +158,7 @@
 							},
 
 							callback(value) {
-								return compactCurrencyFormatter.format(
-									Number(value)
-								);
+								return compactCurrencyFormatter.format(Number(value));
 							}
 						}
 					},
@@ -218,8 +188,5 @@
 </script>
 
 <div class="relative h-80 w-full">
-	<canvas
-		bind:this={canvas}
-		aria-label="Valor de mercado total dos jogadores por posição"
-	></canvas>
+	<canvas bind:this={canvas} aria-label="Valor de mercado total dos jogadores por posição"></canvas>
 </div>

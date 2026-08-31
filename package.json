@@ -20,6 +20,7 @@
 		"svelte-check": "^4.x",
 		"tailwindcss": "^4.3.0",
 		"typescript": "^5.x",
+		"typescript-eslint": "^8.68.0",
 		"vite": "^8.0.16"
 	},
 	"private": true,
@@ -30,7 +31,7 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json"
 	},
 	"type": "module",
 	"dependencies": {

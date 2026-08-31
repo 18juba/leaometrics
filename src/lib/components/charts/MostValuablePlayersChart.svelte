@@ -14,19 +14,19 @@
 	let chart: Chart | null = null;
 
 	const positionLabels: Record<ValuablePlayer['position'], string> = {
-	Goalkeeper: 'Goleiro',
-	'Centre-Back': 'Zagueiro',
-	'Right-Back': 'Lateral-direito',
-	'Left-Back': 'Lateral-esquerdo',
-	'Defensive Midfield': 'Volante',
-	'Central Midfield': 'Meio-campista central',
-	'Right Midfield': 'Meia-direita',
-	'Left Midfield': 'Meia-esquerda',
-	'Attacking Midfield': 'Meia ofensivo',
-	'Right Winger': 'Ponta-direita',
-	'Left Winger': 'Ponta-esquerda',
-	'Second Striker': 'Segundo atacante',
-	'Centre-Forward': 'Centroavante'
+		Goalkeeper: 'Goleiro',
+		'Centre-Back': 'Zagueiro',
+		'Right-Back': 'Lateral-direito',
+		'Left-Back': 'Lateral-esquerdo',
+		'Defensive Midfield': 'Volante',
+		'Central Midfield': 'Meio-campista central',
+		'Right Midfield': 'Meia-direita',
+		'Left Midfield': 'Meia-esquerda',
+		'Attacking Midfield': 'Meia ofensivo',
+		'Right Winger': 'Ponta-direita',
+		'Left Winger': 'Ponta-esquerda',
+		'Second Striker': 'Segundo atacante',
+		'Centre-Forward': 'Centroavante'
 	};
 
 	const compactCurrencyFormatter = new Intl.NumberFormat('pt-BR', {
@@ -43,9 +43,7 @@
 	});
 
 	function buildChartData(players: ValuablePlayer[]) {
-		const sortedPlayers = [...players]
-			.sort((a, b) => b.marketValue - a.marketValue)
-			.slice(0, 10);
+		const sortedPlayers = [...players].sort((a, b) => b.marketValue - a.marketValue).slice(0, 10);
 
 		return {
 			labels: sortedPlayers.map((player) => player.name),
@@ -90,26 +88,21 @@
 								const index = items[0]?.dataIndex ?? 0;
 								return built.players[index]?.name ?? '';
 							},
-						
+
 							label(context) {
 								const player = built.players[context.dataIndex];
-							
+
 								if (!player) return '';
-							
-								return `Valor: ${fullCurrencyFormatter.format(
-									player.marketValue
-								)}`;
+
+								return `Valor: ${fullCurrencyFormatter.format(player.marketValue)}`;
 							},
-						
+
 							afterLabel(context) {
 								const player = built.players[context.dataIndex];
-							
+
 								if (!player) return '';
-							
-								return [
-									`Posição: ${positionLabels[player.position]}`,
-									`Idade: ${player.age} anos`
-								];
+
+								return [`Posição: ${positionLabels[player.position]}`, `Idade: ${player.age} anos`];
 							}
 						}
 					}
@@ -144,10 +137,10 @@
 		});
 	}
 
-	function updateChart() {
+	function updateChart(players: ValuablePlayer[]) {
 		if (!chart) return;
 
-		const built = buildChartData(data);
+		const built = buildChartData(players);
 
 		chart.data.labels = built.labels;
 		chart.data.datasets = built.datasets;
@@ -164,10 +157,10 @@
 	});
 
 	$effect(() => {
-		data;
+		const currentData = data;
 
 		if (chart) {
-			updateChart();
+			updateChart(currentData);
 		}
 	});
 </script>
