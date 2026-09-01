@@ -86,7 +86,7 @@
 	</div>
 
 	<div
-		class="custom-scrollbar max-h-110 2xl:max-h-120 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
+		class="custom-scrollbar max-h-64 xl:max-h-70 2xl:max-h-110 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
 	>
 		{#each rankedPlayers as player (player.id)}
 			<div
