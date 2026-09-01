@@ -86,7 +86,7 @@
 	</div>
 
 	<div
-		class="custom-scrollbar max-h-112 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
+		class="custom-scrollbar max-h-110 2xl:max-h-120 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
 	>
 		{#each rankedPlayers as player (player.id)}
 			<div
@@ -97,7 +97,7 @@
 						playerId={player.id}
 						alt={player.name}
 						sizes="48px"
-						class="h-10 w-10 shrink-0 rounded-full bg-(--tertiary)/20 object-contain sm:h-12 sm:w-12"
+						class="size-12 shrink-0 rounded-full bg-(--tertiary)/20 object-contain sm:size-14"
 					/>
 
 					<div class="min-w-0 flex-1">
@@ -122,7 +122,7 @@
 						</div>
 
 						<span
-							class="mt-0.5 block truncate text-[9px] tracking-tight text-neutral-400 uppercase sm:text-[10px]"
+							class="mt-0.5 block truncate text-sm tracking-tight text-neutral-400"
 						>
 							{translatePosition(player.position)} •
 							{player.age ? `${player.age} anos` : 'Idade N/A'}
@@ -131,7 +131,7 @@
 				</div>
 
 				<span
-					class="shrink-0 pl-1 text-[10px] font-black whitespace-nowrap text-(--golden) sm:pl-2 sm:text-xs"
+					class="shrink-0 pl-1 text-xs font-bold whitespace-nowrap text-(--golden) sm:pl-2 sm:text-sm"
 				>
 					{formatCurrency(player.marketValue)}
 				</span>
@@ -141,7 +141,7 @@
 
 	<a
 		href={resolve('/elenco')}
-		class="mt-4 w-full rounded-xl bg-(--secondary) px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-(--secondary)/80"
+		class="mt-4 w-full rounded-xl bg-(--secondary) px-4 py-2.5 text-center text-sm font-semibold transition-colors hover:bg-(--secondary)/80"
 	>
 		Ver elenco completo
 	</a>

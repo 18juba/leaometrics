@@ -33,10 +33,6 @@
 	class="surface-card group relative overflow-hidden rounded-2xl p-4 sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
 	aria-labelledby="club-overview-title"
 >
-	<div
-		class="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-(--primary) opacity-10 blur-3xl transition-opacity duration-300 group-hover:opacity-20"
-	></div>
-
 	<div class="relative flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
 		<div class="flex min-w-0 items-start gap-3 sm:gap-4">
 			<enhanced:img
@@ -87,14 +83,14 @@
 		class="relative mt-5 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-(--tertiary)/10 pt-4 sm:mt-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5"
 	>
 		<div class="min-w-0">
-			<span class="block text-[10px] text-neutral-500 sm:text-xs">Fundado em</span>
+			<span class="block text-xs text-neutral-400 sm:text-xs">Fundado em</span>
 			<span class="mt-1 block truncate text-sm font-medium">
 				{foundedOn || 'N/A'}
 			</span>
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-[10px] text-neutral-500 sm:text-xs">Site</span>
+			<span class="block text-xs text-neutral-400 sm:text-xs">Site</span>
 			<a
 				href={`https://${website}`}
 				target="_blank"
@@ -107,12 +103,12 @@
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-[10px] text-neutral-500 sm:text-xs">Atletas</span>
+			<span class="block text-xs text-neutral-400 sm:text-xs">Atletas</span>
 			<span class="mt-1 block text-sm font-bold">{squadSize}</span>
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-[10px] text-neutral-500 sm:text-xs">Estrangeiros</span>
+			<span class="block text-xs text-neutral-400 sm:text-xs">Estrangeiros</span>
 			<span class="mt-1 block text-sm font-bold">{foreigners}</span>
 		</div>
 	</div>

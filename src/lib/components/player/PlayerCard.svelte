@@ -103,21 +103,21 @@
 
 		<div class="mt-5 grid grid-cols-3 gap-2">
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Idade </span>
+				<span class="block text-xs tracking-wider text-neutral-400"> Idade </span>
 				<span class="mt-0.5 block text-xs font-bold text-neutral-200">
 					{player.age ? `${player.age} anos` : 'N/A'}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Altura </span>
+				<span class="block text-xs tracking-wider text-neutral-400"> Altura </span>
 				<span class="mt-0.5 block text-xs font-bold text-neutral-200">
 					{formatHeight(player.height)}
 				</span>
 			</div>
 
 			<div class="rounded-xl bg-neutral-900/40 p-2.5">
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500"> Pé </span>
+				<span class="block text-xs tracking-wider text-neutral-400"> Pé </span>
 				<span class="mt-0.5 block truncate text-xs font-bold text-neutral-200">
 					{formatFoot(player.foot)}
 				</span>

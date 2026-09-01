@@ -31,7 +31,7 @@
 
 <div class="page-shell w-full min-w-0 py-2 sm:py-3 md:py-0">
 	<div
-		class="mx-auto grid w-full grid-cols-1 gap-3 pb-10 sm:gap-4 md:grid-cols-2 xl:grid-cols-3 xl:gap-5 2xl:pb-8"
+		class="mx-auto grid w-full grid-cols-1 gap-3 pb-10 sm:gap-4 md:grid-cols-2 2xl:grid-cols-3 xl:gap-5 2xl:pb-8"
 	>
 		<ClubOverviewCard
 			name={clubInformation.name}
