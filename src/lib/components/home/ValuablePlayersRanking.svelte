@@ -88,10 +88,16 @@
 	<div
 		class="custom-scrollbar max-h-64 xl:max-h-70 2xl:max-h-110 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3"
 	>
-		{#each rankedPlayers as player (player.id)}
+		{#each rankedPlayers as player, index (player.id)}
 			<div
-				class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 overflow-hidden rounded-lg bg-neutral-900/30 p-2 transition-colors hover:bg-neutral-900/60 sm:gap-3"
+				class={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 overflow-hidden rounded-xl border-l-2 bg-neutral-900/30 p-2 transition-colors hover:bg-neutral-900/60 sm:gap-3 ${index === 0 ? 'border-(--golden)' : 'border-white/8'}`}
 			>
+				<span
+					class="w-5 text-center text-[10px] font-semibold text-neutral-500 sm:text-xs"
+				>
+					{String(index + 1).padStart(2, '0')}
+				</span>
+
 				<div class="flex min-w-0 items-center gap-2 sm:gap-3">
 					<PlayerImage
 						playerId={player.id}
@@ -121,9 +127,7 @@
 							</span>
 						</div>
 
-						<span
-							class="mt-0.5 block truncate text-sm tracking-tight text-neutral-400"
-						>
+						<span class="mt-0.5 block truncate text-xs tracking-tight text-neutral-400 sm:text-sm">
 							{translatePosition(player.position)} •
 							{player.age ? `${player.age} anos` : 'Idade N/A'}
 						</span>

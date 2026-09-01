@@ -19,11 +19,11 @@
 </script>
 
 <div class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-	<p class="shrink-0 text-[11px] text-neutral-500 sm:text-xs" aria-live="polite">
+	<p class="shrink-0 text-xs text-neutral-400 sm:text-sm" aria-live="polite">
 		Exibindo
-		<span class="font-bold text-neutral-300">{visiblePlayers}</span>
+		<span class="data-value font-semibold text-neutral-100">{visiblePlayers}</span>
 		de
-		<span class="font-bold text-neutral-300">{totalPlayers}</span>
+		<span class="data-value font-semibold text-neutral-100">{totalPlayers}</span>
 		atletas
 	</p>
 

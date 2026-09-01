@@ -30,9 +30,13 @@
 </script>
 
 <section
-	class="surface-card group relative overflow-hidden rounded-2xl p-4 sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
+	class="surface-card surface-card--accent group relative overflow-hidden rounded-2xl p-4 sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
 	aria-labelledby="club-overview-title"
 >
+	<div
+		class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-(--secondary)/15 blur-3xl"
+	></div>
+
 	<div class="relative flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
 		<div class="flex min-w-0 items-start gap-3 sm:gap-4">
 			<enhanced:img
@@ -43,15 +47,13 @@
 			/>
 
 			<div class="min-w-0 flex-1">
-				<span
-					class="block text-[10px] font-semibold tracking-wider text-(--golden) uppercase sm:text-xs"
-				>
-					{league.name} ({league.tier})
+				<span class="block text-[10px] sm:text-xs font-semibold tracking-[0.12em] text-(--golden)">
+					{league.name} · {league.tier}
 				</span>
 
 				<h2
 					id="club-overview-title"
-					class="mt-1 text-2xl font-bold tracking-tight wrap-break-word sm:text-3xl"
+					class="mt-1 text-lg font-bold leading-[0.92] tracking-tight wrap-break-word sm:text-4xl"
 				>
 					{name}
 				</h2>
@@ -65,14 +67,12 @@
 		<div
 			class="min-w-0 border-t border-(--tertiary)/10 pt-4 lg:shrink-0 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8 lg:text-right"
 		>
-			<span
-				class="block text-[10px] font-semibold tracking-wider text-neutral-400 uppercase sm:text-xs"
-			>
+			<span class="block text-[9px] font-semibold tracking-widest text-neutral-400">
 				Valor total do elenco
 			</span>
 
 			<span
-				class="mt-1 block text-3xl font-black tracking-tight text-(--golden) wrap-break-word sm:text-4xl xl:text-5xl"
+				class="data-value mt-1 block text-3xl font-semibold tracking-tight text-(--golden) wrap-break-word sm:text-4xl xl:text-5xl"
 			>
 				{formatCurrency(currentMarketValue)}
 			</span>
@@ -83,33 +83,33 @@
 		class="relative mt-5 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-(--tertiary)/10 pt-4 sm:mt-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5"
 	>
 		<div class="min-w-0">
-			<span class="block text-xs text-neutral-400 sm:text-xs">Fundado em</span>
-			<span class="mt-1 block truncate text-sm font-medium">
+			<span class="block text-xs text-neutral-500">Fundado em</span>
+			<span class="data-value mt-1 block truncate text-sm font-medium text-neutral-100">
 				{foundedOn || 'N/A'}
 			</span>
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-xs text-neutral-400 sm:text-xs">Site</span>
+			<span class="block text-xs text-neutral-500">Site</span>
 			<a
 				href={`https://${website}`}
 				target="_blank"
 				rel="noopener noreferrer"
 				title={website}
-				class="mt-1 block truncate text-sm font-bold transition-colors hover:text-(--secondary) hover:underline"
+				class="mt-1 block truncate text-sm font-bold text-neutral-100 transition-colors hover:text-(--secondary) hover:underline"
 			>
 				{website?.replace('www.', '') || 'N/A'}
 			</a>
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-xs text-neutral-400 sm:text-xs">Atletas</span>
-			<span class="mt-1 block text-sm font-bold">{squadSize}</span>
+			<span class="block text-xs text-neutral-500">Atletas</span>
+			<span class="data-value mt-1 block text-sm font-semibold text-neutral-100">{squadSize}</span>
 		</div>
 
 		<div class="min-w-0">
-			<span class="block text-xs text-neutral-400 sm:text-xs">Estrangeiros</span>
-			<span class="mt-1 block text-sm font-bold">{foreigners}</span>
+			<span class="block text-xs text-neutral-500">Estrangeiros</span>
+			<span class="data-value mt-1 block text-sm font-semibold text-neutral-100">{foreigners}</span>
 		</div>
 	</div>
 </section>

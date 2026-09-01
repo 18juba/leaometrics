@@ -172,7 +172,7 @@
 <main
 	id="main-content"
 	tabindex="-1"
-	class="relative z-10 min-h-screen w-full min-w-0 px-4 pt-20 pb-28 antialiased sm:px-6 sm:pt-24 md:px-8 xl:px-10 xl:pt-8 xl:pr-10 xl:pl-72 xl:pb-8"
+	class="relative z-10 min-h-screen w-full min-w-0 px-4 pt-2 pb-28 antialiased sm:px-6 sm:pt-24 md:px-8 xl:px-10 xl:pt-8 xl:pr-10 xl:pl-72 xl:pb-8"
 >
 	<Navbar generatedAt={data.analysis.generatedAt} />
 	<ScrollToTop {reducedMotion} />

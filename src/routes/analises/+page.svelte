@@ -44,7 +44,7 @@
 	>
 		<!-- Arquivo da análise -->
 		<section
-			class="surface-card group relative min-w-0 overflow-hidden rounded-2xl p-3 sm:p-4 md:col-span-2 xl:col-span-12"
+			class="surface-card surface-card--accent group relative min-w-0 overflow-hidden rounded-2xl p-3 sm:p-4 md:col-span-2 xl:col-span-12"
 			aria-labelledby="analysis-download-title"
 		>
 			<div

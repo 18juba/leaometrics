@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
-	import type { Chart as ChartInstance } from 'chart.js';
+	import type { Chart as ChartInstance, Plugin } from 'chart.js';
 
 	import AccessibleChartData from './AccessibleChartData.svelte';
 	import type { Player, PlayerPosition } from '$lib/types/analysis';
@@ -135,6 +135,80 @@
 		}));
 	}
 
+	function createAverageLinesPlugin(): Plugin<'scatter'> {
+		return {
+			id: 'average-lines',
+			afterDraw(chart) {
+				const chartArea = chart.chartArea;
+				const xScale = chart.scales.x;
+				const yScale = chart.scales.y;
+
+				if (!chartArea || !xScale || !yScale) return;
+
+				const x = xScale.getPixelForValue(averageAge);
+				const y = yScale.getPixelForValue(averageMarketValue);
+				const { ctx } = chart;
+
+				const drawLabel = (
+					text: string,
+					anchorX: number,
+					anchorY: number,
+					align: 'left' | 'right'
+				) => {
+					ctx.save();
+					ctx.font = '600 10px "IBM Plex Mono", monospace';
+					const paddingX = 6;
+					const height = 20;
+					const width = ctx.measureText(text).width + paddingX * 2;
+					const left = Math.min(
+						Math.max(align === 'right' ? anchorX - width : anchorX, chartArea.left),
+						chartArea.right - width
+					);
+					const top = Math.min(
+						Math.max(anchorY - height / 2, chartArea.top),
+						chartArea.bottom - height
+					);
+
+					ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+					ctx.fillRect(left, top, width, height);
+					ctx.fillStyle = '#ffffff';
+					ctx.textBaseline = 'middle';
+					ctx.fillText(text, left + paddingX, top + height / 2);
+					ctx.restore();
+				};
+
+				ctx.save();
+				ctx.setLineDash([6, 6]);
+				ctx.lineWidth = 1.5;
+				ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+
+				ctx.beginPath();
+				ctx.moveTo(x, chartArea.top);
+				ctx.lineTo(x, chartArea.bottom);
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(chartArea.left, y);
+				ctx.lineTo(chartArea.right, y);
+				ctx.stroke();
+				ctx.restore();
+
+				drawLabel(
+					`Idade média: ${numberFormatter.format(averageAge)}`,
+					x + 6,
+					chartArea.top + 14,
+					'left'
+				);
+				drawLabel(
+					`Valor médio: ${compactCurrencyFormatter.format(averageMarketValue)}`,
+					chartArea.right - 6,
+					y - 12,
+					'right'
+				);
+			}
+		};
+	}
+
 	function createChart(Chart: typeof import('chart.js/auto').default) {
 		if (!canvas) return;
 
@@ -143,6 +217,7 @@
 			data: {
 				datasets: buildDatasets(data)
 			},
+			plugins: [createAverageLinesPlugin()],
 			options: {
 				responsive: true,
 				maintainAspectRatio: false,
@@ -176,48 +251,6 @@
 									`Idade: ${raw.age} anos`,
 									`Valor: ${fullCurrencyFormatter.format(raw.marketValue)}`
 								];
-							}
-						}
-					},
-					annotation: {
-						annotations: {
-							averageAgeLine: {
-								type: 'line',
-								xMin: averageAge,
-								xMax: averageAge,
-								borderColor: 'rgba(255, 255, 255, 0.7)',
-								borderWidth: 1.5,
-								borderDash: [6, 6],
-								label: {
-									display: true,
-									content: `Idade média: ${numberFormatter.format(averageAge)}`,
-									position: 'start',
-									backgroundColor: 'rgba(15, 23, 42, 0.85)',
-									color: '#ffffff',
-									font: {
-										size: 10
-									},
-									padding: 6
-								}
-							},
-							averageMarketValueLine: {
-								type: 'line',
-								yMin: averageMarketValue,
-								yMax: averageMarketValue,
-								borderColor: 'rgba(255, 255, 255, 0.7)',
-								borderWidth: 1.5,
-								borderDash: [6, 6],
-								label: {
-									display: true,
-									content: `Valor médio: ${compactCurrencyFormatter.format(averageMarketValue)}`,
-									position: 'end',
-									backgroundColor: 'rgba(15, 23, 42, 0.85)',
-									color: '#ffffff',
-									font: {
-										size: 10
-									},
-									padding: 6
-								}
 							}
 						}
 					}
@@ -266,14 +299,10 @@
 		let disposed = false;
 
 		const initializeChart = async () => {
-			const [{ default: annotationPlugin }, Chart] = await Promise.all([
-				import('chartjs-plugin-annotation'),
-				loadChart()
-			]);
+			const Chart = await loadChart();
 
 			if (disposed) return;
 
-			Chart.register(annotationPlugin);
 			createChart(Chart);
 		};
 

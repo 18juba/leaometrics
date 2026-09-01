@@ -38,7 +38,7 @@
 
 	const labelClass = `
 		mb-1.5 block
-		text-[9px] font-bold uppercase
+		text-[10px] font-semibold
 		tracking-wider text-neutral-500
 		sm:text-[10px]
 	`;
@@ -65,15 +65,12 @@
 <section class="surface-card rounded-2xl p-3 sm:p-5" aria-labelledby="elenco-filters-title">
 	<div class="flex items-start justify-between gap-3">
 		<div class="min-w-0">
-			<h2
-				id="elenco-filters-title"
-				class="text-xs font-bold uppercase tracking-wider text-neutral-300"
-			>
-				Filtros do elenco
+			<h2 id="elenco-filters-title" class="text-xl font-bold tracking-tight text-neutral-100">
+				Ajuste o radar
 			</h2>
 
 			<p class="mt-1 hidden text-xs text-neutral-500 sm:block">
-				Pesquise, filtre e ordene os atletas.
+				Encontre o perfil que você quer observar.
 			</p>
 		</div>
 
@@ -81,7 +78,7 @@
 			<button
 				type="button"
 				onclick={onClear}
-				class="shrink-0 rounded-lg border border-(--tertiary)/5 bg-neutral-900/50 px-2.5 py-2 text-[9px] font-bold uppercase tracking-wider text-neutral-400 transition-colors hover:text-(--secondary) sm:px-3 sm:text-[10px]"
+				class="shrink-0 rounded-lg border border-(--tertiary)/5 bg-neutral-900/50 px-2.5 py-2 text-[10px] font-bold text-neutral-400 transition-colors hover:border-(--secondary)/40 hover:text-(--secondary) sm:px-3 sm:text-xs"
 			>
 				Limpar <span class="hidden sm:inline">filtros</span>
 			</button>
@@ -143,9 +140,7 @@
 	<div class="mt-4 border-t border-(--tertiary)/5 pt-4">
 		<div class="flex items-center justify-between gap-3">
 			<div class="min-w-0">
-				<h3 class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 sm:text-xs">
-					Ordenação
-				</h3>
+				<h3 class="text-base font-bold tracking-tight text-neutral-200 sm:text-lg">Ordenar por</h3>
 
 				<p class="mt-1 hidden text-[10px] text-neutral-500 sm:block">
 					Um critério permanece ativo por vez.

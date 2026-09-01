@@ -14,32 +14,35 @@
 	aria-labelledby="stadium-title"
 >
 	<div class="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
-		<h2
-			id="stadium-title"
-			class="min-w-0 text-xs font-semibold tracking-wider break-words text-neutral-400 uppercase sm:text-sm"
-		>
-			{stadiumName}
+		<h2 id="stadium-title" class="text-xl font-bold tracking-tight text-neutral-100 sm:text-2xl">
+			Casa do Leão
 		</h2>
 
 		<span
-			class="self-start rounded-md bg-(--golden) px-2 py-1 text-[10px] font-bold whitespace-nowrap text-(--tertiary) sm:self-auto sm:text-xs"
+			class="data-value self-start rounded-full border border-(--golden)/30 bg-(--golden)/15 px-2.5 py-1.5 text-[10px] font-semibold whitespace-nowrap text-(--golden) sm:self-auto sm:text-xs"
 		>
 			{stadiumSeats.toLocaleString('pt-BR')} assentos
 		</span>
 	</div>
 
-	<div class="relative overflow-hidden rounded-xl bg-neutral-900/40">
+	<div class="relative min-h-56 flex-1 overflow-hidden rounded-xl bg-neutral-900/40 sm:min-h-72">
 		<enhanced:img
 			src={stadiumImage}
 			alt={stadiumName}
 			sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-			loading="lazy"
+			loading="eager"
 			decoding="async"
-			class="h-52 w-full object-cover sm:h-72 lg:h-80 xl:h-full"
+			class="h-full min-h-56 w-full object-cover sm:min-h-72"
 		/>
 
 		<div
-			class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-neutral-950/50 to-transparent"
+			class="pointer-events-none absolute inset-0 bg-linear-to-t from-neutral-950/85 via-neutral-950/10 to-transparent"
 		></div>
+
+		<div class="absolute inset-x-4 bottom-4">
+			<p class="text-lg font-bold uppercase tracking-[0.12em] text-(--golden)">
+				{stadiumName}
+			</p>
+		</div>
 	</div>
 </section>
