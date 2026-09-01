@@ -2,7 +2,7 @@
 	import './globals.css';
 	import './background.css';
 
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 
 	import { page } from '$app/state';
 	import { onNavigate } from '$app/navigation';
@@ -10,6 +10,7 @@
 	import Navbar from '$lib/components/layout/Navbar.svelte';
 	import ScrollToTop from '$lib/components/layout/ScrollToTop.svelte';
 	import { preloadAllBackgrounds, preloadBackground } from '$lib/utils/backgroundPreload';
+	import "@fontsource-variable/saira/wght.css";
 
 	let { children, data } = $props();
 

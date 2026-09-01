@@ -32,6 +32,7 @@
 			sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
 			loading="eager"
 			decoding="async"
+			fetchpriority="high"
 			class="h-full min-h-56 w-full object-cover sm:min-h-72"
 		/>
 
