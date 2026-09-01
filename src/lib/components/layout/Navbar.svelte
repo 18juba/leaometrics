@@ -96,9 +96,16 @@
 			<p class="text-xs text-neutral-400">
 				Dados atualizados em
 			</p>
-			<p class="mt-1 text-sm font-semibold leading-4 text-neutral-200">
+			<p class="mt-1 text-sm font-semibold leading-4 text-neutral-200 mb-4">
 				{formatDateTime(generatedAt)}
 			</p>
+
+			<p class="text-xs text-neutral-400">
+				Desenvolvido por
+			</p>
+			<a href="https://jorge-lucas.vercel.app/" target="_blank" rel="noopener noreferrer" class="mt-1 block text-sm font-semibold leading-4 text-neutral-200 hover:underline">
+				Lucas
+			</a>
 		</div>
 	</div>
 </aside>
