@@ -236,9 +236,7 @@
 				class="pointer-events-none absolute top-0 -left-12 h-32 w-32 rounded-full bg-(--primary) opacity-15 blur-3xl"
 			></div>
 
-			<div
-				class="relative size-20 shrink-0 overflow-hidden sm:size-24"
-			>
+			<div class="relative size-20 shrink-0 overflow-hidden sm:size-24">
 				<img
 					src={playerImage}
 					alt={profile?.name || player.name}

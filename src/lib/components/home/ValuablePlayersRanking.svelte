@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import CountryFlag from '$lib/components/player/CountryFlag.svelte';
 	import PlayerImage from '$lib/components/player/PlayerImage.svelte';
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
-	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
 	import { positionsDictionary } from '$lib/dictionaries/positionsDictionary';
 	import type { Player } from '$lib/types/analysis';
@@ -48,7 +48,7 @@
 
 	function getPlayerFlag(player: Player): string {
 		const translated = translateNationality(getPrimaryNationality(player));
-		return bandeirasPt[translated] ?? '🌎';
+		return translated;
 	}
 </script>
 
@@ -110,11 +110,14 @@
 							</span>
 
 							<span
-								class="shrink-0 text-base leading-none sm:text-lg"
+								class="inline-flex h-5 w-7 shrink-0 items-center justify-center sm:h-6 sm:w-8"
 								title={translateNationality(getPrimaryNationality(player))}
 								aria-label={`Nacionalidade: ${translateNationality(getPrimaryNationality(player))}`}
 							>
-								<span aria-hidden="true">{getPlayerFlag(player)}</span>
+								<CountryFlag
+									country={getPlayerFlag(player)}
+									class="h-4 w-6 object-contain sm:h-5 sm:w-6"
+								/>
 							</span>
 						</div>
 

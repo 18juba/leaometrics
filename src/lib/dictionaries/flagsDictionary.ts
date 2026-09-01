@@ -201,3 +201,38 @@ export const bandeirasPt: Record<string, string> = {
 	Zâmbia: '🇿🇲',
 	Zimbábue: '🇿🇼'
 };
+
+const specialFlagCodes: Record<string, string> = {
+	Kosovo: 'xk',
+	'Irlanda do Norte': 'gb-nir',
+	Inglaterra: 'gb-eng',
+	Escócia: 'gb-sct',
+	'País de Gales': 'gb-wls'
+};
+
+function getRegionalIndicatorCode(flag: string): string | undefined {
+	const regionalIndicators = Array.from(flag).filter((character) => {
+		const codePoint = character.codePointAt(0) ?? 0;
+		return codePoint >= 0x1f1e6 && codePoint <= 0x1f1ff;
+	});
+
+	if (regionalIndicators.length !== 2) return undefined;
+
+	return regionalIndicators
+		.map((character) => String.fromCharCode((character.codePointAt(0) ?? 0) - 0x1f1e6 + 65))
+		.join('')
+		.toLowerCase();
+}
+
+export function getFlagCode(country: string): string | undefined {
+	const specialCode = specialFlagCodes[country];
+	if (specialCode) return specialCode;
+
+	const flag = bandeirasPt[country];
+	return flag ? getRegionalIndicatorCode(flag) : undefined;
+}
+
+export function getFlagUrl(country: string): string | undefined {
+	const code = getFlagCode(country);
+	return code ? `https://flagcdn.com/w40/${code}.png` : undefined;
+}

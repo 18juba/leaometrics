@@ -1,11 +1,11 @@
 <script lang="ts">
 	import PlayerFoot from '$lib/components/player/PlayerFoot.svelte';
 	import PlayerImage from '$lib/components/player/PlayerImage.svelte';
+	import CountryFlag from '$lib/components/player/CountryFlag.svelte';
 
 	import { formatFoot } from '$lib/formatters/formatFoot';
 	import { formatHeight } from '$lib/formatters/formatHeight';
 	import { formatCurrency } from '$lib/formatters/formatCurrency';
-	import { bandeirasPt } from '$lib/dictionaries/flagsDictionary';
 	import { countryDictionary } from '$lib/dictionaries/countryDictionary';
 
 	import type { ClubPlayer } from '$lib/components/elenco/elenco.types';
@@ -84,21 +84,19 @@
 			{#if translatedNationalities.length}
 				{#each translatedNationalities as country (country)}
 					<span
-						class="inline-flex h-7 min-w-8 items-center rounded-lg text-xl leading-none"
+						class="inline-flex h-7 min-w-8 items-center rounded-lg"
 						title={country}
 						aria-label={country}
 					>
-						<span aria-hidden="true">
-							{bandeirasPt[country] ?? '🌐'}
-						</span>
+						<CountryFlag {country} class="h-5 w-7 object-cover" />
 					</span>
 				{/each}
 			{:else}
 				<span
-					class="inline-flex h-7 min-w-8 items-center justify-center rounded-lg text-lg"
+					class="inline-flex h-7 min-w-8 items-center justify-center rounded-lg"
 					title="Nacionalidade não informada"
 				>
-					🌐
+					<CountryFlag country="Nacionalidade não informada" class="h-5 w-7" />
 				</span>
 			{/if}
 		</div>
