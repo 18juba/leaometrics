@@ -53,10 +53,14 @@
 </script>
 
 <section
-	class="flex min-w-0 flex-col rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-4 sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
+	class="surface-card flex min-w-0 flex-col rounded-2xl p-4 sm:p-5 md:col-span-2 xl:col-span-1 xl:p-6"
+	aria-labelledby="valuable-players-title"
 >
 	<div class="mb-4 flex items-start justify-between gap-3">
-		<h2 class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm">
+		<h2
+			id="valuable-players-title"
+			class="min-w-0 text-xs font-semibold tracking-wider text-neutral-400 uppercase sm:text-sm"
+		>
 			Jogadores {sortOrder === 'asc' ? 'menos' : 'mais'} valiosos
 			<span class="ml-1 text-[9px] whitespace-nowrap text-neutral-500 sm:text-[10px]">
 				({limit} total)

@@ -8,13 +8,15 @@
 	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
+	import ScrollToTop from '$lib/components/layout/ScrollToTop.svelte';
 	import { preloadAllBackgrounds, preloadBackground } from '$lib/utils/backgroundPreload';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
 	let x = $state(0);
 	let y = $state(0);
 	let parallaxEnabled = $state(false);
+	let reducedMotion = $state(false);
 
 	type TransitionPhase = 'idle' | 'cover' | 'reveal';
 
@@ -73,7 +75,8 @@
 		let timeoutRequest: number | undefined;
 
 		function updateParallaxPreference() {
-			parallaxEnabled = pointerQuery.matches && !motionQuery.matches;
+			reducedMotion = motionQuery.matches;
+			parallaxEnabled = pointerQuery.matches && !reducedMotion;
 
 			if (!parallaxEnabled) {
 				x = 0;
@@ -119,7 +122,7 @@
 
 		transitionPhase = 'cover';
 
-		await Promise.all([wait(COVER_DURATION), backgroundReady]);
+		await Promise.all([wait(reducedMotion ? 0 : COVER_DURATION), backgroundReady]);
 
 		return () => {
 			if (currentTransition !== transitionId) return;
@@ -164,7 +167,16 @@
 	<div class="background-vignette"></div>
 </div>
 
-<main class="relative flex h-screen w-full p-8 antialiased">
-	<Navbar />
-	{@render children()}
+<a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+
+<main
+	id="main-content"
+	tabindex="-1"
+	class="relative z-10 min-h-screen w-full min-w-0 px-4 pt-20 pb-28 antialiased sm:px-6 sm:pt-24 md:px-8 xl:px-10 xl:pt-8 xl:pr-10 xl:pl-72 xl:pb-8"
+>
+	<Navbar generatedAt={data.analysis.generatedAt} />
+	<ScrollToTop {reducedMotion} />
+	<div class="page-shell flex min-h-[calc(100vh-5rem)] min-w-0 flex-col">
+		{@render children()}
+	</div>
 </main>

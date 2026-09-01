@@ -31,7 +31,7 @@
 	<meta name="description" content="Dashboard financeiro e esportivo do elenco" />
 </svelte:head>
 
-<div class="flex w-full items-start justify-center">
+<div class="page-shell flex w-full flex-col items-start justify-center">
 	<div
 		class="
 			grid w-full min-w-0
@@ -44,16 +44,8 @@
 	>
 		<!-- Arquivo da análise -->
 		<section
-			class="
-				group relative min-w-0 overflow-hidden
-				rounded-xl
-				border border-(--tertiary)/5
-				bg-neutral-800/90
-				p-3
-				sm:p-4
-				md:col-span-2
-				xl:col-span-12
-			"
+			class="surface-card group relative min-w-0 overflow-hidden rounded-2xl p-3 sm:p-4 md:col-span-2 xl:col-span-12"
+			aria-labelledby="analysis-download-title"
 		>
 			<div
 				class="
@@ -79,12 +71,8 @@
 			>
 				<div class="min-w-0">
 					<h2
-						class="
-							text-sm font-bold
-							leading-snug
-							text-neutral-50
-							sm:text-base
-						"
+						id="analysis-download-title"
+						class="text-sm font-bold leading-snug text-neutral-50 sm:text-base"
 					>
 						Dados completos da análise
 					</h2>

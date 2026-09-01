@@ -14,20 +14,14 @@
 
 <section
 	class={`
-		flex h-full flex-col
-		min-w-0 overflow-hidden
-		rounded-xl
-		border border-(--tertiary)/5
-		bg-neutral-800/88
-		p-4
+		surface-card flex h-full flex-col
+		min-w-0 overflow-hidden rounded-2xl p-4 sm:p-5
 		${className}
 	`}
 >
 	<header
 		class="
-			mb-3
-			border-b border-(--tertiary)/10
-			pb-2.5
+			mb-4 border-b border-(--tertiary)/10 pb-3
 		"
 	>
 		<div

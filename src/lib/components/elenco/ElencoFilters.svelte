@@ -62,12 +62,15 @@
 	}
 </script>
 
-<section
-	class="rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-3 sm:rounded-2xl sm:p-5"
->
+<section class="surface-card rounded-2xl p-3 sm:p-5" aria-labelledby="elenco-filters-title">
 	<div class="flex items-start justify-between gap-3">
 		<div class="min-w-0">
-			<h2 class="text-xs font-bold uppercase tracking-wider text-neutral-300">Filtros do elenco</h2>
+			<h2
+				id="elenco-filters-title"
+				class="text-xs font-bold uppercase tracking-wider text-neutral-300"
+			>
+				Filtros do elenco
+			</h2>
 
 			<p class="mt-1 hidden text-xs text-neutral-500 sm:block">
 				Pesquise, filtre e ordene os atletas.
@@ -106,7 +109,7 @@
 					type="search"
 					bind:value={searchTerm}
 					placeholder="Nome, país, posição ou clube..."
-					class="h-11 w-full rounded-xl border border-(--tertiary)/5 bg-neutral-900/50 pl-10 pr-3 text-xs text-neutral-200 outline-none placeholder:text-neutral-600 transition-colors hover:border-(--tertiary)/10 focus:border-(--secondary) sm:pl-11 sm:pr-4 sm:text-sm"
+					class="h-11 w-full rounded-xl border border-(--tertiary)/10 bg-neutral-950/55 pl-10 pr-3 text-xs text-neutral-200 outline-none placeholder:text-neutral-600 transition-colors hover:border-(--tertiary)/20 focus:border-(--secondary) focus:ring-2 focus:ring-(--secondary)/20 sm:pl-11 sm:pr-4 sm:text-sm"
 				/>
 			</div>
 		</label>

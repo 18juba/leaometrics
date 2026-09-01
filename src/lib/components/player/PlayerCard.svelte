@@ -29,7 +29,7 @@
 	onclick={() => onOpen(player)}
 	aria-haspopup="dialog"
 	aria-label={`Abrir análise de ${player.name}`}
-	class="group relative w-full overflow-hidden rounded-2xl border border-(--tertiary)/5 bg-neutral-800/90 text-left transition-all duration-200 hover:-translate-y-1 hover:border-(--tertiary)/15 hover:bg-neutral-800/95 hover:shadow-2xl hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--secondary)"
+	class="surface-card surface-card--interactive group relative min-h-full w-full overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--secondary) cursor-pointer"
 >
 	<div
 		class="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-(--primary) opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-40"
@@ -124,21 +124,6 @@
 					{formatFoot(player.foot)}
 				</span>
 			</div>
-		</div>
-
-		<div class="mt-4 flex items-center justify-between border-t border-(--tertiary)/5 pt-4">
-			<div>
-				<span class="block text-[9px] uppercase tracking-wider text-neutral-500">
-					Análise disponível
-				</span>
-				<span class="text-[11px] font-medium text-neutral-300">
-					Perfil, valor e transferências
-				</span>
-			</div>
-
-			<span class="text-lg text-(--secondary) transition-transform group-hover:translate-x-1">
-				→
-			</span>
 		</div>
 	</div>
 </button>

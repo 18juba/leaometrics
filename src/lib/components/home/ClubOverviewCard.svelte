@@ -30,7 +30,8 @@
 </script>
 
 <section
-	class="group relative overflow-hidden rounded-xl border border-(--tertiary)/5 bg-neutral-800/90 p-4 sm:rounded-2xl sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
+	class="surface-card group relative overflow-hidden rounded-2xl p-4 sm:p-5 md:col-span-2 xl:col-span-3 xl:p-6"
+	aria-labelledby="club-overview-title"
 >
 	<div
 		class="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-(--primary) opacity-10 blur-3xl transition-opacity duration-300 group-hover:opacity-20"
@@ -52,9 +53,12 @@
 					{league.name} ({league.tier})
 				</span>
 
-				<h1 class="mt-1 text-2xl font-bold tracking-tight wrap-break-word sm:text-3xl">
+				<h2
+					id="club-overview-title"
+					class="mt-1 text-2xl font-bold tracking-tight wrap-break-word sm:text-3xl"
+				>
 					{name}
-				</h1>
+				</h2>
 
 				<p class="mt-1 text-xs text-neutral-400 wrap-break-word sm:text-sm">
 					{addressLine1}, {addressLine2}

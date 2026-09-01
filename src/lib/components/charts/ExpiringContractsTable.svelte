@@ -120,11 +120,9 @@
 
 <section
 	class="
-		h-full overflow-hidden
-		rounded-2xl
-		border border-(--tertiary)/5
-		bg-neutral-800/90
+		surface-card h-full overflow-hidden rounded-2xl
 	"
+	aria-labelledby="expiring-contracts-title"
 >
 	<header
 		class="
@@ -134,23 +132,23 @@
 		"
 	>
 		<div>
-			<h3 class="text-sm font-semibold text-slate-900 dark:text-white">
+			<h3 id="expiring-contracts-title" class="text-sm font-semibold text-neutral-100">
 				Contratos próximos do vencimento
 			</h3>
 
-			<p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+			<p class="mt-0.5 text-[11px] text-neutral-400">
 				Vencimento nos próximos {limitDays} dias
 			</p>
 		</div>
 
 		<div class="text-right">
-			<p class="text-xs font-semibold text-slate-900 dark:text-white">
+			<p class="text-xs font-semibold text-neutral-100">
 				{expiringPlayers.length}
 				{expiringPlayers.length === 1 ? ' jogador' : ' jogadores'}
 			</p>
 
 			<p
-				class="text-[10px] text-slate-500 dark:text-slate-400"
+				class="text-[10px] text-neutral-400"
 				title={fullCurrencyFormatter.format(totalMarketValue)}
 			>
 				{currencyFormatter.format(totalMarketValue)}
@@ -186,7 +184,7 @@
 					</tr>
 				</thead>
 
-				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+				<tbody class="divide-y divide-white/5">
 					{#each expiringPlayers as item (item.player.id)}
 						<tr
 							class="
@@ -196,19 +194,19 @@
 						>
 							<td class="px-3 py-2">
 								<p
-									class="max-w-[150px] truncate text-xs font-medium text-slate-900 dark:text-white"
+									class="max-w-[150px] truncate text-xs font-medium text-neutral-100"
 									title={item.player.name}
 								>
 									{item.player.name}
 								</p>
 
-								<p class="mt-0.5 text-[10px] text-slate-400 sm:hidden">
+								<p class="mt-0.5 text-[10px] text-neutral-400 sm:hidden">
 									{formatDate(item.expiresAt)}
 								</p>
 							</td>
 
 							<td
-								class="hidden whitespace-nowrap px-3 py-2.5 text-xs text-slate-500 sm:table-cell dark:text-slate-400"
+								class="hidden whitespace-nowrap px-3 py-2.5 text-xs text-neutral-400 sm:table-cell"
 							>
 								{formatDate(item.expiresAt)}
 							</td>
@@ -228,7 +226,7 @@
 							</td>
 
 							<td
-								class="whitespace-nowrap px-3 py-2 text-right text-xs font-semibold text-slate-900 dark:text-white"
+								class="whitespace-nowrap px-3 py-2 text-right text-xs font-semibold text-neutral-100"
 								title={item.player.marketValue !== null
 									? fullCurrencyFormatter.format(item.player.marketValue)
 									: 'Valor não disponível'}
@@ -244,11 +242,11 @@
 		</div>
 	{:else}
 		<div class="px-4 py-8 text-center">
-			<p class="text-xs font-medium text-slate-600 dark:text-slate-300">
+			<p class="text-xs font-medium text-neutral-200">
 				Nenhum contrato vence nos próximos {limitDays} dias.
 			</p>
 
-			<p class="mt-1 text-[10px] text-slate-400">
+			<p class="mt-1 text-[10px] text-neutral-400">
 				Data de referência: {formatDate(referenceDate)}
 			</p>
 		</div>

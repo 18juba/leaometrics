@@ -14,13 +14,9 @@
 	} = $props();
 </script>
 
-<section
-	class="h-[58dvh] min-h-104 max-h-160 min-w-0 flex-none overflow-hidden md:h-auto md:min-h-0 md:max-h-none md:flex-1"
->
+<section class="w-full min-w-0">
 	{#if players.length}
-		<div
-			class="h-full min-h-0 overflow-y-auto overscroll-contain p-1 pr-2 custom-scrollbar scrollbar-gutter:stable sm:p-2 sm:pr-3"
-		>
+		<div class="p-1 pb-4 sm:p-2 sm:pb-6">
 			<div
 				class="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4"
 			>

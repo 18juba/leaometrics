@@ -19,7 +19,7 @@
 </script>
 
 <div class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-	<p class="shrink-0 text-[11px] text-neutral-500 sm:text-xs">
+	<p class="shrink-0 text-[11px] text-neutral-500 sm:text-xs" aria-live="polite">
 		Exibindo
 		<span class="font-bold text-neutral-300">{visiblePlayers}</span>
 		de

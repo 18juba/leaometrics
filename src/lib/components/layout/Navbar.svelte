@@ -7,126 +7,121 @@
 	import achievementsIcon from '$lib/assets/icons/lampions.png';
 	import squadIcon from '$lib/assets/icons/camisa.webp';
 	import { preloadBackground } from '$lib/utils/backgroundPreload';
+	import { formatDateTime } from '$lib/formatters/formatDateTime';
+
+	let { generatedAt }: { generatedAt: string } = $props();
 
 	type NavLink = {
 		href: '/' | '/elenco' | '/analises' | '/conquistas';
 		label: string;
+		description: string;
 		icon: string;
-		alt: string;
 	};
 
 	const links: NavLink[] = [
 		{
 			href: '/',
 			label: 'Clube',
-			icon: clubIcon,
-			alt: 'Clube'
+			description: 'Visão geral',
+			icon: clubIcon
 		},
 		{
 			href: '/elenco',
 			label: 'Elenco',
-			icon: squadIcon,
-			alt: 'Elenco'
+			description: 'Atletas e filtros',
+			icon: squadIcon
 		},
 		{
 			href: '/analises',
 			label: 'Análises',
-			icon: analysisIcon,
-			alt: 'Análises'
+			description: 'Dados e indicadores',
+			icon: analysisIcon
 		},
 		{
 			href: '/conquistas',
 			label: 'Conquistas',
-			icon: achievementsIcon,
-			alt: 'Conquistas'
+			description: 'Histórico do clube',
+			icon: achievementsIcon
 		}
 	];
 
-	function isActive(href: string) {
-		if (href === '/') {
-			return page.url.pathname === '/';
-		}
+	function isActive(href: string): boolean {
+		if (href === '/') return page.url.pathname === '/';
 
 		return page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
 	}
+
+	function getCurrentLabel(pathname: string): string {
+		return links.find((link) => isPathActive(link.href, pathname))?.label ?? 'Clube';
+	}
+
+	function isPathActive(href: string, pathname: string): boolean {
+		if (href === '/') return pathname === '/';
+
+		return pathname === href || pathname.startsWith(`${href}/`);
+	}
 </script>
 
-<!--
-	Espaço reservado no layout desktop.
-
-	A sidebar fixa sai do fluxo normal da página.
-	Este elemento evita que o conteúdo fique atrás dela.
--->
-<div class="hidden w-56 shrink-0 2xl:block" aria-hidden="true"></div>
-
-<!-- Sidebar fixa em telas grandes -->
-<aside
-	class="
-		sidebar-zone
-		fixed inset-y-0 left-8 z-40
-		hidden w-56
-		items-center
-		2xl:flex
-	"
+<!-- Cabeçalho compacto para telas menores -->
+<header
+	class="fixed inset-x-4 top-4 z-40 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-neutral-950/95 px-3 py-2.5 shadow-2xl shadow-black/20 sm:inset-x-6 xl:hidden"
 >
-	<nav class="nav-soft w-full" aria-label="Navegação principal">
-		<ul class="flex flex-col gap-3 font-medium">
-			{#each links as link (link.href)}
-				<li class="menu-item" class:active={isActive(link.href)}>
-					<a
-						href={resolve(link.href)}
-						onpointerenter={() => void preloadBackground(link.href)}
-						onfocus={() => void preloadBackground(link.href)}
-						aria-current={isActive(link.href) ? 'page' : undefined}
-						class="
-							flex items-center gap-2
-							rounded-lg
-							outline-none
-							focus-visible:ring-2
-							focus-visible:ring-(--tertiary)
-							focus-visible:ring-offset-2
-							focus-visible:ring-offset-transparent
-						"
-					>
-						<img
-							src={link.icon}
-							alt=""
-							aria-hidden="true"
-							class="
-								h-12 w-12
-								pointer-events-none
-								select-none
-								object-contain
-							"
-						/>
+	<p class="text-xs">
+		Dados atualizados em {formatDateTime(generatedAt)}
+	</p>
 
-						<span>{link.label}</span>
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</nav>
+	<span class="ui-chip shrink-0">{getCurrentLabel(page.url.pathname)}</span>
+</header>
+
+<!-- Navegação persistente em telas grandes -->
+<aside
+	class="fixed inset-y-0 left-6 z-40 hidden w-56 items-center xl:flex"
+	aria-label="Menu lateral"
+>
+	<div
+		class="w-full rounded-3xl border border-white/10 bg-neutral-950/90 p-3 shadow-2xl shadow-black/20"
+	>
+		<nav aria-label="Navegação principal">
+			<ul class="space-y-1.5">
+				{#each links as link (link.href)}
+					<li>
+						<a
+							href={resolve(link.href)}
+							onpointerenter={() => void preloadBackground(link.href)}
+							onfocus={() => void preloadBackground(link.href)}
+							aria-current={isActive(link.href) ? 'page' : undefined}
+							class={`group flex items-center gap-3 rounded-2xl px-3 py-3 outline-none transition-colors ${
+								isActive(link.href)
+									? 'bg-white/10 text-white'
+									: 'text-neutral-300 hover:bg-white/5 hover:text-white'
+							}`}
+						>
+							<img src={link.icon} alt="" aria-hidden="true" class="size-10 object-contain" />
+							<span class="min-w-0 flex-1">
+								<span class="block text-sm font-bold">{link.label}</span>
+							</span>
+							<span
+								class="text-sm text-neutral-300 transition-transform group-hover:translate-x-0.5"
+								>{isActive(link.href) ? '' : '→'}</span
+							>
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</nav>
+
+		<div class="mt-5 border-t border-white/10 px-3 pt-3">
+			<p class="text-sm leading-4">
+				Dados atualizados em {formatDateTime(generatedAt)}
+			</p>
+		</div>
+	</div>
 </aside>
 
-<!-- Bottom bar para telas abaixo de 2xl -->
-<nav
-	class="
-		mobile-bottom-bar
-		fixed inset-x-3 bottom-3 z-50
-		2xl:hidden
-	"
-	aria-label="Navegação principal"
->
+<!-- Navegação inferior para telas menores -->
+<nav class="fixed inset-x-3 bottom-3 z-50 xl:hidden" aria-label="Navegação principal">
 	<ul
-		class="
-			grid grid-cols-4
-			overflow-hidden
-			rounded-2xl
-			border border-(--tertiary)/10
-			bg-neutral-950/95
-			px-1.5 py-1.5
-			shadow-2xl shadow-black/40
-		"
+		class="grid grid-cols-4 gap-1 rounded-2xl border border-white/10 bg-neutral-950/95 p-1.5 shadow-2xl shadow-black/30"
 	>
 		{#each links as link (link.href)}
 			<li class="min-w-0">
@@ -135,176 +130,18 @@
 					onpointerenter={() => void preloadBackground(link.href)}
 					onfocus={() => void preloadBackground(link.href)}
 					aria-current={isActive(link.href) ? 'page' : undefined}
-					class:active={isActive(link.href)}
-					class="
-						mobile-menu-item
-						relative
-						flex min-h-15
-						min-w-0
-						flex-col
-						items-center justify-center
-						gap-0.5
-						rounded-xl
-						px-1 py-1.5
-						text-[10px] font-semibold
-						text-neutral-500
-						transition-all duration-200
-						outline-none
-						focus-visible:ring-2
-						focus-visible:ring-(--tertiary)
-					"
+					class={`relative flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-[10px] font-bold outline-none transition-colors ${
+						isActive(link.href)
+							? 'bg-white/10 text-white'
+							: 'text-neutral-500 hover:bg-white/5 hover:text-neutral-200'
+					}`}
 				>
-					<span
-						class="
-							mobile-icon-container
-							relative
-							flex h-8 w-10
-							items-center justify-center
-							rounded-lg
-							transition-all duration-200
-						"
-					>
-						<img
-							src={link.icon}
-							alt=""
-							aria-hidden="true"
-							class="
-								h-7 w-7
-								pointer-events-none
-								select-none
-								object-contain
-								transition-all duration-200
-							"
-						/>
+					<span class="grid h-8 w-9 place-items-center rounded-lg">
+						<img src={link.icon} alt="" aria-hidden="true" class="h-7 w-7 object-contain" />
 					</span>
-
-					<span class="max-w-full truncate">
-						{link.label}
-					</span>
+					<span class="max-w-full truncate">{link.label}</span>
 				</a>
 			</li>
 		{/each}
 	</ul>
 </nav>
-
-<style>
-	.nav-soft {
-		opacity: 0.8;
-		transform: translateX(-10px) scale(0.97);
-		filter: brightness(0.85) blur(0.4px);
-
-		transition:
-			opacity 280ms ease,
-			transform 280ms ease,
-			filter 280ms ease;
-
-		transition-delay: 5s;
-	}
-
-	.sidebar-zone:hover .nav-soft,
-	.sidebar-zone:focus-within .nav-soft {
-		opacity: 1;
-		transform: translateX(0) scale(1);
-		filter: brightness(1) blur(0);
-		transition-delay: 0ms;
-	}
-
-	.menu-item {
-		position: relative;
-		width: 13rem;
-		padding: 0.35rem 0.5rem;
-		border-radius: 0.5rem;
-
-		background: linear-gradient(90deg, rgb(from var(--tertiary) r g b / 0.12), transparent);
-
-		background-position: left center;
-		background-repeat: no-repeat;
-		background-size: 0% 100%;
-
-		transition:
-			transform 200ms ease,
-			background-size 300ms cubic-bezier(0.25, 1, 0.5, 1);
-	}
-
-	.menu-item:hover {
-		transform: scale(1.03);
-	}
-
-	.menu-item::before {
-		content: '';
-
-		position: absolute;
-		top: 50%;
-		left: -8px;
-
-		width: 3px;
-		height: 70%;
-
-		transform: translateY(-50%) scaleY(0);
-		transform-origin: center;
-
-		border-radius: 999px;
-		background: var(--tertiary);
-		box-shadow: 0 0 12px var(--tertiary);
-
-		transition: transform 225ms ease;
-	}
-
-	.menu-item.active {
-		background-size: 100% 100%;
-	}
-
-	.menu-item.active::before {
-		transform: translateY(-50%) scaleY(1);
-	}
-
-	.mobile-bottom-bar {
-		padding-bottom: env(safe-area-inset-bottom);
-	}
-
-	.mobile-menu-item::before {
-		content: '';
-
-		position: absolute;
-		top: 0;
-		left: 50%;
-
-		width: 0;
-		height: 2px;
-
-		transform: translateX(-50%);
-
-		border-radius: 999px;
-		background: var(--tertiary);
-		box-shadow: 0 0 10px var(--tertiary);
-
-		transition: width 200ms ease;
-	}
-
-	.mobile-menu-item.active {
-		color: var(--tertiary);
-		background: rgb(from var(--tertiary) r g b / 0.08);
-	}
-
-	.mobile-menu-item.active::before {
-		width: 40%;
-	}
-
-	.mobile-menu-item.active .mobile-icon-container {
-		background: rgb(from var(--tertiary) r g b / 0.1);
-		transform: translateY(-1px);
-	}
-
-	.mobile-menu-item.active img {
-		filter: drop-shadow(0 0 6px rgb(from var(--tertiary) r g b / 0.5));
-
-		transform: scale(1.08);
-	}
-
-	@media (hover: hover) {
-		.mobile-menu-item:hover {
-			color: var(--tertiary);
-			background: rgb(from var(--tertiary) r g b / 0.06);
-		}
-	}
-</style>

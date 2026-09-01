@@ -62,8 +62,8 @@
 	<meta name="description" content="Análise do elenco, jogadores e valores de mercado." />
 </svelte:head>
 
-<div class="h-full min-h-0 w-full py-2 sm:py-3 md:py-0">
-	<div class="mx-auto flex h-full min-h-0 w-full max-w-[1800px] flex-col gap-3 sm:gap-4">
+<div class="page-shell flex min-h-0 w-full flex-col py-2 sm:py-3 md:py-0">
+	<div class="flex min-h-0 w-full flex-1 flex-col gap-3 sm:gap-4">
 		<div class="shrink-0">
 			<ElencoFilters
 				{positions}
