@@ -24,8 +24,9 @@
 	} = $props();
 
 	let activeTab = $state<Tab>('overview');
-	let dialogElement = $state<HTMLElement | null>(null);
+	let dialogElement = $state<HTMLDialogElement | null>(null);
 	let closeButtonElement = $state<HTMLButtonElement | null>(null);
+	let panelElement = $state<HTMLDivElement | null>(null);
 
 	let previouslyFocused: HTMLElement | null = null;
 
@@ -87,6 +88,30 @@
 
 	function selectTab(tab: Tab): void {
 		activeTab = tab;
+
+		void tick().then(() => {
+			panelElement?.scrollTo({ top: 0, behavior: 'auto' });
+		});
+	}
+
+	function handleTabKeydown(event: KeyboardEvent, currentTab: Tab): void {
+		if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+
+		const currentIndex = tabs.findIndex((tab) => tab.value === currentTab);
+		let nextIndex = currentIndex;
+
+		if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabs.length;
+		if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+		if (event.key === 'Home') nextIndex = 0;
+		if (event.key === 'End') nextIndex = tabs.length - 1;
+
+		event.preventDefault();
+		const nextTab = tabs[nextIndex].value;
+		selectTab(nextTab);
+
+		void tick().then(() => {
+			document.getElementById(`player-tab-${nextTab}`)?.focus();
+		});
 	}
 
 	function handleKeydown(event: KeyboardEvent): void {
@@ -185,11 +210,14 @@
 		class="absolute inset-0 cursor-default bg-black/85"
 	></button>
 
-	<section
+	<dialog
+		open
 		bind:this={dialogElement}
+		aria-modal="true"
 		aria-labelledby="player-details-title"
+		aria-describedby="player-details-description"
 		tabindex="-1"
-		class="relative z-10 flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-(--tertiary)/10 bg-neutral-900 shadow-2xl shadow-black/60 outline-none"
+		class="relative z-10 m-0 flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-white/15 bg-neutral-950/95 shadow-2xl shadow-black/70 outline-none"
 	>
 		<button
 			bind:this={closeButtonElement}
@@ -202,14 +230,14 @@
 		</button>
 
 		<header
-			class="relative flex shrink-0 items-center gap-4 overflow-hidden border-b border-(--tertiary)/5 bg-neutral-950/35 p-4 pr-16 sm:p-5 sm:pr-20"
+			class="relative flex shrink-0 items-center gap-4 overflow-hidden border-b border-white/10 bg-neutral-950/70 p-4 pr-16 sm:p-5 sm:pr-20"
 		>
 			<div
 				class="pointer-events-none absolute top-0 -left-12 h-32 w-32 rounded-full bg-(--primary) opacity-15 blur-3xl"
 			></div>
 
 			<div
-				class="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-neutral-800/70 sm:h-20 sm:w-20"
+				class="relative size-20 shrink-0 overflow-hidden sm:size-24"
 			>
 				<img
 					src={playerImage}
@@ -242,7 +270,10 @@
 					{profile?.name || player.name}
 				</h2>
 
-				<p class="mt-0.5 truncate text-xs text-neutral-500 sm:text-sm">
+				<p
+					id="player-details-description"
+					class="mt-0.5 truncate text-xs text-neutral-500 sm:text-sm"
+				>
 					{profile?.fullName || translatedNationalities.join(' • ') || 'Informações do atleta'}
 				</p>
 			</div>
@@ -260,7 +291,7 @@
 		<div
 			role="tablist"
 			aria-label="Seções do jogador"
-			class="custom-scrollbar flex shrink-0 gap-1 overflow-x-auto border-b border-(--tertiary)/5 bg-neutral-900 p-2"
+			class="grid shrink-0 grid-cols-3 gap-1 border-b border-white/10 bg-neutral-900/80 p-2"
 		>
 			{#each tabs as tab (tab.value)}
 				<button
@@ -268,10 +299,11 @@
 					role="tab"
 					id={`player-tab-${tab.value}`}
 					aria-selected={activeTab === tab.value}
-					aria-controls={`player-tabpanel-${tab.value}`}
+					aria-controls="player-tabpanel"
 					tabindex={activeTab === tab.value ? 0 : -1}
 					onclick={() => selectTab(tab.value)}
-					class={`shrink-0 rounded-xl px-4 py-2.5 text-xs font-bold transition-colors focus-visible:ring-2 focus-visible:ring-(--secondary) focus-visible:outline-none ${
+					onkeydown={(event) => handleTabKeydown(event, tab.value)}
+					class={`min-w-0 rounded-xl px-2 py-2.5 text-[11px] font-bold transition-colors focus-visible:ring-2 focus-visible:ring-(--secondary) focus-visible:outline-none sm:px-4 sm:text-xs ${
 						activeTab === tab.value
 							? 'bg-(--secondary) text-white'
 							: 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'
@@ -283,7 +315,8 @@
 		</div>
 
 		<div
-			id={`player-tabpanel-${activeTab}`}
+			bind:this={panelElement}
+			id="player-tabpanel"
 			role="tabpanel"
 			aria-labelledby={`player-tab-${activeTab}`}
 			class="custom-scrollbar min-h-0 flex-1 overflow-y-auto p-4 sm:p-6"
@@ -492,5 +525,5 @@
 				<PlayerTransferTimeline {transfers} />
 			{/if}
 		</div>
-	</section>
+	</dialog>
 </div>
