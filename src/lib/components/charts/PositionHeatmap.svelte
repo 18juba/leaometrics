@@ -213,6 +213,17 @@
 			background: conic-gradient(${color} 0deg ${angle}deg, rgba(255,255,255,0.16) ${angle}deg 360deg);
 		`;
 	}
+
+	const metricIcons: Record<Metric, string> = {
+		playerCount: '◉',
+		averageAge: '◷',
+		averageHeight: '↕',
+		totalMarketValue: '€'
+	};
+
+	function metricIcon(key: Metric): string {
+		return metricIcons[key];
+	}
 </script>
 
 <div
@@ -388,8 +399,11 @@
 									key === metric ? 'border-white/25 bg-white/10' : 'border-white/5 bg-white/[0.03]'
 								}`}
 							>
-								<span class="block h-3 w-3 shrink-0 text-slate-400 sm:h-4 sm:w-4 lg:h-5 lg:w-5">
-									{@render metricIcon(key)}
+								<span
+									class="block h-3 w-3 shrink-0 text-center text-[11px] leading-3 text-slate-400 sm:h-4 sm:w-4 sm:text-sm sm:leading-4 lg:h-5 lg:w-5 lg:text-base lg:leading-5"
+									aria-hidden="true"
+								>
+									{metricIcon(key)}
 								</span>
 
 								<div class="min-w-0 leading-tight">
