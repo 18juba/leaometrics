@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>LeãoFut - Conquistas</title>
+	<title>Leão Metrics - Conquistas</title>
 	<meta
 		name="description"
 		content="Histórico de conquistas e campanhas do Fortaleza Esporte Clube."

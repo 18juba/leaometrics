@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-	<title>LeãoFut - Clube</title>
+	<title>Leão Metrics - Clube</title>
 	<meta
 		name="description"
 		content="Informações gerais, estádio, elenco e valor de mercado do clube."

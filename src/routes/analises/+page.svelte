@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Análise esportiva e financeira</title>
+	<title>Leão Metrics - Análises Esportivas e Financeiras</title>
 
 	<meta name="description" content="Dashboard financeiro e esportivo do elenco" />
 </svelte:head>

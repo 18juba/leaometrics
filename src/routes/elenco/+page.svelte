@@ -58,7 +58,7 @@
 </script>
 
 <svelte:head>
-	<title>LeãoFut - Elenco</title>
+	<title>Leão Metrics - Elenco</title>
 	<meta name="description" content="Análise do elenco, jogadores e valores de mercado." />
 </svelte:head>
 

@@ -1,4 +1,4 @@
-# LeãoFut
+# Leão Metrics
 
 Aplicação web para análise esportiva e financeira do elenco do Fortaleza Esporte Clube.
 
