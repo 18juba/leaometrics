@@ -157,6 +157,24 @@
 
 	const metricOrder: Metric[] = ['averageAge', 'averageHeight', 'totalMarketValue', 'playerCount'];
 
+	const bubbleCurrencyFormatter = new Intl.NumberFormat('pt-BR', {
+		notation: 'compact',
+		maximumFractionDigits: 1
+	});
+
+	function formatBubbleValue(key: Metric, value: number): string {
+		switch (key) {
+			case 'playerCount':
+				return metricConfig.playerCount.format(value);
+			case 'averageAge':
+				return decimalFormatter.format(value);
+			case 'averageHeight':
+				return decimalFormatter.format(value) + 'm';
+			case 'totalMarketValue':
+				return '€' + bubbleCurrencyFormatter.format(value);
+		}
+	}
+
 	const values = $derived(data.map((item) => item[metric]));
 	const minimum = $derived(values.length ? Math.min(...values) : 0);
 	const maximum = $derived(values.length ? Math.max(...values) : 0);
@@ -232,7 +250,9 @@
 	aria-label="Mapa de posições do elenco"
 	aria-describedby="position-heatmap-summary"
 >
-	<div class="mb-2 text-[9px] font-semibold uppercase tracking-wide">Métrica exibida no campo</div>
+	<div class="mb-2 text-[11px] font-semibold uppercase tracking-wide text-neutral-300">
+		Métrica exibida no campo
+	</div>
 
 	<div class="mb-3 grid grid-cols-4 gap-1.5">
 		{#each metricOrder as key (key)}
@@ -319,6 +339,7 @@
 			<button
 				type="button"
 				aria-label={`${pos.label}: ${metricConfig[metric].format(item[metric])}`}
+				title={pos.label}
 				aria-pressed={selectedPosition === item.position}
 				onclick={() => {
 					selectedPosition = selectedPosition === item.position ? null : item.position;
@@ -337,14 +358,14 @@
 					class="relative flex h-full w-full flex-col items-center justify-center rounded-full border border-white/70 bg-slate-950/90 text-center text-white"
 				>
 					<span
-						class="text-[6.5px] font-bold uppercase leading-none tracking-wide text-slate-300 sm:text-[8px] lg:text-[9.5px]"
+						class="text-[8px] font-bold uppercase leading-none tracking-wide text-slate-100 sm:text-[10px] lg:text-[11px]"
 					>
 						{pos.shortLabel}
 					</span>
 					<span
-						class="mt-0.5 max-w-[38px] truncate text-[9px] font-black leading-none sm:max-w-[48px] sm:text-[11px] lg:max-w-[56px] lg:text-[13px]"
+						class="mt-0.5 whitespace-nowrap text-[8px] font-black leading-none tabular-nums sm:text-[10px] lg:text-[12px]"
 					>
-						{metricConfig[metric].format(item[metric])}
+						{formatBubbleValue(metric, item[metric])}
 					</span>
 				</span>
 			</button>
@@ -374,7 +395,7 @@
 								<strong class="block truncate text-[11px] text-white sm:text-base lg:text-lg">
 									{pos.label}
 								</strong>
-								<span class="block text-[8px] text-slate-400 sm:text-xs">
+								<span class="block text-[10px] text-slate-300 sm:text-xs">
 									Estatísticas da posição
 								</span>
 							</div>
@@ -408,7 +429,7 @@
 
 								<div class="min-w-0 leading-tight">
 									<span
-										class="block truncate text-[7.5px] uppercase tracking-wide text-slate-400 sm:text-[10px]"
+										class="block truncate text-[9px] uppercase tracking-wide text-slate-300 sm:text-[11px]"
 									>
 										{metricConfig[key].pillLabel}
 									</span>
@@ -426,9 +447,9 @@
 		{/if}
 	</div>
 
-	<div class="mt-2.5 flex items-center gap-2 text-[9px] text-neutral-400">
+	<div class="mt-2.5 flex items-center gap-2 text-[11px] text-neutral-300">
 		<div class="flex flex-col items-start gap-0.5">
-			<span class="text-[7.5px] uppercase tracking-wide text-neutral-500">Menor</span>
+			<span class="text-[9px] uppercase tracking-wide text-neutral-300">Menor</span>
 			<span class="font-semibold tabular-nums text-neutral-300">
 				{metricConfig[metric].format(minimum)}
 			</span>
@@ -439,7 +460,7 @@
 		></div>
 
 		<div class="flex flex-col items-end gap-0.5">
-			<span class="text-[7.5px] uppercase tracking-wide text-neutral-500">Maior</span>
+			<span class="text-[9px] uppercase tracking-wide text-neutral-300">Maior</span>
 			<span class="font-semibold tabular-nums text-neutral-300">
 				{metricConfig[metric].format(maximum)}
 			</span>
@@ -453,7 +474,7 @@
 	>
 		<table class="min-w-full text-left text-[11px] text-neutral-300">
 			<caption class="sr-only">Dados das posições do elenco para todas as métricas</caption>
-			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<thead class="text-[11px] tracking-wide text-neutral-300 uppercase">
 				<tr>
 					<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>
 					<th scope="col" class="px-2 py-1.5 text-right font-semibold">Atletas</th>

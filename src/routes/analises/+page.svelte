@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import type { ClubAnalysisJson } from '$lib/types/analysis';
 	import { formatDateTime } from '$lib/formatters/formatDateTime';
+	import { formatDate } from '$lib/formatters/formatDate';
 	import { ANALYSIS_JSON_FILENAME, ANALYSIS_JSON_PATH } from '$lib/data/analysisData';
 
 	import PositionHeatmap from '$lib/components/charts/PositionHeatmap.svelte';
@@ -60,14 +61,7 @@
 			></div>
 
 			<div
-				class="
-					relative
-					flex flex-col
-					gap-3
-					sm:flex-row
-					sm:items-center
-					sm:justify-between
-				"
+				class="relative grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start"
 			>
 				<div class="min-w-0">
 					<h2
@@ -77,44 +71,15 @@
 						Dados completos da análise
 					</h2>
 
-					<p
-						class="
-							mt-0.5
-							text-[11px] leading-4
-							text-neutral-300
-							sm:text-xs
-						"
-					>
-						Atualizada em
-						<span class="font-semibold text-neutral-100">
-							{formatDateTime(analysis.generatedAt)}
-						</span>
-					</p>
-
-					<p
-						class="
-							mt-1
-							text-[10px] leading-4
-							text-neutral-400
-							sm:text-[11px]
-						"
-					>
+					<p class="mt-3 text-[11px] leading-5 text-neutral-300 sm:text-xs">
 						Baixe os dados utilizados nos gráficos em JSON.
-
-						<span class="mx-1 text-neutral-600"> • </span>
-
+						<span class="mx-1 text-neutral-400" aria-hidden="true">•</span>
 						Fonte:
-
 						<a
 							href="https://www.transfermarkt.com.br"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="
-								font-semibold text-blue-400
-								transition-colors
-								hover:text-blue-300
-								hover:underline
-							"
+							class="font-semibold text-blue-300 transition-colors hover:text-blue-200 hover:underline"
 						>
 							Transfermarkt.com.br
 						</a>

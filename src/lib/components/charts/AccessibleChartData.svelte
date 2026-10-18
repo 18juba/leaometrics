@@ -18,7 +18,7 @@
 		<summary
 			class="
 					cursor-pointer select-none px-3 py-2
-					text-[10px] font-semibold text-neutral-300
+					text-xs font-semibold text-neutral-200
 					outline-none transition-colors
 					hover:bg-neutral-900/50 hover:text-white
 					focus-visible:ring-2 focus-visible:ring-(--secondary)

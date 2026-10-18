@@ -13,8 +13,8 @@ export function configureChartTheme(Chart: ChartConstructor): void {
 
 	Chart.defaults.plugins.legend.labels.color = '#e5e5e5';
 	Chart.defaults.plugins.legend.labels.font = {
-		size: 11,
-		weight: 500
+		size: 12,
+		weight: 600
 	};
 
 	Chart.defaults.plugins.legend.labels.padding = 14;

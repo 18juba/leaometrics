@@ -28,7 +28,9 @@
 		maximumFractionDigits: 0
 	});
 
-	const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+	const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
+		timeZone: 'UTC'
+	});
 
 	function parseISODate(value: string): Date | null {
 		const normalizedValue = value.slice(0, 10);

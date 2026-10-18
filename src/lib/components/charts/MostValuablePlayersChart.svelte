@@ -209,7 +209,7 @@
 >
 	<table class="min-w-full text-left text-[11px] text-neutral-300">
 		<caption class="sr-only">Ranking dos jogadores com maior valor de mercado</caption>
-		<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+		<thead class="text-[11px] tracking-wide text-neutral-300 uppercase">
 			<tr>
 				<th scope="col" class="px-2 py-1.5 font-semibold">Jogador</th>
 				<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>

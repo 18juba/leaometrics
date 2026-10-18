@@ -498,7 +498,7 @@
 			<caption class="sr-only"
 				>Valor de mercado agrupado pelo ano de vencimento dos contratos</caption
 			>
-			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<thead class="text-[11px] tracking-wide text-neutral-300 uppercase">
 				<tr>
 					<th scope="col" class="px-2 py-1.5 font-semibold">Ano</th>
 					<th scope="col" class="px-2 py-1.5 font-semibold">Situação</th>

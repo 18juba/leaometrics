@@ -156,9 +156,9 @@
 					align: 'left' | 'right'
 				) => {
 					ctx.save();
-					ctx.font = '600 10px "IBM Plex Mono", monospace';
-					const paddingX = 6;
-					const height = 20;
+					ctx.font = '600 12px "IBM Plex Mono", monospace';
+					const paddingX = 8;
+					const height = 24;
 					const width = ctx.measureText(text).width + paddingX * 2;
 					const left = Math.min(
 						Math.max(align === 'right' ? anchorX - width : anchorX, chartArea.left),
@@ -222,6 +222,7 @@
 				responsive: true,
 				maintainAspectRatio: false,
 				animation: false,
+				color: '#e5e7eb',
 				plugins: {
 					legend: {
 						position: 'bottom',
@@ -231,7 +232,7 @@
 							usePointStyle: true,
 							pointStyle: 'circle',
 							font: {
-								size: 11
+								size: 13
 							}
 						}
 					},
@@ -268,7 +269,7 @@
 						ticks: {
 							stepSize: 2,
 							font: {
-								size: 10
+								size: 11
 							}
 						}
 					},
@@ -283,7 +284,7 @@
 						},
 						ticks: {
 							font: {
-								size: 10
+								size: 11
 							},
 							callback(value) {
 								return compactCurrencyFormatter.format(Number(value));
@@ -332,7 +333,7 @@
 >
 	<table class="min-w-full text-left text-[11px] text-neutral-300">
 		<caption class="sr-only">Dados da comparação entre idade e valor de mercado</caption>
-		<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+		<thead class="text-[11px] tracking-wide text-neutral-300 uppercase">
 			<tr>
 				<th scope="col" class="px-2 py-1.5 font-semibold">Jogador</th>
 				<th scope="col" class="px-2 py-1.5 font-semibold">Posição</th>

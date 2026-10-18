@@ -301,7 +301,7 @@
 	>
 		<table class="min-w-full text-left text-[11px] text-neutral-300">
 			<caption class="sr-only">Dados da distribuição dos jogadores por faixa etária</caption>
-			<thead class="text-[10px] tracking-wide text-neutral-400 uppercase">
+			<thead class="text-[11px] tracking-wide text-neutral-300 uppercase">
 				<tr>
 					<th scope="col" class="px-2 py-1.5 font-semibold">Faixa</th>
 					<th scope="col" class="px-2 py-1.5 font-semibold">Perfil</th>

@@ -21,7 +21,7 @@
 >
 	<header class="mb-5 border-b border-(--tertiary)/10 pb-4">
 		<div class="flex items-center gap-2">
-			<span class="text-[9px] font-semibold tracking-[0.12em] text-(--golden)">
+			<span class="text-[11px] font-semibold tracking-[0.12em] text-(--golden)">
 				{category}
 			</span>
 			<span class="h-px flex-1 bg-linear-to-r from-(--golden)/45 to-transparent"></span>
